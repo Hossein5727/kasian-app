@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import Header from "../components/Header";
+import Nav from "../components/Nav";
 
-function Layout() {
+function Layout({ children }) {
   return (
-    <div>Layout</div>
-  )
+    <div>
+      <Header />
+      <div className="flex items-start">
+        {children}
+        <Nav />
+      </div>
+    </div>
+  );
 }
 
-export default Layout
+export default Layout;
