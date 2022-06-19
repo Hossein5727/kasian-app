@@ -1,0 +1,128 @@
+@font-face {
+  font-family: 'kasian-icon-public';
+  src:
+    url('fonts/kasian-icon-public.ttf?ywv0b9') format('truetype'),
+    url('fonts/kasian-icon-public.woff?ywv0b9') format('woff'),
+    url('fonts/kasian-icon-public.svg?ywv0b9#kasian-icon-public') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'kasian-icon-public' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.public-icon__chevron-bottom:before {
+  content: "\e909";
+}
+.public-icon__chevron-left:before {
+  content: "\e90a";
+}
+.public-icon__chevron-right:before {
+  content: "\e90b";
+}
+.public-icon__chevron-top:before {
+  content: "\e90c";
+}
+.public-icon__close:before {
+  content: "\e90d";
+}
+.public-icon__link:before {
+  content: "\e90e";
+}
+.public-icon__list:before {
+  content: "\e90f";
+}
+.public-icon__minus:before {
+  content: "\e910";
+}
+.public-icon__mute:before {
+  content: "\e911";
+}
+.public-icon__play:before {
+  content: "\e912";
+}
+.public-icon__plus:before {
+  content: "\e913";
+}
+.public-icon__price-tag:before {
+  content: "\e914";
+}
+.public-icon__save:before {
+  content: "\e915";
+}
+.public-icon__search:before {
+  content: "\e916";
+}
+.public-icon__setting:before {
+  content: "\e917";
+}
+.public-icon__share:before {
+  content: "\e918";
+}
+.public-icon__warning-fill:before {
+  content: "\e919";
+}
+.public-icon__warning-outline:before {
+  content: "\e91a";
+}
+.public-icon__user-profile:before {
+  content: "\e908";
+}
+.public-icon__time:before {
+  content: "\e907";
+}
+.public-icon__notification:before {
+  content: "\e906";
+}
+.public-icon__menu-on:before {
+  content: "\e905";
+}
+.public-icon__menu-off:before {
+  content: "\e904";
+}
+.public-icon__heart:before {
+  content: "\e903";
+}
+.public-icon__eye:before {
+  content: "\e902";
+}
+.public-icon__cuurent-time:before {
+  content: "\e901";
+}
+.public-icon__arrow-left:before {
+  content: "\e900";
+}
+.public-icon__volume:before {
+  content: "\e91b";
+}
+.public-icon__rewind:before {
+  content: "\e91c";
+}
+.public-icon__pause:before {
+  content: "\e91d";
+}
+.public-icon__forward:before {
+  content: "\e91e";
+}
+.public-icon__expand:before {
+  content: "\e91f";
+}
+.public-icon__wireless-symbol:before {
+  content: "\e920";
+}
+.public-icon__home:before {
+  content: "\e921";
+}

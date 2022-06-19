@@ -11,7 +11,7 @@ function VideoList() {
       setDataVideoLives(data.items);
       // console.log(data.items);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

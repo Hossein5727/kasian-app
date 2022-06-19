@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Nav from "../components/Nav";
 
 function Layout({ children }) {
+  const [isShowNav, setIsShowNav] = useState(true);
+
   return (
     <div className="bg-bg-home ">
-      <Header />
+      <Header isShowNav={isShowNav} setIsShowNav={setIsShowNav} />
       <div className="flex items-start">
-        <div className="w-[92vw] ">{children}</div>
-        <Nav />
+        <div className={`${isShowNav ? "w-[92vw]" : "w-[100vw]"} `}>
+          {children}
+        </div>
+        <Nav isShowNav={isShowNav} setIsShowNav={setIsShowNav} />
       </div>
     </div>
   );

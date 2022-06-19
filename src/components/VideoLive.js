@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { httpGetAllLivesService } from "../services/httpGetAllLivesService";
-import VideoPlayer from "react-video-js-player";
+// import VideoPlayer from "react-video-js-player";
 // import "video.js/dist/video-js.css";
 
 function VideoLive() {
@@ -18,7 +18,7 @@ function VideoLive() {
         })
       );
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: iranSans;
+  src: url(./assests/font/IRANSansX-Regular.woff);
+  src: url(./assests/font/IRANSansXV.woff2);
+  src: url(./assests/font/IRANSansX-Bold.woff);
+}
+
 *{
   margin:0;
   padding: 0;
@@ -11,5 +18,6 @@
 
 body{
   overflow-x: hidden;
-  font-family:'VazirMatn',sans-serif;
+  font-family:iranSans ,sans-serif;
+  /* direction: rtl; */
 }

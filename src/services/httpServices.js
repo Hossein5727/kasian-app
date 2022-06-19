@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://digilifes.ir/api/";
+axios.defaults.baseURL = "https://api.kasianmedia.com/api/";
 
 export const http = {
   get: axios.get,
