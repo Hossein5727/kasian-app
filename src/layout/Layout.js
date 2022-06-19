@@ -6,7 +6,7 @@ function Layout({ children }) {
   const [isShowNav, setIsShowNav] = useState(true);
 
   return (
-    <div className="bg-bg-home ">
+    <div className="bg-bg-home min-h-[100vh] ">
       <Header isShowNav={isShowNav} setIsShowNav={setIsShowNav} />
       <div className="flex items-start">
         <div className={`${isShowNav ? "w-[92vw]" : "w-[100vw]"} `}>

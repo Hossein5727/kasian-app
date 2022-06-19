@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import Events from "../components/Events";
+import FilterEvents from "../components/FilterEvents";
 
 function EventsPage() {
   return (
-    <div>EventsPage</div>
-  )
+    <div>
+      <FilterEvents />
+      <Events />
+    </div>
+  );
 }
 
-export default EventsPage
+export default EventsPage;

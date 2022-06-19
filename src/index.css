@@ -21,3 +21,33 @@ body{
   font-family:iranSans ,sans-serif;
   /* direction: rtl; */
 }
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+.textShadow{
+  -webkit-box-shadow: 0px 0px 45px 36px rgba(0,0,0,0.71); 
+  box-shadow: 0px 0px 45px 36px rgba(0,0,0,0.71);
+    width: 100%;
+}
+
+.eventSuggestions::-webkit-scrollbar{
+display: none;
+}
+
+.imgEventDetail::before{
+  position: absolute;
+  content: "";
+  top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+z-index: 2;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.137)0%,
+    rgba(0, 0, 0, 0.226)100%
+    ),
+    linear-gradient(180deg,rgba(0, 0, 0, 0.096)0%,transparent 100%);
+}
