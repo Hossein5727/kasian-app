@@ -4,10 +4,10 @@ import Nav from "../components/Nav";
 
 function Layout({ children }) {
   return (
-    <div>
+    <div className="bg-bg-home ">
       <Header />
       <div className="flex items-start">
-        {children}
+        <div className="w-[92vw] ">{children}</div>
         <Nav />
       </div>
     </div>

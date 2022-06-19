@@ -9,7 +9,7 @@
   scroll-behavior: smooth;
 }
 
-body,html{
+body{
   overflow-x: hidden;
-  font-family:'IranSans',sans-serif;
+  font-family:'VazirMatn',sans-serif;
 }
