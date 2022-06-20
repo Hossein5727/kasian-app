@@ -21,14 +21,14 @@ function FilterEvents() {
   return (
     <div
       style={{ direction: "rtl" }}
-      className="w-full bg-[#1C202F] z-[3] text-[#B3B4BA] px-2 py-4 flex justify-center items-center gap-1"
+      className="w-full bg-[#1C202F]  text-[#B3B4BA] px-2 py-4 flex justify-center items-center gap-1"
     >
-      <div className="flex text-[#6E7276]  items-center gap-1 flex-row-reverse px-3 py-2 border border-border-color rounded-md cursor-not-allowed text-sm">
+      <div className="flex text-[#6E7276]  z-[2] items-center gap-1 flex-row-reverse px-3 py-2 border border-border-color rounded-md cursor-not-allowed text-sm">
         <BsLink45Deg className="text-xl" />
         <p>فیلتر کردن</p>
       </div>
 
-      <button className="flex  items-center gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home ">
+      <button className="flex  items-center z-[2] gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home ">
         همه مطالب
       </button>
 
