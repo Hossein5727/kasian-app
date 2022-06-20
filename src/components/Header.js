@@ -5,8 +5,11 @@ import { BiSearch } from "react-icons/bi";
 import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import logo from "../assests/img/logo-lg--dark (1).svg";
+import { useState } from "react";
 
 function Header({ isShowNav, setIsShowNav }) {
+  const [searchValue, setSearchValue] = useState("");
+
   return (
     <div
       className={`text-regal-blue ${
@@ -32,12 +35,14 @@ function Header({ isShowNav, setIsShowNav }) {
       </div>
 
       <div className="w-[490px] rounded-3xl border border-border-color px-3 py-[11px] flex items-center justify-between text-primary-text-light">
-        <IoMdClose className="text-2xl" />
+        <IoMdClose className="text-2xl" onClick={() => setSearchValue("")} />
         <div className="flex items-center ">
           <input
             style={{ direction: "rtl" }}
             className=" bg-transparent text-sm font-extralight placeholder:text-gray-500 placeholder:text-xs text-gray-300 w-full outline-none pr-1 mr-1"
             placeholder="جستجوی مطالب و ویدئوها ..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
           <BiSearch className="bg-transparent text-2xl " />
         </div>

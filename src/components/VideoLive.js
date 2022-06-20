@@ -30,9 +30,9 @@ function VideoLive() {
     <div className="px-3 py-3">
       {currentVideo &&
         currentVideo.map((item) => (
-          <div>
+          <div key={item.id}>
             {item.contentFiles.map((item) => (
-              <div>
+              <div key={item.id}>
                 {item.path && posterVideo && (
                   <video
                     src={item.path}
