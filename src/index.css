@@ -1,13 +1,53 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: iranSans;
+  src: url(./assests/font/IRANSansX-Regular.woff);
+  src: url(./assests/font/IRANSansXV.woff2);
+  src: url(./assests/font/IRANSansX-Bold.woff);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body{
+  overflow-x: hidden;
+  font-family:iranSans ,sans-serif;
+  /* direction: rtl; */
+}
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+.textShadow{
+  -webkit-box-shadow: 0px 0px 45px 36px rgba(0,0,0,0.71); 
+  box-shadow: 0px 0px 45px 36px rgba(0,0,0,0.71);
+    width: 100%;
+}
+
+.eventSuggestions::-webkit-scrollbar{
+display: none;
+}
+
+.imgEventDetail::before{
+  position: absolute;
+  content: "";
+  top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+z-index: 2;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.137)0%,
+    rgba(0, 0, 0, 0.226)100%
+    ),
+    linear-gradient(180deg,rgba(0, 0, 0, 0.096)0%,transparent 100%);
 }
