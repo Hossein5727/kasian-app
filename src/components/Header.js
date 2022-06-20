@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { BiSearch } from "react-icons/bi";
 import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
-import logo from "../assests/img/logo-lg--dark (1).svg";
+import logo from "../assests/img/kasian_media_logo (1).png";
 import { useState } from "react";
 
 function Header({ isShowNav, setIsShowNav }) {
@@ -50,7 +50,11 @@ function Header({ isShowNav, setIsShowNav }) {
 
       <div className="flex items-center gap-3">
         <Link className="w-[201px] h-[43px]" to="/">
-          <img src={logo} alt="logo" />
+          <img
+            src={logo}
+            alt="logo"
+            className=" object-cover -translate-y-11 bg-red-600  "
+          />
         </Link>
         {!isShowNav && (
           <IoMenu

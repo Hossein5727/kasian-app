@@ -21,7 +21,7 @@ function FilterEvents() {
   return (
     <div
       style={{ direction: "rtl" }}
-      className="w-full bg-[#1C202F] text-[#B3B4BA] px-2 py-4 flex justify-center items-center gap-1"
+      className="w-full bg-[#1C202F] z-[3] text-[#B3B4BA] px-2 py-4 flex justify-center items-center gap-1"
     >
       <div className="flex text-[#6E7276]  items-center gap-1 flex-row-reverse px-3 py-2 border border-border-color rounded-md cursor-not-allowed text-sm">
         <BsLink45Deg className="text-xl" />
