@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BsLink45Deg } from "react-icons/bs";
 import { httpGetAllCategoryService } from "../services/httpGetAllCategoryService";
 
-function FilterEvents() {
+function FilterProducts() {
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
@@ -46,4 +46,4 @@ function FilterEvents() {
   );
 }
 
-export default FilterEvents;
+export default FilterProducts;

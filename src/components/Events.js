@@ -36,7 +36,7 @@ function Events() {
               alt={item.title}
               className="w-full h-full object-fill "
             />
-            <div className="w-full bg-white absolute left-0 bottom-0 text-center py-3  bg-opacity-60 text-sm textShadow">
+            <div className="w-full z-[4] bg-white absolute left-0 bottom-0 text-center py-3  bg-opacity-60 text-sm textShadow">
               <p className="z-[2]">{item.title}</p>
             </div>
           </Link>

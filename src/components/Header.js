@@ -49,11 +49,11 @@ function Header({ isShowNav, setIsShowNav }) {
       </div>
 
       <div className="flex items-center gap-3">
-        <Link className="w-[201px] h-[43px]" to="/">
+        <Link className="w-[201px] h-[33px] " to="/">
           <img
             src={logo}
             alt="logo"
-            className=" object-cover -translate-y-11 bg-red-600  "
+            className=" -translate-y-11    "
           />
         </Link>
         {!isShowNav && (
