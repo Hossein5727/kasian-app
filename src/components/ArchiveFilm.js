@@ -39,7 +39,7 @@ function ArchiveFilm() {
               className="  rounded-md w-[280px] transition-all duration-200 overflow-hidden hover:shadow hover:shadow-gray-400 hover:translate-y-1"
               style={({ isActive }) =>
                 isActive
-                  ? { border: "2px solid #F0932B" }
+                  ? { border: "2px solid #F0932B",transform:'' }
                   : { border: "2px solid transparent" }
               }
             >

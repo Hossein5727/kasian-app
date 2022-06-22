@@ -21,7 +21,7 @@ function VideoPage() {
       {videoList && (
         <div className="w-[30%] flex flex-col">
           <div
-            className="flex justify-end items-start gap-3 border border-border-color border-l-2 border-l-primary-orange w-full px-2 py-2 rounded-lg"
+            className="flex justify-end items-start gap-3 border border-border-color border-l-2 border-l-primary-color w-full px-2 py-2 rounded-lg"
             key={videoList.id}
           >
             <div className="h-[62px] w-full flex flex-col justify-between items-end">
