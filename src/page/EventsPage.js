@@ -1,11 +1,11 @@
 import React from "react";
 import Events from "../components/Events";
-import FilterEvents from "../components/FilterEvents";
+import FilterProducts from "../components/FilterProducts";
 
 function EventsPage() {
   return (
     <div>
-      <FilterEvents />
+      <FilterProducts />
       <Events />
     </div>
   );

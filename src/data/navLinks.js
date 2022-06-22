@@ -7,7 +7,7 @@ export const navLinks = [
   {
     id: 1,
     text: "آرشیو ویدئو",
-    link: "/a",
+    link: "/archives",
     img: <RiApps2Line />,
   },
   { id: 2, text: "پادکست ها", link: "/p", img: <BiMicrophone /> },
