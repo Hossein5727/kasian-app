@@ -39,8 +39,8 @@ function ArchiveFilm() {
               className="  rounded-md w-[280px] transition-all duration-200 overflow-hidden hover:shadow hover:shadow-gray-400 hover:translate-y-1"
               style={({ isActive }) =>
                 isActive
-                  ? { border: "2px solid #F0932B",transform:'' }
-                  : { border: "2px solid transparent" }
+                  ? { border: "2px solid #F0932B", transform: "scale(1)" }
+                  : { border: "2px solid transparent", transform: "scale(0.9)" }
               }
             >
               <div className="w-full " onClick={scrollToBottom}>
