@@ -10,7 +10,7 @@ export const navLinks = [
     link: "/archives",
     img: <RiApps2Line />,
   },
-  { id: 2, text: "پادکست ها", link: "/p", img: <BiMicrophone /> },
+  { id: 2, text: "پادکست ها", link: "/podcasts", img: <BiMicrophone /> },
   { id: 3, text: "tv کاسیان  ", link: "/", img: <MdMonitor /> },
   { id: 4, text: "رویداد ها ", link: "/events", img: <MdEventAvailable /> },
   { id: 5, text: "پروفایل", link: "/pr", img: <HiOutlineUser /> },
