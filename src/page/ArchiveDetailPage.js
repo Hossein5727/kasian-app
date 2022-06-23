@@ -33,15 +33,15 @@ function ArchiveDetailPage() {
             alt={contentDetail.title}
             className="w-full h-full object-cover"
           />
-          <h2 className="font-medium text-5xl absolute top-4 right-8 z-[4] text-white">
+          <h2 className="font-semibold  text-5xl absolute top-4 right-8 z-[4] text-white">
             {contentDetail.title}
           </h2>
           <div className="text-gray-300 text-xs absolute top-20 right-8 z-[4]  leading-5  textOverFlow flex items-center gap-2">
-            <h4 className="text-lg text-primary-color">خلاصه</h4>
+            <h4 className="text-lg font-semibold text-primary-color">خلاصه</h4>
             <p>{contentDetail.description}</p>
           </div>
 
-          <div className="absolute left-4 top-4 w-[49%]  py-1 px-1 h-[170px] flex items-center gap-3 z-[3]">
+          <div className="absolute left-4 top-4 w-[52%]  py-1 px-7 h-[180px] bg-transparent overflow-x-auto flex items-center gap-3 z-[3]">
             {contentDetail &&
               contentDetail.contentFiles.map((item) => (
                 <div

@@ -4,11 +4,15 @@
 
 @font-face {
   font-family: iranSans;
-  src: url(./assests/font/IRANSans.ttf);
-  src: url(./assests/font/IRANSans_UltraLight.ttf);
+  src: url(./assests/font/IRANSans.ttf), 
+  url(./assests/font/IRANSans_UltraLight.ttf),
+  url(./assests/font/IRANSans_Light.ttf),
+  url(./assests/font/IRANSans_Medium.ttf),
+  url(./assests/font/IRANSans_Bold.ttf);
+  /* src: url(./assests/font/IRANSans_UltraLight.ttf);
   src: url(./assests/font/IRANSans_Light.ttf);
-  src: url(./assests/font/IRANSans_Medium.ttf);
-  src: url(./assests/font/IRANSans_Bold.ttf);
+  src: url(./assests/font/IRANSans_Medium.ttf); */
+  /* src: url(./assests/font/IRANSans_Bold.ttf); */
   /* src: url(./assests/font/IRANSans_Black.ttf); */
 }
 
@@ -22,6 +26,7 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  /* color: #1c202fbe; */
 }
 
 body{
