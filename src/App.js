@@ -1,13 +1,16 @@
 import Layout from "./layout/Layout";
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./page/HomePage";
-import EventsPage from "./page/EventsPage";
-import EventDetailPage from "./page/EventDetailPage";
-import ArchivesPage from "./page/ArchivesPage";
-import ArchiveDetailPage from "./page/ArchiveDetailPage";
 import "animate.css";
-import VideoPage from "./page/VideoPage";
-import { useEffect } from "react";
+import {
+  ArchiveDetailPage,
+  ArchivesPage,
+  EventDetailPage,
+  EventsPage,
+  HomePage,
+  PodcastDetailPage,
+  PodcastsPage,
+  VideoPage,
+} from "./page";
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/video" element={<VideoPage />} />
+        <Route path="/podcasts/*" element={<PodcastsPage />}>
+          <Route path="podcastdetail/:id" element={<PodcastDetailPage />} />
+        </Route>
         <Route path="/archives/*" element={<ArchivesPage />}>
           <Route path="archivedetail/:id" element={<ArchiveDetailPage />} />
         </Route>
