@@ -1,14 +1,19 @@
 import { FaUser } from "react-icons/fa";
 import { IoMenu, IoNotificationsSharp } from "react-icons/io5";
-import { IoMdClose } from "react-icons/io";
+import { IoMdClose, IoMdLogIn } from "react-icons/io";
 import { BiSearch } from "react-icons/bi";
 import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import logo from "../assests/img/kasian_media_logo (1).png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUserData } from "../provider/EmailDataProvider";
 
 function Header({ isShowNav, setIsShowNav }) {
   const [searchValue, setSearchValue] = useState("");
+
+  const userData = useUserData();
+
+  useEffect(() => {}, [userData]);
 
   return (
     <div
@@ -18,7 +23,15 @@ function Header({ isShowNav, setIsShowNav }) {
     >
       <div className="flex items-center gap-3">
         <div className="flex justify-center items-center rounded-full px-3 py-3 bg-[#212432]">
-          <FaUser className="text-2xl" />
+          {userData.username ? (
+            <Link to="/profile">
+              <FaUser className="text-2xl" />
+            </Link>
+          ) : (
+            <Link to="/profile">
+              <IoMdLogIn className="text-2xl" />
+            </Link>
+          )}
         </div>
         <div className="flex justify-center items-center rounded-full px-3 py-3 bg-transparent">
           <Badge
@@ -50,11 +63,7 @@ function Header({ isShowNav, setIsShowNav }) {
 
       <div className="flex items-center gap-3">
         <Link className="w-[201px] h-[33px] " to="/">
-          <img
-            src={logo}
-            alt="logo"
-            className=" -translate-y-11    "
-          />
+          <img src={logo} alt="logo" className=" -translate-y-11    " />
         </Link>
         {!isShowNav && (
           <IoMenu

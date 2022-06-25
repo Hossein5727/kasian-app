@@ -16,8 +16,8 @@ import EmailDataProvider from "./provider/EmailDataProvider";
 
 function App() {
   return (
-    <Layout>
-      <EmailDataProvider>
+    <EmailDataProvider>
+      <Layout>
         <Routes>
           <Route path="/eventdetail/:id" element={<EventDetailPage />} />
           <Route path="/" element={<HomePage />} />
@@ -31,8 +31,8 @@ function App() {
             <Route path="archivedetail/:id" element={<ArchiveDetailPage />} />
           </Route>
         </Routes>
-      </EmailDataProvider>
-    </Layout>
+      </Layout>
+    </EmailDataProvider>
   );
 }
 

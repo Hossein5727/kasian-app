@@ -4,7 +4,7 @@ const userData = createContext();
 const userDataDispatcher = createContext();
 
 function EmailDataProvider({ children }) {
-  const [data, setData] = useState({ username: "", password: "" });
+  const [data, setData] = useState({});
 
   return (
     <userData.Provider value={data}>

@@ -3,6 +3,8 @@ import * as yup from "yup";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useUserActions, useUserData } from "../provider/EmailDataProvider";
+import { AiOutlineUser } from "react-icons/ai";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 const initialValues = {
   username: "",
@@ -41,39 +43,41 @@ function Login() {
   });
 
   return (
-    <div className="w-full flex justify-center items-center flex-col gap-4">
+    <div className="w-full flex justify-center items-center flex-col gap-5">
       <h2 className="text-primary-color text-4xl w-full left-0 right-0 bg-[#1B1E2C] py-2 text-center">
-        ثبت نام
+        ورود
       </h2>
       <form
         onSubmit={formik.handleSubmit}
         className="bg-[#1C202F] px-6 py-4 rounded-md flex justify-center items-center gap-4 flex-col mt-6"
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <input
             value={formik.values.username}
             name="username"
             id="username"
             onChange={formik.handleChange}
             placeholder="نام کاربری"
-            className="bg-secondary-color px-2 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
+            className="bg-secondary-color focus:bg-secondary-color active:bg-secondary-color px-4 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
             onBlur={formik.handleBlur}
           />
+          <AiOutlineUser className="absolute -right-4 top-0 text-3xl text-bg-home bg-secondary-color h-9 border-l border-l-bg-home px-1 rounded-tr-sm rounded-br-sm" />
           {formik.errors.username && formik.touched.username && (
             <p className="text-sm text-red-600">{formik.errors.username}</p>
           )}
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <input
             value={formik.values.password}
             name="password"
             id="password"
             onChange={formik.handleChange}
             placeholder="رمز عبور"
-            className="bg-secondary-color px-2 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
+            className="bg-secondary-color px-4 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
             onBlur={formik.handleBlur}
           />
+          <RiLockPasswordLine className="absolute -right-4 top-0 text-3xl text-bg-home bg-secondary-color h-9 border-l border-l-bg-home px-1 rounded-tr-sm rounded-br-sm" />
           {formik.errors.password && formik.touched.password && (
             <p className="text-sm text-red-600">{formik.errors.password}</p>
           )}
