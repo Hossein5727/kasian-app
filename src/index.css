@@ -91,4 +91,5 @@ background: linear-gradient(264deg, rgba(48,49,51,0.7987570028011204) 8%, rgba(2
 .bgDetailContent{
   -webkit-box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56); 
 box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
+/* color:#0c2ea7; */
 }

@@ -13,5 +13,5 @@ export const navLinks = [
   { id: 2, text: "پادکست ها", link: "/podcasts", img: <BiMicrophone /> },
   { id: 3, text: "tv کاسیان  ", link: "/", img: <MdMonitor /> },
   { id: 4, text: "رویداد ها ", link: "/events", img: <MdEventAvailable /> },
-  { id: 5, text: "پروفایل", link: "/pr", img: <HiOutlineUser /> },
+  { id: 5, text: "پروفایل", link: "/profile", img: <HiOutlineUser /> },
 ];
