@@ -49,7 +49,7 @@ function Login() {
       </h2>
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-[#1C202F] px-6 py-4 rounded-md flex justify-center items-center gap-4 flex-col mt-6"
+        className="bg-[#1C202F] px-12 py-4 rounded-md flex justify-center items-center gap-4 flex-col mt-6"
       >
         <div className="flex flex-col gap-2 relative">
           <input
@@ -58,10 +58,10 @@ function Login() {
             id="username"
             onChange={formik.handleChange}
             placeholder="نام کاربری"
-            className="bg-secondary-color focus:bg-secondary-color active:bg-secondary-color px-4 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
+            className="bg-slate-200  px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home"
             onBlur={formik.handleBlur}
           />
-          <AiOutlineUser className="absolute -right-4 top-0 text-3xl text-bg-home bg-secondary-color h-9 border-l border-l-bg-home px-1 rounded-tr-sm rounded-br-sm" />
+          <AiOutlineUser className="absolute -right-[28px] top-0 text-3xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br" />
           {formik.errors.username && formik.touched.username && (
             <p className="text-sm text-red-600">{formik.errors.username}</p>
           )}
@@ -74,10 +74,10 @@ function Login() {
             id="password"
             onChange={formik.handleChange}
             placeholder="رمز عبور"
-            className="bg-secondary-color px-4 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
+            className="bg-slate-200  px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home"
             onBlur={formik.handleBlur}
           />
-          <RiLockPasswordLine className="absolute -right-4 top-0 text-3xl text-bg-home bg-secondary-color h-9 border-l border-l-bg-home px-1 rounded-tr-sm rounded-br-sm" />
+          <RiLockPasswordLine className="absolute -right-[28px] top-0 text-3xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br" />
           {formik.errors.password && formik.touched.password && (
             <p className="text-sm text-red-600">{formik.errors.password}</p>
           )}

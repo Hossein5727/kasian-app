@@ -6,7 +6,7 @@ import { navLinks } from "../data/navLinks";
 function Nav({ isShowNav, setIsShowNav }) {
   return (
     <div
-      className={`transition-all duration-300 fixed  ${
+      className={`transition-all duration-300 fixed bg-[#1C1F2E]  ${
         isShowNav
           ? "min-h-[100vh] w-[8vw] right-0 -mt-[73px] border-l border-l-border-color flex flex-col justify-start items-center gap-10 text-primary-text-light text-4xl py-7"
           : "w-0 hidden -right-40"
