@@ -2,6 +2,7 @@ import Layout from "./layout/Layout";
 import { Routes, Route } from "react-router-dom";
 import "animate.css";
 import {
+  AddEventPage,
   ArchiveDetailPage,
   ArchivesPage,
   EventDetailPage,
@@ -11,7 +12,7 @@ import {
   PodcastsPage,
   ProfilePage,
   VideoPage,
-} from "./page";
+} from "./pages";
 import EmailDataProvider from "./provider/EmailDataProvider";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/video" element={<VideoPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/addevent" element={<AddEventPage />} />
           <Route path="/podcasts/*" element={<PodcastsPage />}>
             <Route path="podcastdetail/:id" element={<PodcastDetailPage />} />
           </Route>

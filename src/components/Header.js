@@ -7,9 +7,11 @@ import { Link } from "react-router-dom";
 import logo from "../assests/img/kasian_media_logo (1).png";
 import { useEffect, useState } from "react";
 import { useUserData } from "../provider/EmailDataProvider";
+import UserData from "./UserData";
 
 function Header({ isShowNav, setIsShowNav }) {
   const [searchValue, setSearchValue] = useState("");
+  const [isOpenUserMenu, setIsOpenUserMenu] = useState(false);
 
   const userData = useUserData();
 
@@ -21,12 +23,13 @@ function Header({ isShowNav, setIsShowNav }) {
         isShowNav ? "w-[92vw]" : "w-[100vw]"
       } transition-all duration-300 flex justify-between items-center px-4 py-3 border-b border-b-border-color text-[#5F616C]`}
     >
+      {isOpenUserMenu && <UserData setIsOpenUserMenu={setIsOpenUserMenu} />}
       <div className="flex items-center gap-3">
         <div className="flex justify-center items-center rounded-full px-3 py-3 bg-[#212432]">
           {userData.username ? (
-            <Link to="/profile">
+            <button onClick={() => setIsOpenUserMenu(true)}>
               <FaUser className="text-2xl" />
-            </Link>
+            </button>
           ) : (
             <Link to="/profile">
               <IoMdLogIn className="text-2xl" />

@@ -7,3 +7,4 @@ export { default as PodcastsPage } from "./PodcastsPage";
 export { default as VideoPage } from "./VideoPage";
 export { default as PodcastDetailPage } from "./PodcastDetailPage";
 export { default as ProfilePage } from "./ProfilePage";
+export { default as AddEventPage } from "./AddEventPage";

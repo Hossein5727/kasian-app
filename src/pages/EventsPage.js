@@ -10,13 +10,14 @@ function EventsPage() {
     meta: {
       charset: "utf-8",
       name: {
-        keywords: "کاسیان news,کاسیان events, رویداد, اخبار , خبرها , اخبار , رویدادها",
+        keywords:
+          "کاسیان news,کاسیان events, رویداد, اخبار , خبرها , اخبار , رویدادها",
       },
     },
   };
 
   return (
-    <DocumentMeta {...meta} >
+    <DocumentMeta {...meta}>
       <div className="w-full">
         <FilterProducts />
         <Events />

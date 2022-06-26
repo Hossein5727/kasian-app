@@ -5,6 +5,7 @@ import withReactContent from "sweetalert2-react-content";
 import { useUserActions, useUserData } from "../provider/EmailDataProvider";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
+import Input from "./common/Input";
 
 const initialValues = {
   username: "",
@@ -49,45 +50,29 @@ function Login() {
       </h2>
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-[#1C202F] px-12 py-4 rounded-md flex justify-center items-center gap-4 flex-col mt-6"
+        className="bg-[#1C202F] px-12 py-6 rounded-md flex justify-center items-center gap-6 flex-col mt-6"
       >
-        <div className="flex flex-col gap-2 relative">
-          <input
-            value={formik.values.username}
-            name="username"
-            id="username"
-            onChange={formik.handleChange}
-            placeholder="نام کاربری"
-            className="bg-slate-200  px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home"
-            onBlur={formik.handleBlur}
-          />
-          <AiOutlineUser className="absolute -right-[28px] top-0 text-3xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br" />
-          {formik.errors.username && formik.touched.username && (
-            <p className="text-sm text-red-600">{formik.errors.username}</p>
-          )}
-        </div>
+        <Input
+          formik={formik}
+          icon={<AiOutlineUser />}
+          label="نام کاربری"
+          name={"username"}
+        />
 
-        <div className="flex flex-col gap-2 relative">
-          <input
-            value={formik.values.password}
-            name="password"
-            id="password"
-            onChange={formik.handleChange}
-            placeholder="رمز عبور"
-            className="bg-slate-200  px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home"
-            onBlur={formik.handleBlur}
-          />
-          <RiLockPasswordLine className="absolute -right-[28px] top-0 text-3xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br" />
-          {formik.errors.password && formik.touched.password && (
-            <p className="text-sm text-red-600">{formik.errors.password}</p>
-          )}
-        </div>
+        <Input
+          formik={formik}
+          icon={<RiLockPasswordLine />}
+          label="رمز عبور"
+          name={"password"}
+          type="password"
+        />
 
         <button
           type="submit"
           disabled={!formik.isValid}
           className={`bg-primary-color text-bg-home w-[260px] px-2 py-1 rounded text-center text-lg transition-all duration-200 hover:bg-bg-home hover:text-primary-color ${
-            !formik.isValid && "opacity-50 cursor-not-allowed"
+            !formik.isValid &&
+            "opacity-50 cursor-not-allowed hover:bg-primary-color hover:text-bg-home"
           } `}
         >
           تایید
