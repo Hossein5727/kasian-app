@@ -1,9 +1,12 @@
-import React from "react";
+import { useRef } from "react";
 
-function Input({ formik, icon, name, label, type = "text" }) {
+function Input({ formik, icon, name, label, type = "text", ref }) {
+  ref = useRef();
+
   return (
     <div className="flex flex-col gap-2 relative">
       <input
+        ref={ref}
         value={formik.values[name]}
         name={name}
         id={name}
