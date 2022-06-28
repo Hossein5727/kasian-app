@@ -2,33 +2,65 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useUserActions, useUserData } from "../provider/EmailDataProvider";
+import {
+  useToken,
+  useTokenActions,
+  useUserActions,
+  useUserData,
+} from "../provider/EmailDataProvider";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
+import Input from "./common/Input";
+import { httpPostUserLoginService } from "../services/httpPostUserLoginService";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const initialValues = {
-  username: "",
+  userName: "",
   password: "",
 };
 
 function Login() {
+  const [userData, setUserData] = useState();
+  const { setNewToken } = useTokenActions();
+
   const MySwal = withReactContent(Swal);
 
-  const userData = useUserData();
   const { setNewData } = useUserActions();
 
+  useEffect(() => {
+    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, []);
+
   const submitHandler = (values) => {
+    // postUserData(values);
+    console.log(values);
+
+    axios.post("/Login/Login", values).then((res) => {
+      const tokenData = res.data.extra.token;
+      console.log(tokenData);
+      setUserData(tokenData);
+      localStorage.setItem("formData", JSON.stringify(tokenData));
+      setNewToken(tokenData);
+    });
+
     MySwal.fire({
-      title: <p>ثبت نام با موفقیت انجام شد</p>,
+      title: <p>ورود با موفقیت انجام شد</p>,
       color: "#F0932B",
       icon: "success",
+    }).then(() => {
+      // navigate("/");
     });
     setNewData(values);
   };
 
   const validationSchema = () =>
     yup.object({
-      username: yup.string().required("فیلد نام کاربری خالی است!!"),
+      userName: yup.string().required("فیلد نام کاربری خالی است!!"),
       password: yup
         .string()
         .required("فیلد رمز عبور خالی است!!")
@@ -49,45 +81,29 @@ function Login() {
       </h2>
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-[#1C202F] px-6 py-4 rounded-md flex justify-center items-center gap-4 flex-col mt-6"
+        className="bg-[#1C202F] px-12 py-6 rounded-md flex justify-center items-center gap-6 flex-col mt-6"
       >
-        <div className="flex flex-col gap-2 relative">
-          <input
-            value={formik.values.username}
-            name="username"
-            id="username"
-            onChange={formik.handleChange}
-            placeholder="نام کاربری"
-            className="bg-secondary-color focus:bg-secondary-color active:bg-secondary-color px-4 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
-            onBlur={formik.handleBlur}
-          />
-          <AiOutlineUser className="absolute -right-4 top-0 text-3xl text-bg-home bg-secondary-color h-9 border-l border-l-bg-home px-1 rounded-tr-sm rounded-br-sm" />
-          {formik.errors.username && formik.touched.username && (
-            <p className="text-sm text-red-600">{formik.errors.username}</p>
-          )}
-        </div>
+        <Input
+          formik={formik}
+          icon={<AiOutlineUser />}
+          label="نام کاربری"
+          name={"userName"}
+        />
 
-        <div className="flex flex-col gap-2 relative">
-          <input
-            value={formik.values.password}
-            name="password"
-            id="password"
-            onChange={formik.handleChange}
-            placeholder="رمز عبور"
-            className="bg-secondary-color px-4 py-1 rounded-sm text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-[#0c2ea7] hover:text-gray-200  placeholder:text-bg-home"
-            onBlur={formik.handleBlur}
-          />
-          <RiLockPasswordLine className="absolute -right-4 top-0 text-3xl text-bg-home bg-secondary-color h-9 border-l border-l-bg-home px-1 rounded-tr-sm rounded-br-sm" />
-          {formik.errors.password && formik.touched.password && (
-            <p className="text-sm text-red-600">{formik.errors.password}</p>
-          )}
-        </div>
+        <Input
+          formik={formik}
+          icon={<RiLockPasswordLine />}
+          label="رمز عبور"
+          name={"password"}
+          type="password"
+        />
 
         <button
           type="submit"
           disabled={!formik.isValid}
           className={`bg-primary-color text-bg-home w-[260px] px-2 py-1 rounded text-center text-lg transition-all duration-200 hover:bg-bg-home hover:text-primary-color ${
-            !formik.isValid && "opacity-50 cursor-not-allowed"
+            !formik.isValid &&
+            "opacity-50 cursor-not-allowed hover:bg-primary-color hover:text-bg-home"
           } `}
         >
           تایید

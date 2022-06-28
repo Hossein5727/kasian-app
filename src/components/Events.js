@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { httpGetAllEventsService } from "../services/httpGetAllEventsService";
 import { Link } from "react-router-dom";
+import AddButtonProduct from "./AddButtonProduct";
 
 function Events() {
   const [eventList, setEventList] = useState([]);
@@ -41,6 +42,7 @@ function Events() {
             </div>
           </Link>
         ))}
+      <AddButtonProduct productAddress="addevent" toolTipTitle={"اضافه کردن رویداد"} />
     </div>
   );
 }
