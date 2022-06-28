@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// axios.defaults.baseURL = "https://api.kasianmedia.com/api/";
-axios.defaults.baseURL = "https://192.168.100.14:45455/api/";
+axios.defaults.baseURL = "https://api.kasianmedia.com/api/";
+// axios.defaults.baseURL = "https://192.168.100.14:45455/api/";
 
 export const http = {
   get: axios.get,
