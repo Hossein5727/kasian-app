@@ -1,16 +1,28 @@
 import { useRef } from "react";
 
-function Input({ formik, icon, name, label, type = "text", ref }) {
+function Input({
+  formik,
+  icon,
+  name,
+  label,
+  type = "text",
+  ref,
+  handleChange,
+}) {
   ref = useRef();
 
   return (
-    <div className="flex flex-col gap-2 relative">
+    <div className="flex flex-col gap-4 relative">
+      {/* <label htmlFor={name} className="text-lg text-slate-200">
+        {label}
+      </label> */}
       <input
         ref={ref}
         value={formik.values[name]}
         name={name}
         id={name}
         onChange={formik.handleChange}
+        // onChange={type != "file" ? formik.handleChange : handleChange}
         placeholder={label}
         className={`bg-slate-200  px-4 py-3 ${
           type == "file" && "py-[9px]"
@@ -19,8 +31,11 @@ function Input({ formik, icon, name, label, type = "text", ref }) {
         type={type}
       />
       {type == "file" && (
-        <p className="absolute top-3 left-3 text-bg-home text-lg ">پوستر</p>
+        <p className="absolute top-3 left-[9px] text-bg-home text-base ">
+          {label}
+        </p>
       )}
+      {/* top-[44px] */}
       {icon && (
         <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
           {icon}

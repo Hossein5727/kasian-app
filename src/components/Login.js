@@ -2,34 +2,65 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useUserActions, useUserData } from "../provider/EmailDataProvider";
+import {
+  useToken,
+  useTokenActions,
+  useUserActions,
+  useUserData,
+} from "../provider/EmailDataProvider";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import Input from "./common/Input";
+import { httpPostUserLoginService } from "../services/httpPostUserLoginService";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const initialValues = {
-  username: "",
+  userName: "",
   password: "",
 };
 
 function Login() {
+  const [userData, setUserData] = useState();
+  const { setNewToken } = useTokenActions();
+
   const MySwal = withReactContent(Swal);
 
-  const userData = useUserData();
   const { setNewData } = useUserActions();
 
+  useEffect(() => {
+    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, []);
+
   const submitHandler = (values) => {
+    // postUserData(values);
+    console.log(values);
+
+    axios.post("/Login/Login", values).then((res) => {
+      const tokenData = res.data.extra.token;
+      console.log(tokenData);
+      setUserData(tokenData);
+      localStorage.setItem("formData", JSON.stringify(tokenData));
+      setNewToken(tokenData);
+    });
+
     MySwal.fire({
-      title: <p>ثبت نام با موفقیت انجام شد</p>,
+      title: <p>ورود با موفقیت انجام شد</p>,
       color: "#F0932B",
       icon: "success",
+    }).then(() => {
+      // navigate("/");
     });
     setNewData(values);
   };
 
   const validationSchema = () =>
     yup.object({
-      username: yup.string().required("فیلد نام کاربری خالی است!!"),
+      userName: yup.string().required("فیلد نام کاربری خالی است!!"),
       password: yup
         .string()
         .required("فیلد رمز عبور خالی است!!")
@@ -56,7 +87,7 @@ function Login() {
           formik={formik}
           icon={<AiOutlineUser />}
           label="نام کاربری"
-          name={"username"}
+          name={"userName"}
         />
 
         <Input

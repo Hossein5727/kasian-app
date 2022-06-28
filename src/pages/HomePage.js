@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import VideoList from "../components/VideoList";
 import VideoLive from "../components/VideoLive";
 import DocumentMeta from "react-document-meta";
+import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 
 function HomePage() {
   const meta = {
@@ -15,6 +16,18 @@ function HomePage() {
       },
     },
   };
+
+  const { setNewToken } = useTokenActions();
+  // const userData = useUserData();
+
+  const token = useToken();
+
+  useEffect(() => {
+    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, []);
 
   return (
     <DocumentMeta {...meta} className="w-full flex min-h-[88.9vh]">

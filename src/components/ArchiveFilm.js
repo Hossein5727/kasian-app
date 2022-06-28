@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import {  httpGetAllContentService } from "../services/httpGetAllContentService";
+import { httpGetAllContentService } from "../services/httpGetAllContentService";
 import FilterProducts from "./FilterProducts";
 import { NavLink, Outlet } from "react-router-dom";
 import { scrollToBottom } from "../utils/scrollToBottom";
+import AddButtonProduct from "./AddButtonProduct";
 
 function ArchiveFilm() {
   const [contentList, setContentList] = useState([]);
@@ -20,8 +21,6 @@ function ArchiveFilm() {
       console.log(error.message);
     }
   };
-
-  
 
   return (
     <div className="w-full " style={{ direction: "rtl" }}>
@@ -53,6 +52,10 @@ function ArchiveFilm() {
               </div>
             </NavLink>
           ))}
+        <AddButtonProduct
+          toolTipTitle={"اضافه کردن فیلم"}
+          productAddress="addarchive"
+        />
       </div>
 
       <Outlet />
