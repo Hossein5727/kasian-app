@@ -24,10 +24,9 @@ const initialValues = {
 function Login() {
   const [userData, setUserData] = useState();
   const { setNewToken } = useTokenActions();
-
-  const MySwal = withReactContent(Swal);
-
   const { setNewData } = useUserActions();
+  const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const tokenData = JSON.parse(localStorage.getItem("formData"));
@@ -37,25 +36,40 @@ function Login() {
   }, []);
 
   const submitHandler = (values) => {
-    // postUserData(values);
     console.log(values);
 
-    axios.post("/Login/Login", values).then((res) => {
-      const tokenData = res.data.extra.token;
-      console.log(tokenData);
-      setUserData(tokenData);
-      localStorage.setItem("formData", JSON.stringify(tokenData));
-      setNewToken(tokenData);
-    });
-
-    MySwal.fire({
-      title: <p>ورود با موفقیت انجام شد</p>,
-      color: "#F0932B",
-      icon: "success",
-    }).then(() => {
-      // navigate("/");
-    });
-    setNewData(values);
+    axios
+      .post("/Login/Login", values)
+      .then((res) => {
+        console.log(res);
+        if (res.data.success) {
+          MySwal.fire({
+            title: <p>ورود با موفقیت انجام شد</p>,
+            color: "#F0932B",
+            icon: "success",
+          }).then(() => {
+            navigate("/");
+          });
+          setNewData(values);
+          const tokenData = res.data.extra.token;
+          setUserData(tokenData);
+          localStorage.setItem("formData", JSON.stringify(tokenData));
+          setNewToken(tokenData);
+        } else if (!res.data.success) {
+          MySwal.fire({
+            title: <p>اطلاعات را دوباره وارد کنید</p>,
+            color: "#F0932B",
+            icon: "error",
+          }).then(() => {
+            formik.initialValues.userName = "";
+            formik.initialValues.password = "";
+            setNewData("");
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const validationSchema = () =>

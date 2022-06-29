@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { httpGetAllEventsService } from "../services/httpGetAllEventsService";
 import { Link } from "react-router-dom";
-import AddButtonProduct from "./AddButtonProduct";
+import AddButtonProduct from "./common/AddButtonProduct";
+import { useToken } from "../provider/EmailDataProvider";
 
 function Events() {
   const [eventList, setEventList] = useState([]);
+  const token = useToken();
 
   useEffect(() => {
     getAllEvents();
@@ -42,7 +44,12 @@ function Events() {
             </div>
           </Link>
         ))}
-      <AddButtonProduct productAddress="addevent" toolTipTitle={"اضافه کردن رویداد"} />
+      {token && (
+        <AddButtonProduct
+          productAddress="addevent"
+          toolTipTitle={"اضافه کردن رویداد"}
+        />
+      )}
     </div>
   );
 }

@@ -23,7 +23,7 @@ function AddButtonProduct({ productAddress = "/", toolTipTitle, onClick }) {
         >
           <Link to={`/${productAddress}`}>
             <button className="w-[70px] h-[48px] mr-2 bg-primary-color text-center text-3xl px-4 py-2 rounded flex justify-center items-center">
-              <MdAddBox />
+              <MdAddBox className="text-black" />
             </button>
           </Link>
         </Tooltip>

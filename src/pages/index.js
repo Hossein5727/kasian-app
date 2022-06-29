@@ -9,3 +9,4 @@ export { default as PodcastDetailPage } from "./PodcastDetailPage";
 export { default as ProfilePage } from "./ProfilePage";
 export { default as AddEventPage } from "./AddEventPage";
 export { default as AddArchivePage } from "./AddArchivePage";
+export { default as AddCategoryPage } from "./AddCategoryPage";

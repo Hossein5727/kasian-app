@@ -50,8 +50,14 @@ function Header({ isShowNav, setIsShowNav }) {
         </div>
       </div>
 
-      <div className="w-[490px] rounded-3xl border border-border-color px-3 py-[11px] flex items-center justify-between text-primary-text-light">
-        <IoMdClose className="text-2xl" onClick={() => setSearchValue("")} />
+      <button
+        className={`w-[490px] rounded-3xl border border-border-color px-3 py-[11px] flex items-center transition-all duration-200  hover:border-slate-400 focus:border-slate-400 ${
+          searchValue.length > 1 ? "justify-between" : "justify-end"
+        } text-primary-text-light`}
+      >
+        {searchValue.length > 1 && (
+          <IoMdClose className="text-2xl" onClick={() => setSearchValue("")} />
+        )}
         <div className="flex items-center ">
           <input
             style={{ direction: "rtl" }}
@@ -62,7 +68,7 @@ function Header({ isShowNav, setIsShowNav }) {
           />
           <BiSearch className="bg-transparent text-2xl " />
         </div>
-      </div>
+      </button>
 
       <div className="flex items-center gap-3">
         <Link className="w-[201px] h-[33px] " to="/">

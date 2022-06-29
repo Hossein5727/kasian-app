@@ -11,6 +11,11 @@ import * as Yup from "yup";
 import RadioButton from "../components/common/RadioButton";
 import DocumentMeta from "react-document-meta";
 import axios from "axios";
+import { useToken, useTokenActions } from "../provider/EmailDataProvider";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import FileUploaded from "../components/common/FileUploaded";
 
 const initialValues = {
   title: "",
@@ -19,7 +24,6 @@ const initialValues = {
   isConfirmed: false,
   eventFiles: [],
   listBox: "",
-  enEventFileType: "",
   //   eventFiles: { titleEvent: "", fileEvent: "" },
 };
 
@@ -46,16 +50,74 @@ function AddEventPage() {
     titleEvent: "",
     fileEvent: "",
   });
+  const [pictureEvent, setPictureEvent] = useState("");
+  const [categoryId, setCategoryId] = useState(0);
+  const [eventFileTypeList, setEventFileTypeList] = useState([]);
+  const [eventFileType, setEventFileType] = useState(0);
+
+  const token = useToken();
+  const { setNewToken } = useTokenActions();
+
+  const auth = `Bearer ${token}`;
+  const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // getAllCategoryEvents();
+    axios.get("/Event/GetAllEnEventFileType").then((res) => {
+      console.log(res.data);
+      setEventFileTypeList(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    // getAllCategoryEvents
     axios
       .get("/Category/GetAllCategoryEvents")
       .then((res) => setCategoryList(res.data));
   }, []);
 
+  useEffect(() => {
+    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, []);
+
+  const formData = new FormData();
   const submitHandler = (values) => {
+    formData.append("title", formik.values.title);
+    formData.append("description", formik.values.description);
+    formData.append("enEventFileType", eventFileType);
+    formData.append("isConfirmed", formik.values.isConfirmed);
+    formData.append("categoryId", categoryId);
+    formData.append("picture", pictureEvent);
     console.log(values);
+
+    axios({
+      method: "POST",
+      url: "/Event/Create",
+      headers: {
+        Authorization: auth,
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    })
+      .then((res) => {
+        MySwal.fire({
+          title: <p>رویداد شما شما با موفقیت ثبت شد</p>,
+          color: "#F0932B",
+          icon: "success",
+        }).then(() => {
+          navigate("/");
+        });
+      })
+      .catch((err) => {
+        MySwal.fire({
+          title: <p>{err.message}</p>,
+          color: "#F0932B",
+          icon: "error",
+        });
+      });
   };
 
   const clickHandler = () => {
@@ -67,8 +129,7 @@ function AddEventPage() {
     Yup.object({
       title: Yup.string().required("لطفا عنوان رویداد را وارد کنید"),
       description: Yup.string().required("لطفا توضیحات رویداد را وارد کنید"),
-      picture: Yup.mixed().required("لطفا یک عکس را وارد کنید"),
-      enEventFileType: Yup.string().required("یک گزینه را انتخاب کنید"),
+      // picture: Yup.mixed().required("لطفا یک عکس را وارد کنید"),
     });
 
   const formik = useFormik({
@@ -108,14 +169,39 @@ function AddEventPage() {
           <div className="relative w-full flex justify-center">
             <select
               id="countries"
-              class="bg-slate-200 border w-[80%] border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+              class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
             >
               <option selected>انتخاب دسته بندی</option>
               {categoryList &&
                 categoryList.length > 0 &&
-                categoryList.map((item) => <option>{item.title}</option>)}
+                categoryList.map((item) => (
+                  <option value={item.id}>{item.title}</option>
+                ))}
             </select>
-            <div className="absolute left-[89%] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
+            {/* left-[89%] */}
+            <div className="absolute right-0 top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
+              {<MdCategory />}
+            </div>
+          </div>
+
+          <div className="relative w-full flex justify-center">
+            <select
+              id="countries"
+              class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+              value={eventFileType}
+              onChange={(e) => setEventFileType(e.target.value)}
+            >
+              <option selected>انتخاب نوع رویداد</option>
+              {eventFileTypeList &&
+                eventFileTypeList.length > 0 &&
+                eventFileTypeList.map((item) => (
+                  <option value={item.key}>{item.value}</option>
+                ))}
+            </select>
+            {/* left-[89%] */}
+            <div className="absolute right-0 top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
               {<MdCategory />}
             </div>
           </div>
@@ -136,18 +222,11 @@ function AddEventPage() {
             />
           </div>
 
-          <Input
-            formik={formik}
+          <FileUploaded
             icon={<AiOutlinePicture />}
             label="پوستر"
             name={"picture"}
-            type="file"
-          />
-
-          <RadioButton
-            formik={formik}
-            name="enEventFileType"
-            radioOptions={radioOptions}
+            handleChange={(e) => setPictureEvent(e.target.files[0])}
           />
 
           <hr className="border-t-2 border-t-slate-200 border-opacity-50 w-full" />

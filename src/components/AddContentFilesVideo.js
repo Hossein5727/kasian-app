@@ -6,7 +6,7 @@ import { BsFillChatTextFill } from "react-icons/bs";
 import { MdAddBox } from "react-icons/md";
 import Swal from "sweetalert2";
 import { useToken } from "../provider/EmailDataProvider";
-import FileUploaded from "./FileUploaded";
+import FileUploaded from "./common/FileUploaded";
 import withReactContent from "sweetalert2-react-content";
 
 const initialValues = {
@@ -50,12 +50,7 @@ function AddContentFilesVideo({ idExtra = 69 }) {
         color: "#F0932B",
         icon: "success",
       });
-      setVideoFilesData({
-        contentFile: "",
-        contentId: "",
-        contentPicture: "",
-        contentTitle: "",
-      });
+      setVideoFilesData("");
     });
   };
 

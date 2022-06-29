@@ -1,4 +1,10 @@
-function FileUploaded({ icon, name, label, handleChange, type = "file" }) {
+function FileUploaded({
+  icon,
+  name,
+  label,
+  handleChange,
+  type = "file",
+}) {
   return (
     <div className="flex flex-col gap-4 relative">
       <input

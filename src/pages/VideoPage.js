@@ -6,15 +6,17 @@ import DocumentMeta from "react-document-meta";
 function VideoPage() {
   const [currentVideo, setCurrentVideo] = useState();
   const [videoList, setVideoList] = useState([]);
+  const [videoParh, setVideoParh] = useState();
 
   const location = useLocation();
   const dataLocation = location.state;
 
   useEffect(() => {
     // console.log(location);
-    setCurrentVideo(dataLocation.currentVideo);
+    setCurrentVideo(dataLocation.currentVideo.path);
     setVideoList(dataLocation.videoList);
-    console.log(videoList);
+    console.log(dataLocation.videoList);
+    console.log(dataLocation.currentVideo);
   }, [currentVideo, videoList]);
 
   const meta = {
@@ -33,29 +35,36 @@ function VideoPage() {
   return (
     <DocumentMeta {...meta}>
       <div className="w-full px-4 py-3 flex items-start gap-3">
-        {videoList && (
-          <div className="w-[30%] flex flex-col">
-            <div
-              className="flex justify-end items-start gap-3 border border-border-color border-l-2 border-l-primary-color w-full px-2 py-2 rounded-lg"
-              key={videoList.id}
-            >
-              <div className="h-[62px] w-full flex flex-col justify-between items-end">
-                <p className="text-[#CECFD3] text-sm">{videoList.title}</p>
-                <p className="text-[#767881] text-sm font-semibold flex flex-row-reverse gap-2 items-center">
-                  <FaPlay className="rotate-180 text-primary-orange" />
-                </p>
+        <div className="w-[30%] flex flex-col gap-3">
+          {videoList &&
+            videoList.map((item) => (
+              <div
+                className="w-full flex flex-col cursor-pointer"
+                onClick={() => setCurrentVideo(item.path)}
+              >
+                <div
+                  className="flex justify-end items-start gap-3 border border-border-color border-l-2 border-l-primary-color w-full px-2 py-2 rounded-lg"
+                  key={item.id}
+                >
+                  <div className="h-[62px] w-full flex flex-col justify-between items-end">
+                    <p className="text-[#CECFD3] text-sm">{item.title}</p>
+                    <p className="text-[#767881] text-sm font-semibold flex flex-row-reverse gap-2 items-center">
+                      <FaPlay className="rotate-180 text-primary-orange" />
+                    </p>
+                  </div>
+                  <img
+                    src={item.picture}
+                    alt={item.title}
+                    className="object-cover rounded-lg w-[74px] h-[62px]"
+                  />
+                </div>
               </div>
-              <img
-                src={videoList.picture}
-                alt={videoList.title}
-                className="object-cover rounded-lg w-[74px] h-[62px]"
-              />
-            </div>
-          </div>
-        )}
-        {currentVideo && (
+            ))}
+        </div>
+
+        {currentVideo && videoList && (
           <div className="w-[70%]">
-            <video src={videoList.path} controls className="rounded" />
+            <video src={currentVideo} controls className="rounded" />
           </div>
         )}
       </div>

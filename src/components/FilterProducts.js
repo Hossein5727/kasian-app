@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
 import { BsLink45Deg } from "react-icons/bs";
 import { httpGetAllCategoryService } from "../services/httpGetAllCategoryService";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useToken, useTokenActions } from "../provider/EmailDataProvider";
+import AddButtonProduct from "./common/AddButtonProduct";
 
 function FilterProducts() {
   const [categoryList, setCategoryList] = useState([]);
+  const token = useToken();
+  const { setNewToken } = useTokenActions();
 
   useEffect(() => {
     getAllCategory();
   }, []);
+
+  useEffect(() => {
+    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, []);
+
+  console.log(token);
 
   const getAllCategory = async () => {
     try {
@@ -19,32 +33,39 @@ function FilterProducts() {
   };
 
   return (
-    <div
-      style={{ direction: "rtl" }}
-      className="w-full bg-[#1C202F]  text-[#B3B4BA] px-3 py-4 flex justify-start items-center overflow-x-auto gap-2 "
+    <Swiper
+      // spaceBetween={1}
+      slidesPerView={9}
+      onSlideChange={() => console.log("slide change")}
+      onSwiper={(swiper) => console.log(swiper)}
+      style={{ direction: "rtl", padding: "14px" }}
+      className="w-full bg-[#1C202F]  text-[#B3B4BA] px-3 py-4 flex justify-start items-center  gap-2 "
     >
-      <div className="flex text-[#6E7276]  z-[2] items-center justify-center gap-1 flex-row-reverse px-6 w-full py-2 border border-border-color rounded-md cursor-not-allowed text-sm">
-        <BsLink45Deg className="text-xl" />
-        <p className="w-full whitespace-nowrap">فیلتر کردن</p>
-      </div>
+      {token && (
+        <SwiperSlide>
+          <AddButtonProduct
+            productAddress="addcategory"
+            toolTipTitle={"اضافه کردن دسته بندی"}
+          />
+        </SwiperSlide>
+      )}
 
       {/* <div className="w-full flex justify-start items-center "> */}
-      <button className="flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold">
+      <SwiperSlide className="flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold">
         همه مطالب
-      </button>
+      </SwiperSlide>
 
       {categoryList &&
         categoryList.length > 0 &&
         categoryList.map((item) => (
-          <button
-            key={item.id}
-            className="flex items-center gap-1 flex-row-reverse whitespace-nowrap px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold "
-          >
-            {item.title}
-          </button>
+          <SwiperSlide key={item.id}>
+            <button className="flex items-center gap-1 flex-row-reverse whitespace-nowrap px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold ">
+              {item.title}
+            </button>
+          </SwiperSlide>
         ))}
       {/* </div> */}
-    </div>
+    </Swiper>
   );
 }
 
