@@ -3,20 +3,24 @@ import { httpGetAllContentService } from "../services/httpGetAllContentService";
 import FilterProducts from "./FilterProducts";
 import { NavLink, Outlet } from "react-router-dom";
 import { scrollToBottom } from "../utils/scrollToBottom";
-import AddButtonProduct from "./AddButtonProduct";
+import AddButtonProduct from "./common/AddButtonProduct";
+import { useToken } from "../provider/EmailDataProvider";
+import Pagination from "./common/Pagination";
 
 function ArchiveFilm() {
   const [contentList, setContentList] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const token = useToken();
 
   useEffect(() => {
     getAllCntentList();
-  }, []);
+  }, [contentList, pageNumber]);
 
   const getAllCntentList = async () => {
     try {
-      const { data } = await httpGetAllContentService();
+      const { data } = await httpGetAllContentService(pageNumber);
       setContentList(data.items);
-      console.log(data.items);
+      // console.log(data.items);
     } catch (error) {
       console.log(error.message);
     }
@@ -29,14 +33,14 @@ function ArchiveFilm() {
         <h3> لیست فیلم ها</h3>
       </div>
 
-      <div className="flex justify-start items-center gap-4 px-4 py-2">
+      <div className="flex justify-center items-center gap-5 px-4 py-2 flex-wrap">
         {contentList &&
           contentList.length > 0 &&
           contentList.map((item) => (
             <NavLink
               to={`/archives/archivedetail/${item.id}`}
               key={item.id}
-              className="rounded-md w-[240px] transition-all duration-200 overflow-hidden hover:shadow hover:shadow-gray-400 hover:translate-y-1"
+              className="rounded-md w-[165px] transition-all duration-200 overflow-hidden hover:shadow hover:shadow-gray-400 hover:translate-y-1"
               style={({ isActive }) =>
                 isActive
                   ? { border: "2px solid #F0932B", transform: "scale(1)" }
@@ -47,16 +51,24 @@ function ArchiveFilm() {
                 <img
                   src={item.thumbnail}
                   alt={item.title}
-                  className="w-full h-full object-cover"
+                  className="w-[165px] h-[220px] object-cover"
                 />
               </div>
             </NavLink>
           ))}
-        <AddButtonProduct
-          toolTipTitle={"اضافه کردن فیلم"}
-          productAddress="addarchive"
-        />
+        <br />
+        {token && (
+          <AddButtonProduct
+            toolTipTitle={"اضافه کردن فیلم"}
+            productAddress="addarchive"
+          />
+        )}
       </div>
+      {contentList.length > 0 && (
+        <div className="w-full mt-4 flex justify-center items-center px-4 py-4">
+          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} />
+        </div>
+      )}
 
       <Outlet />
     </div>

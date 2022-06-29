@@ -11,7 +11,7 @@ import DocumentMeta from "react-document-meta";
 import CheckBox from "../components/common/CheckBox";
 import axios from "axios";
 import { DateTimeInput } from "react-hichestan-datetimepicker";
-import FileUploaded from "../components/FileUploaded";
+import FileUploaded from "../components/common/FileUploaded";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
@@ -292,8 +292,7 @@ function AddArchivePage() {
               </button>
             </form>
           )}
-
-          <AddContentFilesVideo idExtra={extraContentId} />
+          {isSucceed && <AddContentFilesVideo idExtra={extraContentId} />}
         </div>
       </div>
     </DocumentMeta>
