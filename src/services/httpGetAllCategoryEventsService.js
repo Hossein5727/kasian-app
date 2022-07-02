@@ -1,5 +1,5 @@
 import { http } from "./httpServices";
 
 export function httpGetAllCategoryEventsService() {
-  http.get("/Category/GetAllCategoryEvents");
+  http.get("/Category/GetAllEventCategory");
 }

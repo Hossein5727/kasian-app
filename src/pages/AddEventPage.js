@@ -16,6 +16,8 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import FileUploaded from "../components/common/FileUploaded";
+import { PulseLoader } from "react-spinners";
+import AddEventFiles from "../components/AddEventFiles";
 
 const initialValues = {
   title: "",
@@ -54,6 +56,10 @@ function AddEventPage() {
   const [categoryId, setCategoryId] = useState(0);
   const [eventFileTypeList, setEventFileTypeList] = useState([]);
   const [eventFileType, setEventFileType] = useState(0);
+  const [isLoadingSendingData, setIsLoadingSendingData] = useState(false);
+  const [progressLoadingText, setProgressLoadingText] = useState(null);
+  const [isSucceed, setIsSucceed] = useState(false);
+  const [extraEventId, setExtraEventId] = useState(null);
 
   const token = useToken();
   const { setNewToken } = useTokenActions();
@@ -72,7 +78,7 @@ function AddEventPage() {
   useEffect(() => {
     // getAllCategoryEvents
     axios
-      .get("/Category/GetAllCategoryEvents")
+      .get("/Category/GetAllEventCategory")
       .then((res) => setCategoryList(res.data));
   }, []);
 
@@ -84,6 +90,7 @@ function AddEventPage() {
   }, []);
 
   const formData = new FormData();
+
   const submitHandler = (values) => {
     formData.append("title", formik.values.title);
     formData.append("description", formik.values.description);
@@ -93,6 +100,8 @@ function AddEventPage() {
     formData.append("picture", pictureEvent);
     console.log(values);
 
+    setIsLoadingSendingData(true);
+
     axios({
       method: "POST",
       url: "/Event/Create",
@@ -101,19 +110,28 @@ function AddEventPage() {
         "Content-Type": "multipart/form-data",
       },
       data: formData,
+      onUploadProgress: (progressEvent) => {
+        setProgressLoadingText(
+          Math.round((progressEvent.loaded / progressEvent.total) * 100) + "%"
+        );
+      },
     })
       .then((res) => {
+        setIsLoadingSendingData(false);
+        setIsSucceed(true);
+        setExtraEventId(res.data.extra);
         MySwal.fire({
           title: <p>رویداد شما شما با موفقیت ثبت شد</p>,
           color: "#F0932B",
           icon: "success",
         }).then(() => {
-          navigate("/");
+          // navigate("/");
         });
       })
       .catch((err) => {
+        setIsLoadingSendingData(false);
         MySwal.fire({
-          title: <p>{err.message}</p>,
+          title: <p>خطا در ارسال اطلاعات</p>,
           color: "#F0932B",
           icon: "error",
         });
@@ -142,171 +160,119 @@ function AddEventPage() {
     <DocumentMeta {...meta}>
       <div
         style={{ direction: "rtl" }}
-        className="w-full flex justify-center items-center flex-col gap-4"
+        className={`only:w-full flex justify-center items-center flex-col gap-4 rounded-md `}
       >
         <h2 className="text-primary-color text-4xl w-full left-0 right-0 bg-[#1B1E2C] py-2 text-center">
           اضافه کردن رویداد
         </h2>
 
-        <form
-          onSubmit={formik.handleSubmit}
-          className="bg-[#1C202F] px-12 py-6 rounded-md flex justify-center items-center gap-6 flex-col mt-6"
-        >
-          <Input
-            formik={formik}
-            icon={<BsFillChatTextFill />}
-            label="عنوان "
-            name={"title"}
-          />
-
-          <TextArea
-            formik={formik}
-            icon={<TbFileDescription />}
-            label="توضیحات"
-            name={"description"}
-          />
-
-          <div className="relative w-full flex justify-center">
-            <select
-              id="countries"
-              class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-            >
-              <option selected>انتخاب دسته بندی</option>
-              {categoryList &&
-                categoryList.length > 0 &&
-                categoryList.map((item) => (
-                  <option value={item.id}>{item.title}</option>
-                ))}
-            </select>
-            {/* left-[89%] */}
-            <div className="absolute right-0 top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
-              {<MdCategory />}
-            </div>
-          </div>
-
-          <div className="relative w-full flex justify-center">
-            <select
-              id="countries"
-              class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
-              value={eventFileType}
-              onChange={(e) => setEventFileType(e.target.value)}
-            >
-              <option selected>انتخاب نوع رویداد</option>
-              {eventFileTypeList &&
-                eventFileTypeList.length > 0 &&
-                eventFileTypeList.map((item) => (
-                  <option value={item.key}>{item.value}</option>
-                ))}
-            </select>
-            {/* left-[89%] */}
-            <div className="absolute right-0 top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
-              {<MdCategory />}
-            </div>
-          </div>
-
-          <div className="flex items-center relative justify-between gap-2 bg-slate-200 px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 ">
-            <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
-              {<BsQuestionLg />}
-            </div>
-            <p> اکنون انتشار داده شود ?</p>
-            <input
-              type="checkbox"
-              className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              value={formik.values.isConfirmed}
-              name="isConfirmed"
-              id="isConfirmed"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+        {!isSucceed && (
+          <form
+            onSubmit={formik.handleSubmit}
+            className="bg-[#1C202F] px-12 py-6 rounded-md flex justify-center items-center gap-6 flex-col mt-6"
+          >
+            <Input
+              formik={formik}
+              icon={<BsFillChatTextFill />}
+              label="عنوان "
+              name={"title"}
             />
-          </div>
 
-          <FileUploaded
-            icon={<AiOutlinePicture />}
-            label="پوستر"
-            name={"picture"}
-            handleChange={(e) => setPictureEvent(e.target.files[0])}
-          />
+            <TextArea
+              formik={formik}
+              icon={<TbFileDescription />}
+              label="توضیحات"
+              name={"description"}
+            />
 
-          <hr className="border-t-2 border-t-slate-200 border-opacity-50 w-full" />
+            <div className="relative w-full flex justify-center">
+              <select
+                id="countries"
+                class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
+              >
+                <option selected>انتخاب دسته بندی</option>
+                {categoryList &&
+                  categoryList.length > 0 &&
+                  categoryList.map((item) => (
+                    <option value={item.id}>{item.title}</option>
+                  ))}
+              </select>
+              {/* left-[89%] */}
+              <div className="absolute -right-[29px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
+                {<MdCategory />}
+              </div>
+            </div>
 
-          <div className="w-full flex flex-col gap-5 justify-center items-center">
-            <h3 className="text-slate-200 text-lg text-right">
-              فایل های رویداد را وارد کنید
-            </h3>
+            <div className="relative w-full flex justify-center">
+              <select
+                id="countries"
+                class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+                value={eventFileType}
+                onChange={(e) => setEventFileType(e.target.value)}
+              >
+                <option selected>انتخاب نوع رویداد</option>
+                {eventFileTypeList &&
+                  eventFileTypeList.length > 0 &&
+                  eventFileTypeList.map((item) => (
+                    <option value={item.key}>{item.value}</option>
+                  ))}
+              </select>
+              {/* left-[89%] */}
+              <div className="absolute -right-[29px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
+                {<MdCategory />}
+              </div>
+            </div>
 
-            <div className="flex flex-col gap-2 relative">
+            <div className="flex items-center relative justify-between gap-2 bg-slate-200 px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 ">
+              <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
+                {<BsQuestionLg />}
+              </div>
+              <p> اکنون انتشار داده شود ?</p>
               <input
-                value={eventFilesData.titleEvent}
-                name={"titleEvent"}
-                id={"titleEvent"}
-                onChange={(e) =>
-                  setEventFilesData({
-                    ...eventFilesData,
-                    titleEvent: e.target.value,
-                  })
-                }
-                placeholder={"عنوان"}
-                className={`bg-slate-200  px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home`}
+                type="checkbox"
+                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                value={formik.values.isConfirmed}
+                name="isConfirmed"
+                id="isConfirmed"
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {eventFilesData.titleEvent.length < 1 && (
-                <p className="text-sm text-red-600">لطفا عنوان را وارد کنید</p>
+            </div>
+
+            <FileUploaded
+              icon={<AiOutlinePicture />}
+              label="پوستر"
+              name={"picture"}
+              handleChange={(e) => setPictureEvent(e.target.files[0])}
+            />
+
+            <button
+              type="submit"
+              disabled={!formik.isValid}
+              className={`bg-primary-color text-bg-home w-[260px] px-2 py-1 rounded text-center text-lg transition-all duration-200 hover:bg-bg-home hover:text-primary-color ${
+                !formik.isValid &&
+                "opacity-50 cursor-not-allowed hover:bg-primary-color hover:text-bg-home"
+              } `}
+            >
+              {isLoadingSendingData ? (
+                <div className="w-full flex justify-center items-center gap-4 flex-row-reverse">
+                  <PulseLoader color="#2B57F0" size={16} className="mt-[6px]" />
+                  <p>{progressLoadingText}</p>
+                </div>
+              ) : (
+                "تایید"
               )}
-              <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
-                <BsFillChatTextFill />
-              </div>
-            </div>
+            </button>
+          </form>
+        )}
 
-            <div className="flex flex-col gap-2 relative">
-              <input
-                value={eventFilesData.fileEvent}
-                name={"fileEvent"}
-                id={"fileEvent"}
-                onChange={(e) =>
-                  setEventFilesData({
-                    ...eventFilesData,
-                    fileEvent: e.target.value,
-                  })
-                }
-                className={`bg-slate-200  px-4 py-[9px] rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home`}
-                type="file"
-              />
-              {eventFilesData.fileEvent.length < 1 && (
-                <p className="text-sm text-red-600">لطفا یک عکس وارد کنید</p>
-              )}
-              <p className="absolute top-3 left-3 text-bg-home text-lg ">عکس</p>
-
-              <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
-                <AiOutlinePicture />
-              </div>
-            </div>
-
-            <div className="w-full flex justify-center items-center">
-              <button
-                onClick={clickHandler}
-                className="w-[70px] h-[48px] disabled:cursor-not-allowed disabled:opacity-50 mr-2 bg-primary-color text-center text-3xl px-4 py-2 rounded flex justify-center items-center"
-                disabled={
-                  !eventFilesData.titleEvent && !eventFilesData.fileEvent
-                }
-              >
-                <MdAddBox />
-              </button>
-            </div>
+        {isSucceed && (
+          <div className="bg-[#1C202F] px-12 py-6 rounded-md flex justify-center items-center gap-6 flex-col mt-6">
+            <AddEventFiles idExtra={extraEventId} />
           </div>
-
-          <button
-            type="submit"
-            disabled={!formik.isValid}
-            className={`bg-primary-color text-bg-home w-[260px] px-2 py-1 rounded text-center text-lg transition-all duration-200 hover:bg-bg-home hover:text-primary-color ${
-              !formik.isValid &&
-              "opacity-50 cursor-not-allowed hover:bg-primary-color hover:text-bg-home"
-            } `}
-          >
-            تایید
-          </button>
-        </form>
+        )}
       </div>
     </DocumentMeta>
   );

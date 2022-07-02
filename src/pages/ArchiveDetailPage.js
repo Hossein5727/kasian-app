@@ -28,11 +28,11 @@ function ArchiveDetailPage() {
   return (
     <div className="px-8 py-8 w-full" style={{ direction: "rtl" }}>
       {contentDetail && (
-        <div className=" w-full rounded-lg h-[380px] relative overflow-hidden animate__animated  animate__fadeIn bgArchiveDetail">
+        <div className=" w-full rounded-lg h-[380px]  relative overflow-hidden animate__animated  animate__fadeIn bgArchiveDetail">
           <img
             src={contentDetail.picture}
             alt={contentDetail.title}
-            className="w-full h-full object-cover   "
+            className="w-full h-full object-fill    "
           />
           <h2 className="font-semibold  text-5xl absolute top-4 right-8 z-[4] text-white">
             {contentDetail.title}
@@ -59,7 +59,7 @@ function ArchiveDetailPage() {
                       className="w-[120px] h-[160px] cursor-pointer rounded-md overflow-hidden   flex-col transition-all duration-300 hover:shadow-lg hover:shadow-slate-400 "
                     >
                       <img
-                        src={contentDetail.thumbnail}
+                        src={item.picture}
                         alt={item.id}
                         className="object-cover w-full h-full bg-center"
                       />

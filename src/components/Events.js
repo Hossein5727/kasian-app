@@ -3,9 +3,11 @@ import { httpGetAllEventsService } from "../services/httpGetAllEventsService";
 import { Link } from "react-router-dom";
 import AddButtonProduct from "./common/AddButtonProduct";
 import { useToken } from "../provider/EmailDataProvider";
+import { Skeleton } from "@mui/material";
 
 function Events() {
   const [eventList, setEventList] = useState([]);
+  const [isLoadedEvent, setIsLoadedEvent] = useState(true);
   const token = useToken();
 
   useEffect(() => {
@@ -13,11 +15,14 @@ function Events() {
   }, []);
 
   const getAllEvents = async () => {
+    setIsLoadedEvent(false);
     try {
       const { data } = await httpGetAllEventsService();
       setEventList(data.items);
+      setIsLoadedEvent(true);
     } catch (error) {
       console.log(error.message);
+      setIsLoadedEvent(true);
     }
   };
 
@@ -27,6 +32,7 @@ function Events() {
       className="px-2 py-4 flex justify-start items-center flex-wrap gap-5 "
     >
       {eventList &&
+        isLoadedEvent &&
         eventList.length &&
         eventList.map((item) => (
           <Link
@@ -44,6 +50,20 @@ function Events() {
             </div>
           </Link>
         ))}
+      {!isLoadedEvent && (
+        <div className="flex items-center gap-3 flex-wrap">
+          {Array.apply(null, { length: 9 }).map((item, index) => (
+            <Skeleton
+              variant="rectangular"
+              width={232}
+              height={203}
+              animation="wave"
+              sx={{ bgcolor: "#3f4252", borderRadius: "6px" }}
+              key={index}
+            />
+          ))}
+        </div>
+      )}
       {token && (
         <AddButtonProduct
           productAddress="addevent"

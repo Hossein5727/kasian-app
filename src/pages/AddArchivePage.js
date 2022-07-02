@@ -16,6 +16,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import AddContentFilesVideo from "../components/AddContentFilesVideo";
+import { PulseLoader } from "react-spinners";
 
 const initialValues = {
   title: "",
@@ -45,6 +46,11 @@ function AddArchivePage() {
   const [picture, setPicture] = useState("");
   const [extraContentId, setExtraContentId] = useState("");
   const [isSucceed, setIsSucceed] = useState(false);
+  const [isAddVideo, setIsAddVideo] = useState(true);
+  const [contentVideoList, setContentVideoList] = useState([]);
+  const [contentId, setContentId] = useState(0);
+  const [isLoadingSendingData, setIsLoadingSendingData] = useState(false);
+  const [progressLoadingText, setProgressLoadingText] = useState(null);
 
   const MySwal = withReactContent(Swal);
   const token = useToken();
@@ -62,20 +68,16 @@ function AddArchivePage() {
   };
 
   useEffect(() => {
-    axios.get("Category/GetAllCategoryEvents").then((res) => {
+    axios.get("/Category/GetAllContentVideoCategory").then((res) => {
       setCategoryList(res.data);
-      console.log(res.data);
     });
   }, []);
 
-  const clickHandler = () => {
-    formik.values.contentFiles.push(videoFilesData);
-    setVideoFilesData({
-      contentTitle: "",
-      contentFile: "",
-      contentPicture: "",
+  useEffect(() => {
+    axios.get("/Content/GetAllContentVideo").then((res) => {
+      setContentVideoList(res.data.items);
     });
-  };
+  }, []);
 
   const handleChange = (event) => {
     const newState = {};
@@ -91,7 +93,6 @@ function AddArchivePage() {
   const { setNewToken } = useTokenActions();
 
   useEffect(() => {
-    console.log(token);
     const tokenData = JSON.parse(localStorage.getItem("formData"));
     if (tokenData) {
       setNewToken(tokenData);
@@ -100,7 +101,6 @@ function AddArchivePage() {
 
   const submitHandler = (values) => {
     console.log(values);
-    // const data = new FormData();
     formData.append("title", formik.values.title);
     formData.append("description", formik.values.description);
     formData.append("thumbnail", thumnail);
@@ -112,7 +112,8 @@ function AddArchivePage() {
     formData.append("shortdescription", formik.values.shortdescription);
 
     const auth = `Bearer ${token}`;
-    console.log(auth);
+
+    setIsLoadingSendingData(true);
 
     axios({
       method: "POST",
@@ -122,8 +123,14 @@ function AddArchivePage() {
         "Content-Type": "multipart/form-data",
       },
       data: formData,
+      onUploadProgress: (progressEvent) => {
+        setProgressLoadingText(
+          Math.round((progressEvent.loaded / progressEvent.total) * 100) + "%"
+        );
+      },
     })
       .then((res) => {
+        setIsLoadingSendingData(false);
         console.log(res.data);
         MySwal.fire({
           title: <p>فیلم شما با موفقیت ثبت شد</p>,
@@ -132,8 +139,10 @@ function AddArchivePage() {
         });
         setExtraContentId(res.data.extra);
         setIsSucceed(true);
+        // setIsAddVideo(false);
       })
       .catch((err) => {
+        setIsLoadingSendingData(false);
         MySwal.fire({
           title: <p>خطا در ارسال اطلاعات</p>,
           color: "#F0932B",
@@ -170,11 +179,55 @@ function AddArchivePage() {
           اضافه کردن فیلم
         </h2>
 
-        <div className="bg-[#1C202F] px-3 py-6 rounded-md flex justify-center items-center  flex-col mt-6">
-          {!isSucceed && (
+        <div className="w-[22%] py-3 px-3 flex justify-center items-center gap-3 rounded-sm ">
+          <button
+            onClick={() => setIsAddVideo(true)}
+            className={`flex  ${
+              isAddVideo ? "bg-primary-color" : "bg-slate-300"
+            } items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-[9px] rounded-md cursor-pointer text-base transition-all duration-150 hover:bg-slate-400 focus:bg-primary-color focus:text-bg-home focus:font-semibold`}
+          >
+            میخواهم ویدیو جدید اضافه کنم
+          </button>
+
+          <button
+            onClick={() => setIsAddVideo(false)}
+            className="flex bg-slate-300 items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-[9px] rounded-md cursor-pointer text-base transition-all duration-150 hover:bg-slate-400 focus:bg-primary-color focus:text-bg-home focus:font-semibold"
+          >
+            میخواهم قسمت جدید اضافه کنم
+          </button>
+        </div>
+
+        {!isAddVideo && (
+          <select
+            id="countries"
+            className="bg-slate-200 border w-[20%] border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+            value={contentId}
+            onChange={(e) => setContentId(e.target.value)}
+          >
+            <option selected>انتخاب فیلم</option>
+            {contentVideoList &&
+              contentVideoList.length > 0 &&
+              contentVideoList.map((item) => (
+                <option
+                  value={item.id}
+                  key={item.id}
+                  // onClick={(formik.values.categoryId = item.id)}
+                >
+                  {item.title}
+                </option>
+              ))}
+          </select>
+        )}
+
+        <div
+          className={`bg-[#1C202F]  ${
+            isAddVideo ? "pr-8 px-3" : " px-14"
+          }  py-6 rounded-md flex justify-center items-center  flex-col mt-6`}
+        >
+          {!isSucceed && isAddVideo && (
             <form
               onSubmit={formik.handleSubmit}
-              className="bg-[#1C202F] px-12 py-6 rounded-md flex justify-center items-center gap-6 flex-col mt-6"
+              className="bg-[#1C202F] px-12 py-6 rounded-md flex justify-center items-center text-center gap-6 flex-col mt-6"
             >
               <Input
                 formik={formik}
@@ -196,17 +249,6 @@ function AddArchivePage() {
                 label="توضیحات"
                 name={"description"}
               />
-
-              {/* <Input
-            formik={formik}
-            icon={<AiOutlinePicture />}
-            label="ریزعکس"
-            name={"thumbnail"}
-            type="file"
-            // handleChange={
-            //   ((e) => (formik.values.thumbnail = "file"), e.target.value)
-            // }
-          /> */}
 
               <FileUploaded
                 type="file"
@@ -283,16 +325,31 @@ function AddArchivePage() {
               <button
                 type="submit"
                 disabled={!formik.isValid}
-                className={`bg-primary-color text-bg-home w-[260px] px-2 py-1 rounded text-center text-lg transition-all duration-200 hover:bg-bg-home hover:text-primary-color ${
+                className={`bg-primary-color ${
+                  isLoadingSendingData && "opacity-40"
+                } text-bg-home w-[260px] px-2 py-1 rounded text-center text-lg transition-all duration-200 hover:bg-bg-home hover:text-primary-color ${
                   !formik.isValid &&
                   "opacity-50 cursor-not-allowed hover:bg-primary-color hover:text-bg-home"
                 } `}
               >
-                تایید
+                {isLoadingSendingData ? (
+                  <div className="w-full flex justify-center items-center gap-4 flex-row-reverse">
+                    <PulseLoader
+                      color="#2B57F0"
+                      size={16}
+                      className="mt-[6px]"
+                    />
+                    <p>{progressLoadingText}</p>
+                  </div>
+                ) : (
+                  "تایید"
+                )}
               </button>
             </form>
           )}
           {isSucceed && <AddContentFilesVideo idExtra={extraContentId} />}
+
+          {!isAddVideo && <AddContentFilesVideo idExtra={contentId} />}
         </div>
       </div>
     </DocumentMeta>

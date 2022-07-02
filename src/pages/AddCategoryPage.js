@@ -45,8 +45,15 @@ function AddCategoryPage() {
   };
 
   useEffect(() => {
-    axios.get("/Category/GetAllEnCategoryType").then((res) => {
-      console.log(res.data);
+    axios({
+      method: "GET",
+      url: "/Category/GetAllEnCategoryType",
+      headers: {
+        Authorization: auth,
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((res) => {
+      console.log(res);
       setCategoryTypeList(res.data);
     });
   }, []);
