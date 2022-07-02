@@ -5,8 +5,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import AddButtonProduct from "./common/AddButtonProduct";
 
-function FilterProducts({ addressCategory }) {
+function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
   const [categoryList, setCategoryList] = useState([]);
+  // const [categoryId, setCategoryId] = useState(null);
   const token = useToken();
   const { setNewToken } = useTokenActions();
 
@@ -41,7 +42,7 @@ function FilterProducts({ addressCategory }) {
       )}
 
       {/* <div className="w-full flex justify-start items-center "> */}
-      <SwiperSlide>
+      <SwiperSlide onClick={() => setCategoryId(null)}>
         <button className="flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold">
           همه مطالب
         </button>
@@ -50,7 +51,7 @@ function FilterProducts({ addressCategory }) {
       {categoryList &&
         categoryList.length > 0 &&
         categoryList.map((item) => (
-          <SwiperSlide key={item.id}>
+          <SwiperSlide key={item.id} onClick={() => setCategoryId(item.id)}>
             <button className="flex items-center gap-1 flex-row-reverse whitespace-nowrap px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold ">
               {item.title}
             </button>

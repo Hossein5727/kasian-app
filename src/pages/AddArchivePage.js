@@ -75,7 +75,8 @@ function AddArchivePage() {
 
   useEffect(() => {
     axios.get("/Content/GetAllContentVideo").then((res) => {
-      setContentVideoList(res.data.items);
+      setContentVideoList(res.data);
+      console.log(res);
     });
   }, []);
 

@@ -1,6 +1,9 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useToken } from "../provider/EmailDataProvider";
 import { httpGetOneContentService } from "../services/httpGetOneContentService";
 
 function ArchiveDetailPage() {
@@ -9,6 +12,7 @@ function ArchiveDetailPage() {
   const params = useParams();
   const navigate = useNavigate();
   const paramsId = params.id;
+  const token = useToken();
 
   useEffect(() => {
     getOneContent();
@@ -23,6 +27,26 @@ function ArchiveDetailPage() {
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const auth = `Bearer ${token}`;
+
+  const deleteContent = (id) => {
+    console.log(id);
+    axios({
+      headers: {
+        Authorization: auth,
+      },
+      method: "DELETE",
+      url: `/Content/Delete?id=${id}`,
+    })
+      .then((res) => {
+        console.log(res);
+        navigate("/archives");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -67,6 +91,22 @@ function ArchiveDetailPage() {
                   </SwiperSlide>
                 ))}
             </Swiper>
+          </div>
+          <div
+            className={`w-[165px] h-[220px] z-[4]  absolute right-5 bottom-5  rounded flex justify-center items-center flex-col gap-4 transition-all duration-200`}
+          >
+            <button
+              onClick={() => deleteContent(contentDetail.id)}
+              className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home "
+            >
+              <p>حذف</p>
+              <AiFillDelete />
+            </button>
+
+            <button className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home">
+              <p>ویرایش</p>
+              <AiFillEdit />
+            </button>
           </div>
         </div>
       )}
