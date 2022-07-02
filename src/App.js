@@ -20,6 +20,8 @@ import EmailDataProvider from "./provider/EmailDataProvider";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import FilterProducts from "./components/FilterProducts";
+import { httpGetAllCategoryEventsService } from "./services/httpGetAllCategoryEventsService";
 
 function App() {
   return (

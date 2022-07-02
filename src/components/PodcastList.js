@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { httpGetAllCategoryPodcastService } from "../services/httpGetAllCategoryPodcastService";
 import { httpGetAllPodcastService } from "../services/httpGetAllPodcastService";
 import { scrollToBottom } from "../utils/scrollToBottom";
 import FilterProducts from "./FilterProducts";
@@ -22,7 +23,9 @@ function PodcastList() {
 
   return (
     <div className="w-full" style={{ direction: "rtl" }}>
-      <FilterProducts />
+      <FilterProducts
+        addressCategory={"/Category/GetAllContentSoundCategory"}
+      />
 
       <div className="px-4 py-2 text-primary-color text-2xl my-1 mt-2 flex justify-center w-full bg-[#1c202f9a]">
         <h3> لیست پادکست ها</h3>

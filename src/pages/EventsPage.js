@@ -1,6 +1,8 @@
 import DocumentMeta from "react-document-meta";
 import Events from "../components/Events";
+import FilterEvents from "../components/FilterEvents";
 import FilterProducts from "../components/FilterProducts";
+import { httpGetAllCategoryEventsService } from "../services/httpGetAllCategoryEventsService";
 
 function EventsPage() {
   const meta = {
@@ -19,7 +21,8 @@ function EventsPage() {
   return (
     <DocumentMeta {...meta}>
       <div className="w-full">
-        <FilterProducts />
+        <FilterProducts addressCategory={"/Category/GetAllEventCategory"} />
+        {/* <FilterEvents /> */}
         <Events />
       </div>
     </DocumentMeta>

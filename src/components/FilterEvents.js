@@ -5,17 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import AddButtonProduct from "./common/AddButtonProduct";
 
-function FilterProducts({ addressCategory }) {
+function FilterEvents() {
   const [categoryList, setCategoryList] = useState([]);
   const token = useToken();
   const { setNewToken } = useTokenActions();
-
-  useEffect(() => {
-    axios.get(addressCategory).then((res) => {
-      console.log(res);
-      setCategoryList(res.data);
-    });
-  }, []);
 
   useEffect(() => {
     const tokenData = JSON.parse(localStorage.getItem("formData"));
@@ -23,6 +16,8 @@ function FilterProducts({ addressCategory }) {
       setNewToken(tokenData);
     }
   }, []);
+
+  
 
   return (
     <Swiper
@@ -61,4 +56,4 @@ function FilterProducts({ addressCategory }) {
   );
 }
 
-export default FilterProducts;
+export default FilterEvents;
