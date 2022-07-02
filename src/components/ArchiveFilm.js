@@ -8,22 +8,26 @@ import { useToken } from "../provider/EmailDataProvider";
 import Pagination from "./common/Pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Skeleton } from "@mui/material";
+import SimpleDialog from "./common/DialogEditArchive";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 function ArchiveFilm(props) {
   const [contentList, setContentList] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [isLoadedThumnail, setIsLoadedThumnail] = useState(true);
+  const [categoryId, setCategoryId] = useState(undefined);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
   const token = useToken();
 
   useEffect(() => {
     getAllCntentList();
-  }, [pageNumber]);
+  }, [categoryId]);
 
   const getAllCntentList = async () => {
     setIsLoadedThumnail(false);
     try {
-      const { data } = await httpGetAllContentService(pageNumber);
-      setContentList(data.items);
+      const { data } = await httpGetAllContentService(categoryId);
+      setContentList(data);
       setIsLoadedThumnail(true);
       // console.log(data.items);
     } catch (error) {
@@ -36,6 +40,8 @@ function ArchiveFilm(props) {
     <div className="w-full " style={{ direction: "rtl" }}>
       <FilterProducts
         addressCategory={"/Category/GetAllContentVideoCategory"}
+        setCategoryId={setCategoryId}
+        categoryId={categoryId}
       />
       <div className="px-4 py-2 text-primary-color text-2xl my-1 mt-2 flex justify-center w-full bg-[#1c202f9a]">
         <h3> لیست فیلم ها</h3>
@@ -51,6 +57,8 @@ function ArchiveFilm(props) {
                 className={
                   props.selected ? "sliderArchiveActive" : "sliderArchive"
                 }
+                onClick={() => setIsOpenDialog(!isOpenDialog)}
+                // onMouse={() => setIsOpenDialog(false)}
               >
                 <NavLink
                   to={`/archives/archivedetail/${item.id}`}
@@ -75,6 +83,14 @@ function ArchiveFilm(props) {
                 </NavLink>
               </SwiperSlide>
             ))}
+          {token && (
+            <SwiperSlide style={{ width: "90px" }}>
+              <AddButtonProduct
+                toolTipTitle={"اضافه کردن فیلم"}
+                productAddress="addarchive"
+              />
+            </SwiperSlide>
+          )}
           {!isLoadedThumnail && (
             <div className="flex items-center gap-3">
               {Array.apply(null, { length: 6 }).map((item, index) => (
@@ -91,19 +107,19 @@ function ArchiveFilm(props) {
           )}
         </Swiper>
       </div>
-      {token && (
+      {/* {token && (
         <div className="w-full mt-4 flex justify-center items-center px-4 py-4">
           <AddButtonProduct
             toolTipTitle={"اضافه کردن فیلم"}
             productAddress="addarchive"
           />
         </div>
-      )}
-      {contentList && contentList.length > 0 && isLoadedThumnail && (
+      )} */}
+      {/* {contentList && contentList.length > 0 && isLoadedThumnail && (
         <div className="w-full mt-4 flex justify-center items-center px-4 py-4">
           <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} />
         </div>
-      )}
+      )} */}
 
       <Outlet />
     </div>
