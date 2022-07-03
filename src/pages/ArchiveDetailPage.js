@@ -10,8 +10,8 @@ function ArchiveDetailPage() {
   const [contentDetail, setContentDetail] = useState();
 
   const params = useParams();
-  const navigate = useNavigate();
   const paramsId = params.id;
+  const navigate = useNavigate();
   const token = useToken();
 
   useEffect(() => {
@@ -70,7 +70,10 @@ function ArchiveDetailPage() {
             <Swiper slidesPerView={4} style={{ width: "100%" }}>
               {contentDetail &&
                 contentDetail.contentFiles.map((item) => (
-                  <SwiperSlide style={{ marginLeft: "22px" }} key={item.id}>
+                  <SwiperSlide
+                    style={{ marginLeft: "22px", cursor: "pointer" }}
+                    key={item.id}
+                  >
                     <div
                       onClick={() =>
                         navigate("/video", {
@@ -104,7 +107,14 @@ function ArchiveDetailPage() {
                 <AiFillDelete />
               </button>
 
-              <button className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home">
+              <button
+                onClick={() =>
+                  navigate("/editarchive", {
+                    state: contentDetail.id,
+                  })
+                }
+                className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home"
+              >
                 <p>ویرایش</p>
                 <AiFillEdit />
               </button>

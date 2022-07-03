@@ -7,6 +7,7 @@ import {
   AddEventPage,
   ArchiveDetailPage,
   ArchivesPage,
+  EditArchivePage,
   EventDetailPage,
   EventsPage,
   HomePage,
@@ -20,8 +21,6 @@ import EmailDataProvider from "./provider/EmailDataProvider";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import FilterProducts from "./components/FilterProducts";
-import { httpGetAllCategoryEventsService } from "./services/httpGetAllCategoryEventsService";
 
 function App() {
   return (
@@ -35,6 +34,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/addevent" element={<AddEventPage />} />
           <Route path="/addarchive" element={<AddArchivePage />} />
+          <Route path="/editarchive" element={<EditArchivePage />} />
           <Route path="/addcategory" element={<AddCategoryPage />} />
           <Route path="/podcasts/*" element={<PodcastsPage />}>
             <Route path="podcastdetail/:id" element={<PodcastDetailPage />} />
