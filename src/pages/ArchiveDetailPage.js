@@ -92,22 +92,24 @@ function ArchiveDetailPage() {
                 ))}
             </Swiper>
           </div>
-          <div
-            className={`w-[165px] h-[220px] z-[4]  absolute right-5 bottom-5  rounded flex justify-center items-center flex-col gap-4 transition-all duration-200`}
-          >
-            <button
-              onClick={() => deleteContent(contentDetail.id)}
-              className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home "
+          {token && (
+            <div
+              className={`w-[165px] h-[220px] z-[4]  absolute right-5 bottom-5  rounded flex justify-center items-center flex-col gap-4 transition-all duration-200`}
             >
-              <p>حذف</p>
-              <AiFillDelete />
-            </button>
+              <button
+                onClick={() => deleteContent(contentDetail.id)}
+                className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home "
+              >
+                <p>حذف</p>
+                <AiFillDelete />
+              </button>
 
-            <button className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home">
-              <p>ویرایش</p>
-              <AiFillEdit />
-            </button>
-          </div>
+              <button className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home">
+                <p>ویرایش</p>
+                <AiFillEdit />
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
