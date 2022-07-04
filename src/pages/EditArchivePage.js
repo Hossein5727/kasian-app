@@ -18,7 +18,7 @@ import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import AddContentFilesVideo from "../components/AddContentFilesVideo";
 import { PulseLoader } from "react-spinners";
 import { httpGetOneContentService } from "../services/httpGetOneContentService";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const initialValues = {
   title: "",
@@ -64,6 +64,7 @@ function EditArchivePage() {
   const [isLoadingSendingData, setIsLoadingSendingData] = useState(false);
   const [progressLoadingText, setProgressLoadingText] = useState(null);
 
+  const navigate = useNavigate();
   const params = useLocation();
   const paramsId = params.state;
 
@@ -165,6 +166,8 @@ function EditArchivePage() {
           title: <p>ویرایش فیلم شما با موفقیت ثبت شد </p>,
           color: "#F0932B",
           icon: "success",
+        }).then(() => {
+          navigate("/archive");
         });
 
         // setIsAddVideo(false);
@@ -205,7 +208,7 @@ function EditArchivePage() {
         </h2>
 
         <div
-          className={`bg-[#1C202F]  py-6 rounded-md flex justify-center items-center  flex-col mt-6`}
+          className={`bg-[#1C202F] pr-4 py-6 rounded-md flex justify-center items-center  flex-col mt-6`}
         >
           <form
             onSubmit={formik.handleSubmit}
@@ -271,7 +274,7 @@ function EditArchivePage() {
             <div className="relative w-full flex justify-center">
               <select
                 id="countries"
-                class="bg-slate-200 border w-[100%] border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+                className="bg-slate-200 border w-[100%] border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
                 value={formik.values.categoryId}
                 onChange={(e) =>
                   (formik.values.categoryId = Number(e.target.value))

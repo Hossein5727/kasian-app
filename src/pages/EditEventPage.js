@@ -12,27 +12,34 @@ import axios from "axios";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FileUploaded from "../components/common/FileUploaded";
 import { PulseLoader } from "react-spinners";
 import AddEventFiles from "../components/AddEventFiles";
+import { http } from "../services/httpServices";
+import CheckBox from "../components/common/CheckBox";
 
 const initialValues = {
   title: "",
   description: "",
-  picture: "",
   isConfirmed: false,
   eventFiles: [],
   listBox: "",
 };
 
+const initialValuesFromEditPage = {
+  title: "aa",
+  description: "",
+  isConfirmed: false,
+  eventFiles: [],
+  listBox: "",
+};
 
-
-function AddEventPage() {
+function EditEventPage() {
   const meta = {
-    title: "اضافه کردن رویداد",
-    description: "صفحه اضافه کردن رویداد سایت کاسیان مدیا ",
-    canonical: "http://kasianmedia.com/addevent",
+    title: "ویرایش رویداد",
+    description: "صفحه ویرایش رویداد سایت کاسیان مدیا ",
+    canonical: "http://kasianmedia.com/editevent",
     meta: {
       charset: "utf-8",
       name: {
@@ -57,14 +64,19 @@ function AddEventPage() {
 
   const token = useToken();
   const { setNewToken } = useTokenActions();
-
   const auth = `Bearer ${token}`;
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
+  const location = useLocation();
+  const idEvent = location.state.id;
+  const formData = new FormData();
+
+  useEffect(() => {
+    getInformationEvent();
+  }, []);
 
   useEffect(() => {
     axios.get("/Event/GetAllEnEventFileType").then((res) => {
-      console.log(res.data);
       setEventFileTypeList(res.data);
     });
   }, []);
@@ -83,7 +95,26 @@ function AddEventPage() {
     }
   }, []);
 
-  const formData = new FormData();
+  const getInformationEvent = async () => {
+    try {
+      const { data } = await http.get(`Event/FindById?id=${idEvent}`);
+      console.log(data);
+      const {
+        title,
+        description,
+        enEventFileType,
+        isConfirmed,
+        categoryId,
+        enEventFileTypeTitle,
+      } = data;
+      initialValuesFromEditPage.title = title;
+      initialValuesFromEditPage.description = description;
+      initialValuesFromEditPage.isConfirmed = true;
+      setEventFileType(enEventFileType);
+      setCategoryId(categoryId);
+      //   initialValuesFromEditPage.isConfirmed = isConfirmed;
+    } catch (error) {}
+  };
 
   const submitHandler = (values) => {
     formData.append("title", formik.values.title);
@@ -92,13 +123,14 @@ function AddEventPage() {
     formData.append("isConfirmed", formik.values.isConfirmed);
     formData.append("categoryId", categoryId);
     formData.append("picture", pictureEvent);
+    formData.append("id", idEvent);
     console.log(values);
 
     setIsLoadingSendingData(true);
 
     axios({
-      method: "POST",
-      url: "/Event/Create",
+      method: "PUT",
+      url: "/Event/Edit",
       headers: {
         Authorization: auth,
         "Content-Type": "multipart/form-data",
@@ -132,20 +164,14 @@ function AddEventPage() {
       });
   };
 
-  const clickHandler = () => {
-    formik.values.eventFiles.push(eventFilesData);
-    setEventFilesData({ fileEvent: "", titleEvent: "" });
-  };
-
   const validationSchema = () =>
     Yup.object({
       title: Yup.string().required("لطفا عنوان رویداد را وارد کنید"),
       description: Yup.string().required("لطفا توضیحات رویداد را وارد کنید"),
-      // picture: Yup.mixed().required("لطفا یک عکس را وارد کنید"),
     });
 
   const formik = useFormik({
-    initialValues,
+    initialValues: initialValuesFromEditPage,
     onSubmit: submitHandler,
     validationSchema,
   });
@@ -157,7 +183,7 @@ function AddEventPage() {
         className={`only:w-full flex justify-center items-center flex-col gap-4 rounded-md `}
       >
         <h2 className="text-primary-color text-4xl w-full left-0 right-0 bg-[#1B1E2C] py-2 text-center">
-          اضافه کردن رویداد
+          ویرایش رویداد
         </h2>
 
         {!isSucceed && (
@@ -182,7 +208,7 @@ function AddEventPage() {
             <div className="relative w-full flex justify-center">
               <select
                 id="countries"
-                class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+                className="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
               >
@@ -190,7 +216,9 @@ function AddEventPage() {
                 {categoryList &&
                   categoryList.length > 0 &&
                   categoryList.map((item) => (
-                    <option value={item.id}>{item.title}</option>
+                    <option value={item.id} key={item.id}>
+                      {item.title}
+                    </option>
                   ))}
               </select>
               {/* left-[89%] */}
@@ -202,7 +230,7 @@ function AddEventPage() {
             <div className="relative w-full flex justify-center">
               <select
                 id="countries"
-                class="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
+                className="bg-slate-200 border w-full border-gray-300 text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 py-[11px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none rounded dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200 hover:bg-bg-home hover:text-slate-200 border-none "
                 value={eventFileType}
                 onChange={(e) => setEventFileType(e.target.value)}
               >
@@ -210,7 +238,9 @@ function AddEventPage() {
                 {eventFileTypeList &&
                   eventFileTypeList.length > 0 &&
                   eventFileTypeList.map((item) => (
-                    <option value={item.key}>{item.value}</option>
+                    <option value={item.key} key={item.key}>
+                      {item.value}
+                    </option>
                   ))}
               </select>
               {/* left-[89%] */}
@@ -219,21 +249,12 @@ function AddEventPage() {
               </div>
             </div>
 
-            <div className="flex items-center relative justify-between gap-2 bg-slate-200 px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 ">
-              <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
-                {<BsQuestionLg />}
-              </div>
-              <p> اکنون انتشار داده شود ?</p>
-              <input
-                type="checkbox"
-                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                value={formik.values.isConfirmed}
-                name="isConfirmed"
-                id="isConfirmed"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </div>
+            <CheckBox
+              formik={formik}
+              icon={<BsQuestionLg />}
+              name={"isConfirmed"}
+              label="اکنون انتشار داده شود؟"
+            />
 
             <FileUploaded
               icon={<AiOutlinePicture />}
@@ -272,4 +293,4 @@ function AddEventPage() {
   );
 }
 
-export default AddEventPage;
+export default EditEventPage;

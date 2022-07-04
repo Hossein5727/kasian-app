@@ -10,9 +10,15 @@ import FileUploaded from "./common/FileUploaded";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
+import TextArea from "./common/TextArea";
+import { TbFileDescription } from "react-icons/tb";
+import * as Yup from "yup";
+import Input from "./common/Input";
 
 const initialValues = {
-  name: "",
+  contentTitle: "",
+  shortDescription: "",
+  description: "",
 };
 
 function AddContentFilesVideo({ idExtra = 69 }) {
@@ -27,17 +33,15 @@ function AddContentFilesVideo({ idExtra = 69 }) {
   const [progressLoadingText, setProgressLoadingText] = useState(null);
 
   const navigate = useNavigate();
-
-  const MySwal = withReactContent(Swal);
-
   const token = useToken();
-
+  const MySwal = withReactContent(Swal);
+  const auth = `Bearer ${token}`;
   const formData = new FormData();
 
-  const auth = `Bearer ${token}`;
-
   const submitHandler = (values) => {
-    formData.append("contentTitle", videoFilesData.contentTitle);
+    formData.append("contentTitle", formik.values.contentTitle);
+    formData.append("description", formik.values.description);
+    formData.append("shortDescription", formik.values.shortDescription);
     formData.append("contentId", idExtra);
     formData.append("contentPicture", videoFilesData.contentPicture);
     formData.append("contentFile", videoFilesData.contentFile);
@@ -66,21 +70,36 @@ function AddContentFilesVideo({ idExtra = 69 }) {
           color: "#F0932B",
           icon: "success",
         }).then(() => {
-          navigate("/");
+          navigate("/archives");
         });
-        setVideoFilesData("");
+        formik.values.contentTitle = "";
+        formik.values.descruption = "";
+        formik.values.shortDescruption = "";
       })
       .catch(() => {
         setIsLoadingSendingData(false);
+        MySwal.fire({
+          title: <p>خطا در ارسال اطلاعات</p>,
+          color: "#F0932B",
+          icon: "error",
+        });
       });
   };
 
-  const clickHandler = () => {};
+  const validationSchema = () =>
+    Yup.object({
+      shortDescription: Yup.string().required(
+        "لطفا فیلد توضیحات کوتاه را وارد کنید"
+      ),
+      description: Yup.string().required("لطفا فیلد توضیحات را وارد کنید"),
+      contentTitle: Yup.string().required("لطفا فیلد عنوان را وارد کنید"),
+    });
 
   const formik = useFormik({
     initialValues,
     onSubmit: submitHandler,
     validateOnMount: true,
+    validationSchema,
   });
 
   return (
@@ -92,7 +111,7 @@ function AddContentFilesVideo({ idExtra = 69 }) {
         فایل های ویدیو را وارد کنید
       </h3>
 
-      <div className="flex flex-col gap-2 relative">
+      {/* <div className="flex flex-col gap-2 relative">
         <input
           value={videoFilesData.titleEvent}
           name={"titleEvent"}
@@ -105,15 +124,35 @@ function AddContentFilesVideo({ idExtra = 69 }) {
           }
           placeholder={"عنوان"}
           className={`bg-slate-200  px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home`}
-          onBlur={formik.handleBlur}
         />
-        {/* {videoFilesData.contentTitle.length < 1 && (
+        {videoFilesData.contentTitle.length < 1 && (
                 <p className="text-sm text-red-600">لطفا عنوان را وارد کنید</p>
-              )} */}
+              )}
         <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
           <BsFillChatTextFill />
         </div>
-      </div>
+      </div> */}
+
+      <Input
+        formik={formik}
+        icon={<BsFillChatTextFill />}
+        label="عنوان"
+        name={"contentTitle"}
+      />
+
+      <TextArea
+        formik={formik}
+        icon={<TbFileDescription />}
+        label="توضیحات کوتاه"
+        name={"shortDescription"}
+      />
+
+      <TextArea
+        formik={formik}
+        icon={<TbFileDescription />}
+        label="توضیحات"
+        name={"description"}
+      />
 
       <FileUploaded
         icon={<AiOutlinePicture />}
@@ -141,33 +180,19 @@ function AddContentFilesVideo({ idExtra = 69 }) {
           }
           placeholder={"فایل"}
           className={`bg-slate-200  px-4 py-3 rounded text-lg text-bg-home w-[320px] outline-none transition-all duration-200 hover:bg-bg-home hover:text-slate-200 hover:placeholder:text-slate-200  placeholder:text-bg-home`}
-          onBlur={formik.handleBlur}
         />
         {/* {videoFilesData.contentTitle.length < 1 && (
                 <p className="text-sm text-red-600">لطفا عنوان را وارد کنید</p>
               )} */}
         <div className="absolute -right-[28px] top-0 text-2xl text-bg-home bg-slate-200 h-[52px] border-l border-l-bg-home px-1 rounded-tr rounded-br flex justify-center items-center">
-          <BsFillChatTextFill />
+          <AiFillFile />
         </div>
       </div>
-
-      {/* <FileUploaded
-        icon={<AiFillFile />}
-        label="فایل"
-        name={"contentFile"}
-        type="file"
-        handleChange={(e) =>
-          setVideoFilesData({
-            ...videoFilesData,
-            contentFile: e.target.files[0],
-          })
-        }
-      /> */}
 
       <div className="w-full flex justify-center items-center">
         <button
           type="submit"
-          className="w-[70px] h-[48px] disabled:cursor-not-allowed disabled:opacity-50 mr-2 bg-primary-color text-center text-3xl px-4 py-2 rounded flex justify-center items-center"
+          className="w-[120px] h-[48px] disabled:cursor-not-allowed disabled:opacity-50 mr-2 bg-primary-color text-center text-3xl px-4 py-2 rounded flex justify-center items-center"
           disabled={
             videoFilesData.contentTitle.length < 1 &&
             videoFilesData.contentPicture.length < 1 &&
@@ -176,8 +201,8 @@ function AddContentFilesVideo({ idExtra = 69 }) {
         >
           {isLoadingSendingData ? (
             <div className="w-full flex justify-center items-center gap-4 flex-row-reverse">
-              <PulseLoader color="#2B57F0" size={16} className="mt-[6px]" />
-              <p>{progressLoadingText}</p>
+              <PulseLoader color="#2B57F0" size={8} className="mt-[6px]" />
+              <p className="text-xs">{progressLoadingText}</p>
             </div>
           ) : (
             <MdAddBox />

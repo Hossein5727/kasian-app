@@ -8,7 +8,6 @@ import { useToken } from "../provider/EmailDataProvider";
 import Pagination from "./common/Pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Skeleton } from "@mui/material";
-import SimpleDialog from "./common/DialogEditArchive";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 function ArchiveFilm(props) {
@@ -84,7 +83,7 @@ function ArchiveFilm(props) {
               </SwiperSlide>
             ))}
           {token && (
-            <SwiperSlide style={{ width: "90px" }}>
+            <SwiperSlide style={{ width: "90px", paddingTop: "80px" }}>
               <AddButtonProduct
                 toolTipTitle={"اضافه کردن فیلم"}
                 productAddress="addarchive"

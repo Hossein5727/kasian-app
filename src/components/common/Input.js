@@ -7,7 +7,6 @@ function Input({
   label,
   type = "text",
   ref,
-  handleChange,
 }) {
   ref = useRef();
 

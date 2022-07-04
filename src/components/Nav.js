@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { IoMenu } from "react-icons/io5";
-import { Link, NavLink } from "react-router-dom";
-import { navLinks } from "../data/navLinks";
+import { NavLink } from "react-router-dom";
+import { navLinksData } from "../data/navLinksData";
 
 function Nav({ isShowNav, setIsShowNav }) {
   return (
@@ -14,7 +13,7 @@ function Nav({ isShowNav, setIsShowNav }) {
     >
       <IoMenu onClick={() => setIsShowNav(false)} className="cursor-pointer" />
 
-      {navLinks.map((item) => (
+      {navLinksData.map((item) => (
         <NavLink
           to={item.link}
           key={item.id}

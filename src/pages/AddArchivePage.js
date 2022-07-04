@@ -80,6 +80,13 @@ function AddArchivePage() {
     });
   }, []);
 
+  useEffect(() => {
+    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, [token]);
+
   const handleChange = (event) => {
     const newState = {};
     newState[event.target.name] = event.target.value;
@@ -92,13 +99,6 @@ function AddArchivePage() {
   const formData = new FormData();
 
   const { setNewToken } = useTokenActions();
-
-  useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem("formData"));
-    if (tokenData) {
-      setNewToken(tokenData);
-    }
-  }, [token]);
 
   const submitHandler = (values) => {
     console.log(values);
@@ -185,14 +185,19 @@ function AddArchivePage() {
             onClick={() => setIsAddVideo(true)}
             className={`flex  ${
               isAddVideo ? "bg-primary-color" : "bg-slate-300"
-            } items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-[9px] rounded-md cursor-pointer text-base transition-all duration-150 hover:bg-slate-400 focus:bg-primary-color focus:text-bg-home focus:font-semibold`}
+            } items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-[9px] rounded-md cursor-pointer text-base transition-all duration-150 hover:bg-slate-400 focus:bg-primary-color focus:text-bg-home `}
           >
             میخواهم ویدیو جدید اضافه کنم
           </button>
 
           <button
-            onClick={() => setIsAddVideo(false)}
-            className="flex bg-slate-300 items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-[9px] rounded-md cursor-pointer text-base transition-all duration-150 hover:bg-slate-400 focus:bg-primary-color focus:text-bg-home focus:font-semibold"
+            onClick={() => {
+              setIsAddVideo(false);
+              setIsSucceed(false);
+            }}
+            className={`flex ${
+              !isAddVideo ? "bg-primary-color" : "bg-slate-300"
+            } items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-[9px] rounded-md cursor-pointer text-base transition-all duration-150 hover:bg-slate-400 focus:bg-primary-color focus:text-bg-home`}
           >
             میخواهم قسمت جدید اضافه کنم
           </button>
