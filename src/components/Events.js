@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { httpGetAllEventsService } from "../services/httpGetAllEventsService";
 import { Link, useNavigate } from "react-router-dom";
 import AddButtonProduct from "./common/AddButtonProduct";
-import { useToken } from "../provider/EmailDataProvider";
+import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import { Skeleton } from "@mui/material";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import withReactContent from "sweetalert2-react-content";
@@ -16,9 +16,17 @@ function Events() {
   const token = useToken();
   const auth = `Bearer ${token}`;
   const MySwal = withReactContent(Swal);
+  const { setNewToken } = useTokenActions();
 
   useEffect(() => {
     getAllEvents();
+  }, []);
+
+  useEffect(() => {
+    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
   }, []);
 
   const getAllEvents = async () => {
