@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useToken } from "../provider/EmailDataProvider";
 import { httpGetOneContentService } from "../services/httpGetOneContentService";
@@ -13,6 +15,7 @@ function ArchiveDetailPage() {
   const paramsId = params.id;
   const navigate = useNavigate();
   const token = useToken();
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     getOneContent();
@@ -31,8 +34,25 @@ function ArchiveDetailPage() {
 
   const auth = `Bearer ${token}`;
 
+  const showModal = (id) => {
+    MySwal.fire({
+      title: <p>آیا از حذف اطمینان دارید؟ </p>,
+      color: "#F0932B",
+      icon: "question",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteContent(id);
+        Swal.fire("فایل با موفقیت حذف شد", "", "success").then(() => {
+          window.location.reload();
+          navigate("/archives");
+        });
+      }
+    });
+  };
+
   const deleteContent = (id) => {
-    console.log(id);
+    // console.log(id);
     axios({
       headers: {
         Authorization: auth,
@@ -100,7 +120,7 @@ function ArchiveDetailPage() {
               className={`w-[165px] h-[220px] z-[4]  absolute right-5 bottom-5  rounded flex justify-center items-center flex-col gap-4 transition-all duration-200`}
             >
               <button
-                onClick={() => deleteContent(contentDetail.id)}
+                onClick={() => showModal(contentDetail.id)}
                 className="flex items-center gap-3 rounded px-4 py-2 bg-gradient-to-r from-bg-home to-slate-600 text-white text-lg transition-all duration-300 hover:from-bg-home hover:to-bg-home "
               >
                 <p>حذف</p>

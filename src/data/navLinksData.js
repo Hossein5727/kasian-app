@@ -3,7 +3,7 @@ import { BiMicrophone } from "react-icons/bi";
 import { HiOutlineUser } from "react-icons/hi";
 import { MdMonitor, MdEventAvailable } from "react-icons/md";
 
-export const navLinks = [
+export const navLinksData = [
   {
     id: 1,
     text: "آرشیو ویدئو",

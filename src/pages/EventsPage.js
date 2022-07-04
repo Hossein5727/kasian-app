@@ -22,7 +22,6 @@ function EventsPage() {
     <DocumentMeta {...meta}>
       <div className="w-full">
         <FilterProducts addressCategory={"/Category/GetAllEventCategory"} />
-        {/* <FilterEvents /> */}
         <Events />
       </div>
     </DocumentMeta>

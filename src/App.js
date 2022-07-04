@@ -8,6 +8,8 @@ import {
   ArchiveDetailPage,
   ArchivesPage,
   EditArchivePage,
+  EditContentFile,
+  EditEventPage,
   EventDetailPage,
   EventsPage,
   HomePage,
@@ -35,6 +37,8 @@ function App() {
           <Route path="/addevent" element={<AddEventPage />} />
           <Route path="/addarchive" element={<AddArchivePage />} />
           <Route path="/editarchive" element={<EditArchivePage />} />
+          <Route path="/editcontentfile" element={<EditContentFile />} />
+          <Route path="/editevent" element={<EditEventPage />} />
           <Route path="/addcategory" element={<AddCategoryPage />} />
           <Route path="/podcasts/*" element={<PodcastsPage />}>
             <Route path="podcastdetail/:id" element={<PodcastDetailPage />} />
