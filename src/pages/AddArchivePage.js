@@ -26,7 +26,6 @@ const initialValues = {
   contentFiles: [],
   //   listBox: "",
   //   enEventFileType: "",
-  shortdescription: "",
   thumbnail: "",
   isConfirmed: false,
   playDateTime: "",
@@ -81,7 +80,7 @@ function AddArchivePage() {
   }, []);
 
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
     if (tokenData) {
       setNewToken(tokenData);
     }
@@ -110,7 +109,6 @@ function AddArchivePage() {
     formData.append("categoryId", formik.values.categoryId);
     formData.append("isConfirmed", formik.values.isConfirmed);
     formData.append("playDateTime", formik.values.playDateTime);
-    formData.append("shortdescription", formik.values.shortdescription);
 
     const auth = `Bearer ${token}`;
 
@@ -140,7 +138,6 @@ function AddArchivePage() {
         });
         setExtraContentId(res.data.extra);
         setIsSucceed(true);
-        // setIsAddVideo(false);
       })
       .catch((err) => {
         setIsLoadingSendingData(false);
@@ -155,13 +152,7 @@ function AddArchivePage() {
   const validationSchema = () =>
     Yup.object({
       title: Yup.string().required("لطفا عنوان رویداد را وارد کنید"),
-      shortdescription: Yup.string().required(
-        "لطفا توضیحات کوتاه رویداد را وارد کنید"
-      ),
       description: Yup.string().required("لطفا توضیحات رویداد را وارد کنید"),
-      // picture: Yup.string().required("لطفا یک عکس را وارد کنید"),
-      // thumbnail: Yup.string().required("لطفا یک ریز عکس را وارد کنید"),
-      // enEventFileType: Yup.string().required("یک گزینه را انتخاب کنید"),
     });
 
   const formik = useFormik({
@@ -240,13 +231,6 @@ function AddArchivePage() {
                 icon={<BsFillChatTextFill />}
                 label="عنوان "
                 name={"title"}
-              />
-
-              <TextArea
-                formik={formik}
-                icon={<TbFileDescription />}
-                label="توضیحات کوتاه"
-                name={"shortdescription"}
               />
 
               <TextArea

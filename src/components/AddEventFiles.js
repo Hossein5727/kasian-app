@@ -46,7 +46,7 @@ function AddEventFiles({ idExtra }) {
 
     axios({
       method: "POST",
-      url: "/ContentFile/Create",
+      url: "/EventFile/Create",
       headers: {
         Authorization: auth,
         "Content-Type": "multipart/form-data",

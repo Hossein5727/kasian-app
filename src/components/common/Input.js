@@ -21,7 +21,6 @@ function Input({
         name={name}
         id={name}
         onChange={formik.handleChange}
-        // onChange={type != "file" ? formik.handleChange : handleChange}
         placeholder={label}
         className={`bg-slate-200  px-4 py-3 ${
           type == "file" && "py-[9px]"
@@ -41,7 +40,7 @@ function Input({
         </div>
       )}
       {formik.errors[name] && formik.touched[name] && (
-        <p className="text-sm text-red-600">{formik.errors[name]}</p>
+        <p className="text-sm text-[#ee5253]">{formik.errors[name]}</p>
       )}
     </div>
   );

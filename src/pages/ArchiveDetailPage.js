@@ -61,11 +61,9 @@ function ArchiveDetailPage() {
       url: `/Content/Delete?id=${id}`,
     })
       .then((res) => {
-        console.log(res);
         navigate("/archives");
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 

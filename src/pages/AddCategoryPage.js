@@ -56,14 +56,14 @@ function AddCategoryPage() {
       console.log(res);
       setCategoryTypeList(res.data);
     });
-  }, []);
+  }, [token, auth]);
 
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
     if (tokenData) {
       setNewToken(tokenData);
     }
-  }, []);
+  }, [token, auth]);
 
   const validationSchema = () =>
     Yup.object({

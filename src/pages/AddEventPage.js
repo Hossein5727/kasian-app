@@ -26,8 +26,6 @@ const initialValues = {
   listBox: "",
 };
 
-
-
 function AddEventPage() {
   const meta = {
     title: "اضافه کردن رویداد",
@@ -77,7 +75,7 @@ function AddEventPage() {
   }, []);
 
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
     if (tokenData) {
       setNewToken(tokenData);
     }
@@ -139,7 +137,9 @@ function AddEventPage() {
 
   const validationSchema = () =>
     Yup.object({
-      title: Yup.string().required("لطفا عنوان رویداد را وارد کنید"),
+      title: Yup.string()
+        .required("لطفا عنوان رویداد را وارد کنید")
+        .max(25, "تعداد کاراکتر های عنوان بیشتر از 25 کاراکتر، نمیتواند باشد"),
       description: Yup.string().required("لطفا توضیحات رویداد را وارد کنید"),
       // picture: Yup.mixed().required("لطفا یک عکس را وارد کنید"),
     });

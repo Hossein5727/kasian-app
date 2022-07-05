@@ -29,7 +29,7 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
     if (tokenData) {
       setNewToken(tokenData);
     }
@@ -53,7 +53,7 @@ function Login() {
           setNewData(values);
           const tokenData = res.data.extra.token;
           setUserData(tokenData);
-          localStorage.setItem("formData", JSON.stringify(tokenData));
+          sessionStorage.setItem("formData", JSON.stringify(tokenData));
           setNewToken(tokenData);
         } else if (!res.data.success) {
           MySwal.fire({
