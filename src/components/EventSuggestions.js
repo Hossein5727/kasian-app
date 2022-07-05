@@ -21,7 +21,7 @@ function EventSuggestions() {
   return (
     <div
       style={{ direction: "rtl" }}
-      className="px-2 py-1 flex flex-col gap-3 sticky w-full h-[100vh] overflow-y-scroll eventSuggestions "
+      className="px-2 py-1 flex flex-col gap-3 sticky top-[10px] overflow-y-scroll h-[94vh] w-full eventSuggestions "
     >
       <p className="text-[#686C70]">پس از این بخوانید ...</p>
       {eventList &&

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { AiTwotoneSetting } from "react-icons/ai";
 import { BsLink45Deg } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import AddButtonProduct from "./common/AddButtonProduct";
@@ -19,46 +21,52 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
   }, []);
 
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
     if (tokenData) {
       setNewToken(tokenData);
     }
   }, []);
 
   return (
-    <Swiper
-      // spaceBetween={1}
-      slidesPerView={9}
-      style={{ direction: "rtl", padding: "14px" }}
-      className="w-full bg-[#1C202F]  text-[#B3B4BA] px-3 py-4 flex justify-start items-center  gap-2 "
-    >
-      {token && (
-        <SwiperSlide>
-          <AddButtonProduct
-            productAddress="addcategory"
-            toolTipTitle={"اضافه کردن دسته بندی"}
-          />
-        </SwiperSlide>
-      )}
-
-      {/* <div className="w-full flex justify-start items-center "> */}
-      <SwiperSlide onClick={() => setCategoryId(null)}>
-        <button className="flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold">
-          همه مطالب
-        </button>
-      </SwiperSlide>
-
-      {categoryList &&
-        categoryList.length > 0 &&
-        categoryList.map((item) => (
-          <SwiperSlide key={item.id} onClick={() => setCategoryId(item.id)}>
-            <button className="flex items-center gap-1 flex-row-reverse whitespace-nowrap px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold ">
-              {item.title}
-            </button>
+    <div className="w-full bg-[#1C202F] relative">
+      <Swiper
+        // spaceBetween={1}
+        slidesPerView={9}
+        style={{ direction: "rtl", padding: "14px" }}
+        className="w-[92%]  text-[#B3B4BA] flex justify-start items-center gap-2 relative swiperContinerCategory"
+      >
+        {token && (
+          <SwiperSlide>
+            <AddButtonProduct
+              productAddress="addcategory"
+              toolTipTitle={"اضافه کردن دسته بندی"}
+            />
           </SwiperSlide>
-        ))}
-      {/* </div> */}
-    </Swiper>
+        )}
+
+        <SwiperSlide onClick={() => setCategoryId(null)}>
+          <button className="flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold">
+            همه مطالب
+          </button>
+        </SwiperSlide>
+
+        {categoryList &&
+          categoryList.length > 0 &&
+          categoryList.map((item) => (
+            <SwiperSlide key={item.id} onClick={() => setCategoryId(item.id)}>
+              <button className="flex items-center gap-1 flex-row-reverse whitespace-nowrap px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold ">
+                {item.title}
+              </button>
+            </SwiperSlide>
+          ))}
+      </Swiper>
+      <Link
+        to="/settingcategory"
+        className="absolute top-4 -left-1 text-white bg-primary-color rounded-tr rounded-br text-2xl px-4 py-2"
+      >
+        <AiTwotoneSetting className="transition-all duration-200 hover:rotate-90" />
+      </Link>
+    </div>
   );
 }
 

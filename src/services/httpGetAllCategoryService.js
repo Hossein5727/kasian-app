@@ -1,5 +1,5 @@
 import { http } from "./httpServices";
 
-export function httpGetAllCategoryService(params) {
+export function httpGetAllCategoryService() {
   return http.get("/Category/GetAll/");
 }

@@ -57,7 +57,7 @@ function ArchiveFilm(props) {
                   props.selected ? "sliderArchiveActive" : "sliderArchive"
                 }
                 onClick={() => setIsOpenDialog(!isOpenDialog)}
-                // onMouse={() => setIsOpenDialog(false)}
+                key={item.id}
               >
                 <NavLink
                   to={`/archives/archivedetail/${item.id}`}
@@ -82,7 +82,7 @@ function ArchiveFilm(props) {
                 </NavLink>
               </SwiperSlide>
             ))}
-          {token && (
+          {token && contentList && contentList.length > 0 && (
             <SwiperSlide style={{ width: "90px", paddingTop: "80px" }}>
               <AddButtonProduct
                 toolTipTitle={"اضافه کردن فیلم"}

@@ -13,3 +13,5 @@ export { default as AddCategoryPage } from "./AddCategoryPage";
 export { default as EditArchivePage } from "./EditArchivePage";
 export { default as EditContentFile } from "./EditContentFile";
 export { default as EditEventPage } from "./EditEventPage";
+export { default as SettingCategoryPage } from "./SettingCategoryPage";
+export { default as EditEventFilePage } from "./EditEventFilePage";

@@ -11,7 +11,7 @@ function FilterEvents() {
   const { setNewToken } = useTokenActions();
 
   useEffect(() => {
-    const tokenData = JSON.parse(localStorage.getItem("formData"));
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
     if (tokenData) {
       setNewToken(tokenData);
     }
