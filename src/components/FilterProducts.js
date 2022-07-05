@@ -60,12 +60,14 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
             </SwiperSlide>
           ))}
       </Swiper>
-      <Link
-        to="/settingcategory"
-        className="absolute top-4 -left-1 text-white bg-primary-color rounded-tr rounded-br text-2xl px-4 py-2"
-      >
-        <AiTwotoneSetting className="transition-all duration-200 hover:rotate-90" />
-      </Link>
+      {token && (
+        <Link
+          to="/settingcategory"
+          className="absolute top-4 -left-1 text-white bg-primary-color rounded-tr rounded-br text-2xl px-4 py-2"
+        >
+          <AiTwotoneSetting className="transition-all duration-200 hover:rotate-90" />
+        </Link>
+      )}
     </div>
   );
 }
