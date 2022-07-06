@@ -2,7 +2,7 @@ import DocumentMeta from "react-document-meta";
 import FilterProducts from "../components/FilterProducts";
 import PodcastList from "../components/PodcastList";
 
-function PodcastsPage() {
+function PodcastsPage({isShowNav}) {
   const meta = {
     title: "پادکست ها",
     description: "صفحه پادکست سایت کاسیان مدیا ",
@@ -21,7 +21,7 @@ function PodcastsPage() {
         addressCategory={"/Category/GetAllContentSoundCategory"}
       />
       <div className="w-full">
-        <PodcastList />
+        <PodcastList isShowNav={isShowNav} />
       </div>
     </DocumentMeta>
   );

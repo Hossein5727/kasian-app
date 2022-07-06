@@ -11,7 +11,13 @@ function Nav({ isShowNav, setIsShowNav }) {
           : "w-0 hidden -right-40"
       } `}
     >
-      <IoMenu onClick={() => setIsShowNav(false)} className="cursor-pointer" />
+      <IoMenu
+        onClick={() => {
+          setIsShowNav(false);
+          document.getElementById("buffer").style.width = "100vw";
+        }}
+        className="cursor-pointer"
+      />
 
       {navLinksData.map((item) => (
         <NavLink
