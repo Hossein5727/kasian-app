@@ -52,12 +52,12 @@ function EditEventFilePage() {
       setNewToken(tokenData);
     }
   }, []);
-  
+
   const submitHandler = (values) => {
     formData.append("title", values.title);
     formData.append("description", values.description);
     formData.append("id", eventFileId);
-    formData.append("file", picture);
+    formData.append("path", picture);
 
     setIsLoadingSendingData(true);
 
@@ -131,7 +131,7 @@ function EditEventFilePage() {
         <FileUploaded
           icon={<AiFillFile />}
           label="فایل"
-          name={"contentFile"}
+          name={"picture"}
           type="file"
           handleChange={(e) => setPicture(e.target.files[0])}
         />

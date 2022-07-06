@@ -3,9 +3,9 @@ import { Grid, Tooltip } from "@mui/material";
 import Zoom from "@mui/material/Zoom";
 import { Link } from "react-router-dom";
 
-function AddButtonProduct({ productAddress = "/", toolTipTitle, onClick }) {
+function AddButtonProduct({ productAddress = "/", toolTipTitle }) {
   return (
-    <div onClick={onClick}>
+    <div>
       <Grid
         justifyContent="center"
         style={{
@@ -14,13 +14,7 @@ function AddButtonProduct({ productAddress = "/", toolTipTitle, onClick }) {
           alignItems: "center",
         }}
       >
-        <Tooltip
-          title={
-            <p className="text-sm tooltip" TransitionComponent={Zoom}>
-              {toolTipTitle}
-            </p>
-          }
-        >
+        <Tooltip title={<p className="text-sm tooltip">{toolTipTitle}</p>}>
           <Link to={`/${productAddress}`}>
             <button className=" mr-2 bg-primary-color text-center text-2xl px-4 py-2 rounded flex justify-center items-center">
               <MdAddBox className="text-white" />

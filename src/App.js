@@ -5,6 +5,7 @@ import {
   AddArchivePage,
   AddCategoryPage,
   AddEventPage,
+  AddPodcastPage,
   ArchiveDetailPage,
   ArchivesPage,
   EditArchivePage,
@@ -31,24 +32,76 @@ function App() {
     <EmailDataProvider>
       <Layout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/video" element={<VideoPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/addevent" element={<AddEventPage />} />
-          <Route path="/eventdetail/:id" element={<EventDetailPage />} />
-          <Route path="/addarchive" element={<AddArchivePage />} />
-          <Route path="/editarchive" element={<EditArchivePage />} />
-          <Route path="/editcontentfile" element={<EditContentFile />} />
-          <Route path="/editevent" element={<EditEventPage />} />
-          <Route path="/editeventfile" element={<EditEventFilePage />} />
-          <Route path="/addcategory" element={<AddCategoryPage />} />
-          <Route path="/settingcategory" element={<SettingCategoryPage />} />
-          <Route path="/podcasts/*" element={<PodcastsPage />}>
-            <Route path="podcastdetail/:id" element={<PodcastDetailPage />} />
+          <Route path={process.env.PUBLIC_URL + "/"} element={<HomePage />} />
+          <Route
+            path={process.env.PUBLIC_URL + "/events"}
+            element={<EventsPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/video"}
+            element={<VideoPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/profile"}
+            element={<ProfilePage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/addevent"}
+            element={<AddEventPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/eventdetail/:id"}
+            element={<EventDetailPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/addarchive"}
+            element={<AddArchivePage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/editarchive"}
+            element={<EditArchivePage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/editcontentfile"}
+            element={<EditContentFile />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/editevent"}
+            element={<EditEventPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/editeventfile"}
+            element={<EditEventFilePage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/addcategory"}
+            element={<AddCategoryPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/addpodcast"}
+            element={<AddPodcastPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/settingcategory"}
+            element={<SettingCategoryPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/podcasts/*"}
+            element={<PodcastsPage />}
+          >
+            <Route
+              path={process.env.PUBLIC_URL + "podcastdetail/:id"}
+              element={<PodcastDetailPage />}
+            />
           </Route>
-          <Route path="/archives/*" element={<ArchivesPage />}>
-            <Route path="archivedetail/:id" element={<ArchiveDetailPage />} />
+          <Route
+            path={process.env.PUBLIC_URL + "/archives/*"}
+            element={<ArchivesPage />}
+          >
+            <Route
+              path={process.env.PUBLIC_URL + "archivedetail/:id"}
+              element={<ArchiveDetailPage />}
+            />
           </Route>
         </Routes>
       </Layout>

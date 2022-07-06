@@ -162,14 +162,14 @@ box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
   display: none;
 }
 
-.swiperContinerCategory::before,
+/* .swiperContinerCategory::before,
 .swiperContinerCategory::after{
   content: "";
   position: absolute;
   inset: 0;
   width: 50px;
   height: 100%;
-  z-index: 3;
+  z-index: 3; 
 }
 
 .swiperContinerCategory::before {
@@ -182,4 +182,34 @@ box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
   left: 28px;
   background: rgb(28, 31, 46);
   background: linear-gradient(270deg, rgba(28, 31, 46, 0) 0%, rgba(28, 31, 46, 0.5914740896358543) 85%, rgba(28, 31, 46, 1) 100%);
+} */
+
+.bgSound{
+  background:url(./assests/img/sound-details__bg.jpg) no-repeat;
+  background-size: cover;
+  background-position: 0 -20px;
+  position: relative;
+}
+
+.bgSound::before{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  height: 83%;
+  width: 100%;
+  z-index: 1;
+  background: linear-gradient(0deg, #191B28 -2.57%, rgba(25, 27, 40, 0) 93.15%);
+  backdrop-filter: blur(1px);
+}
+
+.bgSound::after{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  height: 70%;
+  width: 100%;
+  z-index: 1;
+  background: linear-gradient(0deg, #191B28 -2.57%, rgba(25, 27, 40, 0) 93.15%);
 }

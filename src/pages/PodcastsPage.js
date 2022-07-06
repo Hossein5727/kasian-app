@@ -1,4 +1,5 @@
 import DocumentMeta from "react-document-meta";
+import FilterProducts from "../components/FilterProducts";
 import PodcastList from "../components/PodcastList";
 
 function PodcastsPage() {
@@ -16,6 +17,9 @@ function PodcastsPage() {
 
   return (
     <DocumentMeta {...meta}>
+      <FilterProducts
+        addressCategory={"/Category/GetAllContentSoundCategory"}
+      />
       <div className="w-full">
         <PodcastList />
       </div>
