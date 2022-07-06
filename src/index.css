@@ -169,7 +169,7 @@ box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
   inset: 0;
   width: 50px;
   height: 100%;
-  z-index: 3; 
+  z-index: 3;
 }
 
 .swiperContinerCategory::before {
@@ -212,4 +212,10 @@ box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
   width: 100%;
   z-index: 1;
   background: linear-gradient(0deg, #191B28 -2.57%, rgba(25, 27, 40, 0) 93.15%);
+}
+
+.bufferAudio{
+  background: linear-gradient(180deg, #25293D -1.43%, rgba(18, 20, 31, 0.43) 101.43%);
+  box-shadow: -1px -3px 1px -1px rgba(200, 200, 200, 0.2);
+  backdrop-filter: blur(12px);
 }

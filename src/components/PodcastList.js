@@ -5,8 +5,9 @@ import { scrollToBottom } from "../utils/scrollToBottom";
 import AddButtonProduct from "./common/AddButtonProduct";
 import posterMusic from "../assests/img/sound-details__image.jpg";
 import { FiMoreVertical } from "react-icons/fi";
+import TimeLine from "./common/TimeLine";
 
-function PodcastList() {
+function PodcastList({ isShowNav }) {
   const [podcastList, setPodcastList] = useState([]);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function PodcastList() {
 
   return (
     <div
-      className="w-full p-5 flex gap-12 flex-col"
+      className="w-full p-5 flex gap-12 flex-col relative"
       style={{ direction: "rtl" }}
     >
       <div className="w-full h-[300px] bgSound rounded-lg">
@@ -40,7 +41,7 @@ function PodcastList() {
           </div>
 
           <div className="flex flex-col gap-4 w-[50%] text-white">
-            <h2 className="text-[26px]  font-medium">
+            <h2 className="text-[26px]">
               عنوان ویدیو نوشته میشود
             </h2>
 
@@ -67,12 +68,14 @@ function PodcastList() {
               <p className="text-[#75797C] text-xs">مدت زمان پخش : 14 دقیقه</p>
             </div>
 
-            <button className="#5F616C text-2xl opacity-70 ">
+            <button className="text-[#5F616C] text-2xl opacity-90 ">
               <FiMoreVertical />
             </button>
           </div>
         ))}
       </div>
+
+      <TimeLine />
 
       <Outlet />
     </div>

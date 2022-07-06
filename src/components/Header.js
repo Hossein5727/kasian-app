@@ -21,7 +21,7 @@ function Header({ isShowNav, setIsShowNav }) {
     <div
       className={`text-regal-blue bg-[#1C1F2E]  ${
         isShowNav ? "w-[92vw]" : "w-[100vw]"
-      } transition-all duration-300 flex justify-between items-center px-4 py-3 border-b border-b-border-color text-[#5F616C]`}
+      }  flex justify-between items-center px-4 py-3 border-b border-b-border-color text-[#5F616C]`}
     >
       {isOpenUserMenu && <UserData setIsOpenUserMenu={setIsOpenUserMenu} />}
       <div className="flex items-center gap-3">
@@ -76,7 +76,10 @@ function Header({ isShowNav, setIsShowNav }) {
         </Link>
         {!isShowNav && (
           <IoMenu
-            onClick={() => setIsShowNav(true)}
+            onClick={() => {
+              setIsShowNav(true);
+              document.getElementById("buffer").style.width = "92vw";
+            }}
             className="cursor-pointer text-4xl mr-2"
           />
         )}
