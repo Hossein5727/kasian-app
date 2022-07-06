@@ -15,3 +15,4 @@ export { default as EditContentFile } from "./EditContentFile";
 export { default as EditEventPage } from "./EditEventPage";
 export { default as SettingCategoryPage } from "./SettingCategoryPage";
 export { default as EditEventFilePage } from "./EditEventFilePage";
+export { default as AddPodcastPage } from "./AddPodcastPage";

@@ -19,7 +19,7 @@ function Header({ isShowNav, setIsShowNav }) {
 
   return (
     <div
-      className={`text-regal-blue bg-[#1C1F2E] ${
+      className={`text-regal-blue bg-[#1C1F2E]  ${
         isShowNav ? "w-[92vw]" : "w-[100vw]"
       } transition-all duration-300 flex justify-between items-center px-4 py-3 border-b border-b-border-color text-[#5F616C]`}
     >

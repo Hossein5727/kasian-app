@@ -15,7 +15,6 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
 
   useEffect(() => {
     axios.get(addressCategory).then((res) => {
-      console.log(res);
       setCategoryList(res.data);
     });
   }, []);
@@ -30,10 +29,10 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
   return (
     <div className="w-full bg-[#1C202F] relative">
       <Swiper
-        // spaceBetween={1}
-        slidesPerView={9}
+        spaceBetween={10}
+        slidesPerView={8}
         style={{ direction: "rtl", padding: "14px" }}
-        className="w-[92%]  text-[#B3B4BA] flex justify-start items-center gap-2 relative swiperContinerCategory"
+        className="w-[92%] text-[#B3B4BA] flex justify-start items-center gap-2 relative swiperContinerCategory"
       >
         {token && (
           <SwiperSlide>
@@ -44,7 +43,10 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
           </SwiperSlide>
         )}
 
-        <SwiperSlide onClick={() => setCategoryId(null)}>
+        <SwiperSlide
+          onClick={() => setCategoryId(null)}
+          style={{ marginRight: "18px", marginLeft: "8px" }}
+        >
           <button className="flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold">
             همه مطالب
           </button>

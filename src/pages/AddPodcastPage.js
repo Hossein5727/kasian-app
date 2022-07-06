@@ -30,7 +30,19 @@ const initialValues = {
   categoryId: 0,
 };
 
-function AddArchivePage() {
+function AddPodcastPage() {
+  const meta = {
+    title: "اضافه کردن پادکست",
+    description: "صفحه اضافه کردن پادکست سایت کاسیان مدیا ",
+    canonical: "http://kasianmedia.com/addpodcast",
+    meta: {
+      charset: "utf-8",
+      name: {
+        keywords: " ",
+      },
+    },
+  };
+
   const [categoryList, setCategoryList] = useState([]);
   const [videoFilesData, setVideoFilesData] = useState({
     contentTitle: "",
@@ -51,18 +63,6 @@ function AddArchivePage() {
 
   const MySwal = withReactContent(Swal);
   const token = useToken();
-
-  const meta = {
-    title: "اضافه کردن آرشیو",
-    description: "صفحه اضافه کردن آرشیو سایت کاسیان مدیا ",
-    canonical: "http://kasianmedia.com/addarchive",
-    meta: {
-      charset: "utf-8",
-      name: {
-        keywords: " ",
-      },
-    },
-  };
 
   useEffect(() => {
     axios.get("/Category/GetAllContentVideoCategory").then((res) => {
@@ -114,7 +114,7 @@ function AddArchivePage() {
 
     axios({
       method: "POST",
-      url: "/Content/CreateVideo",
+      url: "/Content/CreateAudio",
       headers: {
         Authorization: auth,
         "Content-Type": "multipart/form-data",
@@ -130,7 +130,7 @@ function AddArchivePage() {
         setIsLoadingSendingData(false);
         console.log(res.data);
         MySwal.fire({
-          title: <p>فیلم شما با موفقیت ثبت شد</p>,
+          title: <p>پادکست شما با موفقیت ثبت شد</p>,
           color: "#F0932B",
           icon: "success",
         });
@@ -166,7 +166,7 @@ function AddArchivePage() {
         className="w-full flex justify-center items-center flex-col gap-4"
       >
         <h2 className="text-primary-color text-4xl w-full left-0 right-0 bg-[#1B1E2C] py-2 text-center">
-          اضافه کردن فیلم
+          اضافه کردن پادکست
         </h2>
 
         <div className="w-[22%] py-3 px-3 flex justify-center items-center gap-3 rounded-sm ">
@@ -176,7 +176,7 @@ function AddArchivePage() {
               isAddVideo ? "bg-primary-color" : "bg-slate-300"
             } items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-[9px] rounded-md cursor-pointer text-base transition-all duration-150 hover:bg-slate-400 focus:bg-primary-color focus:text-bg-home `}
           >
-            میخواهم ویدیو جدید اضافه کنم
+            میخواهم پادکست جدید اضافه کنم
           </button>
 
           <button
@@ -199,7 +199,7 @@ function AddArchivePage() {
             value={contentId}
             onChange={(e) => setContentId(e.target.value)}
           >
-            <option selected>انتخاب فیلم</option>
+            <option selected>انتخاب پادکست</option>
             {contentVideoList &&
               contentVideoList.length > 0 &&
               contentVideoList.map((item) => (
@@ -344,4 +344,4 @@ function AddArchivePage() {
   );
 }
 
-export default AddArchivePage;
+export default AddPodcastPage;
