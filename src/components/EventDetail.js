@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { httpGetOneEventService } from "../services/httpGetOneEventService";
 import { useNavigate, useParams } from "react-router-dom";
 import DocumentMeta from "react-document-meta";
-import MetaTags from "react-meta-tags";
 import icon from "../assests/img/logo.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
@@ -55,9 +54,6 @@ function EventDetail() {
 
   return (
     <DocumentMeta {...meta}>
-      <MetaTags>
-        <link rel="icon" href={icon} />
-      </MetaTags>
       <div className="w-full">
         {eventDetail && (
           <div className="flex flex-col justify-center items-center gap-4 text-[#757875]">
