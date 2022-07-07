@@ -33,23 +33,23 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="events" element={<EventsPage />} />
-          <Route path="video" element={<VideoPage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="addevent" element={<AddEventPage />} />
-          <Route path="eventdetail/:id" element={<EventDetailPage />} />
-          <Route path="addarchive" element={<AddArchivePage />} />
-          <Route path="editarchive" element={<EditArchivePage />} />
-          <Route path="editcontentfile" element={<EditContentFile />} />
-          <Route path="editevent" element={<EditEventPage />} />
-          <Route path="editeventfile" element={<EditEventFilePage />} />
-          <Route path="addcategory" element={<AddCategoryPage />} />
-          <Route path="addpodcast" element={<AddPodcastPage />} />
-          <Route path="settingcategory" element={<SettingCategoryPage />} />
-          <Route path="podcasts/*" element={<PodcastsPage />}>
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/video" element={<VideoPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/addevent" element={<AddEventPage />} />
+          <Route path="/eventdetail/:id" element={<EventDetailPage />} />
+          <Route path="/addarchive" element={<AddArchivePage />} />
+          <Route path="/editarchive" element={<EditArchivePage />} />
+          <Route path="/editcontentfile" element={<EditContentFile />} />
+          <Route path="/editevent" element={<EditEventPage />} />
+          <Route path="/editeventfile" element={<EditEventFilePage />} />
+          <Route path="/addcategory" element={<AddCategoryPage />} />
+          <Route path="/addpodcast" element={<AddPodcastPage />} />
+          <Route path="/settingcategory" element={<SettingCategoryPage />} />
+          <Route path="/podcasts/*" element={<PodcastsPage />}>
             <Route path="podcastdetail/:id" element={<PodcastDetailPage />} />
           </Route>
-          <Route path="archives/*" element={<ArchivesPage />}>
+          <Route path="/archives/*" element={<ArchivesPage />}>
             <Route path="archivedetail/:id" element={<ArchiveDetailPage />} />
           </Route>
         </Routes>
