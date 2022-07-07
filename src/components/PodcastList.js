@@ -41,9 +41,7 @@ function PodcastList({ isShowNav }) {
           </div>
 
           <div className="flex flex-col gap-4 w-[50%] text-white">
-            <h2 className="text-[26px]">
-              عنوان ویدیو نوشته میشود
-            </h2>
+            <h2 className="text-[26px]">عنوان ویدیو نوشته میشود</h2>
 
             <p className="text-justify text-[13px] test-[#DCDCDF] leading-7 opacity-90">
               لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
