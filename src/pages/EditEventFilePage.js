@@ -57,7 +57,7 @@ function EditEventFilePage() {
     formData.append("title", values.title);
     formData.append("description", values.description);
     formData.append("id", eventFileId);
-    formData.append("path", picture);
+    formData.append("file", picture);
 
     setIsLoadingSendingData(true);
 

@@ -34,10 +34,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/events" element={<EventsPage />} />
+          <Route path="/eventdetail/:id" element={<EventDetailPage />} />
           <Route path="/video" element={<VideoPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/addevent" element={<AddEventPage />} />
-          <Route path="/eventdetail/:id" element={<EventDetailPage />} />
           <Route path="/addarchive" element={<AddArchivePage />} />
           <Route path="/editarchive" element={<EditArchivePage />} />
           <Route path="/editcontentfile" element={<EditContentFile />} />
