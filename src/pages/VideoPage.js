@@ -46,7 +46,7 @@ function VideoPage() {
   useEffect(() => {
     setVideoList(dataLocation.videoList);
     sendContentFilePath(dataLocation.currentVideo.id);
-  }, [currentVideo, videoList, dataLocation]);
+  }, []);
 
   const showModal = (id) => {
     MySwal.fire({
@@ -56,7 +56,7 @@ function VideoPage() {
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteSelectedContentFile(id)
+        deleteSelectedContentFile(id);
         Swal.fire("فایل با موفقیت حذف شد", "", "success");
       }
     });
@@ -82,7 +82,7 @@ function VideoPage() {
   const sendContentFilePath = (id) => {
     // console.log(id);
     axios.get(`/ContentFile/FindById?id=${id}`).then((res) => {
-      // console.log(res.data.path);
+      console.log(res.data);
       setCurrentVideo(res.data.path);
     });
   };

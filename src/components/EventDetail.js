@@ -46,7 +46,7 @@ function EventDetail() {
       const { data } = await httpGetOneEventService(paramsId);
       setEventDetail(data);
       setEventFiles(data.eventFiles);
-      // console.log(eventFiles);
+      console.log(data);
     } catch (error) {
       console.log(error.message);
     }

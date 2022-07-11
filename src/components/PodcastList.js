@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { httpGetAllPodcastService } from "../services/httpGetAllPodcastService";
 import { scrollToBottom } from "../utils/scrollToBottom";
@@ -6,23 +6,26 @@ import AddButtonProduct from "./common/AddButtonProduct";
 import posterMusic from "../assests/img/sound-details__image.jpg";
 import { FiMoreVertical } from "react-icons/fi";
 import TimeLine from "./common/TimeLine";
+import music from "../assests/music/Moein Z - Che Heif (320).mp3";
 
 function PodcastList({ isShowNav }) {
   const [podcastList, setPodcastList] = useState([]);
 
-  useEffect(() => {
-    getAllPodcastList();
-  }, []);
+  const audioRef = useRef();
 
-  const getAllPodcastList = async () => {
-    try {
-      const { data } = await httpGetAllPodcastService();
-      console.log(data);
-      setPodcastList(data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // useEffect(() => {
+  //   getAllPodcastList();
+  // }, []);
+
+  // const getAllPodcastList = async () => {
+  //   try {
+  //     const { data } = await httpGetAllPodcastService();
+  //     console.log(data);
+  //     setPodcastList(data);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   return (
     <div
@@ -53,6 +56,8 @@ function PodcastList({ isShowNav }) {
         </div>
       </div>
 
+      <audio src={music} ref={audioRef} />
+
       <div className="w-full flex justify-start items-center gap-5 flex-wrap">
         {Array.apply(null, { length: 20 }).map((item, index) => (
           <div
@@ -73,7 +78,7 @@ function PodcastList({ isShowNav }) {
         ))}
       </div>
 
-      <TimeLine />
+      <TimeLine audioRef={audioRef} />
 
       <Outlet />
     </div>

@@ -5,7 +5,7 @@ import { AiFillFile, AiOutlinePicture } from "react-icons/ai";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { MdAddBox } from "react-icons/md";
 import Swal from "sweetalert2";
-import { useToken } from "../provider/EmailDataProvider";
+import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import FileUploaded from "../components/common/FileUploaded";
 import withReactContent from "sweetalert2-react-content";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ const initialValues = {
 };
 
 const initialValuesContentFiles = {
-  contentTitle: "dsds",
+  contentTitle: "",
   shortDescription: "",
   description: "",
 };
@@ -42,16 +42,23 @@ function EditContentFile() {
   const navigate = useNavigate();
   const token = useToken();
   const MySwal = withReactContent(Swal);
-  const auth = `Bearer ${token}`;
   const location = useLocation();
   const idExtra = location.state.id;
   const formData = new FormData();
+  const { setNewToken } = useTokenActions();
 
   // console.log(idExtra);
 
   useEffect(() => {
     getInformationForm();
   }, []);
+
+  useEffect(() => {
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, [token]);
 
   const getInformationForm = async () => {
     try {
@@ -65,22 +72,15 @@ function EditContentFile() {
     } catch (error) {
       console.log(error);
     }
-
-    // axios.get(`ContentFile/FindById?id=${idExtra}`).then((res) => {
-    //   const { description, shortDescription, title, path } = res.data;
-    //   initialValuesContentFiles.contentTitle = title;
-    //   initialValuesContentFiles.shortDescription = shortDescription;
-    //   initialValuesContentFiles.description = description;
-    //   videoFilesData.contentFile = path;
-    //   //   console.log(res.data);
-    // });
   };
 
+  const auth = `Bearer ${token}`;
   const submitHandler = (values) => {
+    console.log(videoFilesData.contentPicture);
     formData.append("contentTitle", formik.values.contentTitle);
     formData.append("description", formik.values.description);
     formData.append("shortDescription", formik.values.shortDescription);
-    formData.append("id", idExtra.id);
+    formData.append("id", idExtra);
     formData.append("contentId", 0);
     formData.append("contentPicture", videoFilesData.contentPicture);
     formData.append("contentFile", videoFilesData.contentFile);
