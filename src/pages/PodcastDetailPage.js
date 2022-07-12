@@ -46,7 +46,24 @@ function PodcastDetailPage() {
             </p>
           </div>
 
-          <div className="bg-sky-400 mr-20">podcast files</div>
+          <div
+            style={{ background: "rgba(255, 255, 255, 0.01)" }}
+            className=" border-2 border-[#2E313E] h-52 mt-10 flex flex-col justify-start items-center rounded-lg "
+          >
+            <h3 className="w-full px-12 whitespace-nowrap  text-center text-base py-2 bg-[#DCDCDF] text-[#2D3436] rounded-tr-lg rounded-tl-lg">
+              قسمت های این پادکست
+            </h3>
+            <div className="w-[95%] flex flex-col gap-3 mt-4 mb-3 text-sm ">
+              {audioData.contentFiles.map((item) => (
+                <div
+                  key={item.id}
+                  className="w-full py-2 px-3 rounded-md border border-[#3B4151] text-white"
+                >
+                  <p>{item.title}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       );
     } else {
