@@ -71,7 +71,7 @@ function AddPodcastPage() {
   }, []);
 
   useEffect(() => {
-    axios.get("/Content/GetAllContentVideo").then((res) => {
+    axios.get("/Content/GetAllContentAudio").then((res) => {
       setContentVideoList(res.data);
       console.log(res);
     });

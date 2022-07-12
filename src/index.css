@@ -219,3 +219,24 @@ box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
   box-shadow: -1px -3px 1px -1px rgba(200, 200, 200, 0.2);
   backdrop-filter: blur(12px);
 }
+
+input[type=range]::-webkit-slider-runnable-track  {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+input[type=range]::-moz-range-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+.thumb{
+  background-color: #F0932B !important;
+  padding: 2px;
+  height: 15px !important;
+  width: 15px !important;
+}

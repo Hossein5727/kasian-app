@@ -82,7 +82,7 @@ function ArchiveFilm(props) {
                 </NavLink>
               </SwiperSlide>
             ))}
-          {token && contentList && contentList.length > 0 && (
+          {token && contentList && (
             <SwiperSlide style={{ width: "90px", paddingTop: "80px" }}>
               <AddButtonProduct
                 toolTipTitle={"اضافه کردن فیلم"}
