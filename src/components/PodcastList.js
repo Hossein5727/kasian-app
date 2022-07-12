@@ -36,27 +36,7 @@ function PodcastList({ isShowNav }) {
     >
       <div className="w-full h-[300px] bgSound rounded-lg">
         <Outlet />
-        <div className="w-full h-full z-[3] relative flex  px-[50px] pt-5 justify-start items-center gap-5">
-          <div className="w-[250px] h-[240px] relative">
-            <img
-              src={posterMusic}
-              className="w-full h-full rounded-[24px] z-[2] absolute top-0"
-              alt={"poster"}
-            />
-            <div className="w-full h-full bg-white opacity-80 z-[1] -right-[2px] absolute top-[2px] rounded-[24px]"></div>
-          </div>
-
-          <div className="flex flex-col gap-4 w-[50%] text-white">
-            <h2 className="text-[26px]">عنوان ویدیو نوشته میشود</h2>
-
-            <p className="text-justify text-[13px] test-[#DCDCDF] leading-7 opacity-90">
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-              استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-              در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد
-              نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد
-            </p>
-          </div>
-        </div>
+        
       </div>
 
       <audio src={music} ref={audioRef} />
