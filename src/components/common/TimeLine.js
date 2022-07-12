@@ -4,6 +4,7 @@ import pauseIcon from "../.././assests/img/pause-button.svg";
 import playIcon from "../.././assests/img/play-button.svg";
 import volumeIcon from "../.././assests/img/volumeIcon.svg";
 import { useEffect, useState } from "react";
+import { Slider } from "@mui/material";
 function TimeLine({ audioRef }) {
   const [isPlay, setIsPlay] = useState(false);
   const [currentTimeAudio, setCurrentTimeAudio] = useState({
@@ -63,17 +64,24 @@ function TimeLine({ audioRef }) {
       </div>
 
       {audioRef.current && (
-        <div className="w-[40%] text-center text-primary-color text-base flex items-center justify-center gap-3">
+        <div className="w-[40%] text-center text-[#dcdcdf] text-sm flex items-center justify-center gap-3">
           <p>{durationAudio}</p>
-          <input
-            type="range"
-            style={{ direction: "ltr" }}
+
+          <Slider
+            style={{
+              direction: "ltr",
+              color: "#dcdcdf",
+              width: "70%",
+              height: "5px",
+            }}
+            classes={{ thumb: "thumb" }}
+            aria-label="Small"
             max={audioRef.current.duration}
             value={audioRef.current.currentTime}
             step="0.1"
           />
-          <p>
-            {currentTimeAudio.second} : {currentTimeAudio.minute}
+          <p className="mr-2 flex" style={{ direction: "ltr" }}>
+            {currentTimeAudio.minute}:{currentTimeAudio.second}
           </p>
         </div>
       )}
@@ -87,19 +95,25 @@ function TimeLine({ audioRef }) {
         </button>
 
         {isShowChangeSound && (
-          <div className="absolute top-7 right-36">
-            <input
-              style={{ direction: "ltr" }}
+          <div className="absolute top-[22px] right-36">
+            <Slider
+              style={{
+                direction: "ltr",
+                color: "#dcdcdf",
+                width: "100px",
+                height: "5px",
+              }}
+              classes={{ thumb: "thumb" }}
+              valueLabelDisplay={() => audioRef.current.volume}
               type="range"
               min={0}
               max={1}
-              step="0.1"
-              onChange={(e) => (audioRef.current.volume = e.target.value)}
-              // value={volumeAudui}
+              defaultValue={1}
+              step={0.1}
+              onChange={(e) =>
+                (audioRef.current.volume = Number(e.target.value))
+              }
             />
-            {/* <button onClick={() => (audioRef.current.volume = 2.5)}>
-              plus
-            </button> */}
           </div>
         )}
 
