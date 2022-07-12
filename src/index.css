@@ -31,7 +31,7 @@
 
 body{
   overflow-x: hidden;
-  font-family:iranSans ,sans-serif;
+  font-family:iranSans ,sans-serif !important;
   /* direction: rtl; */
 }
 
@@ -239,4 +239,9 @@ input[type=range]::-moz-range-track {
   padding: 2px;
   height: 15px !important;
   width: 15px !important;
+}
+
+.buttonFontIranMateraiUI{
+  color: #191B28 !important;
+  font-family:iranSans ,sans-serif !important;
 }

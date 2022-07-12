@@ -8,9 +8,13 @@ import { FiMoreVertical } from "react-icons/fi";
 import TimeLine from "./common/TimeLine";
 import music from "../assests/music/Moein Z - Che Heif (320).mp3";
 import { useToken } from "../provider/EmailDataProvider";
+import { Button, Menu, MenuItem } from "@mui/material";
+import { Edit,Delete } from "@mui/icons-material";
 
 function PodcastList({ isShowNav }) {
   const [podcastList, setPodcastList] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const audioRef = useRef();
   const token = useToken();
@@ -29,6 +33,13 @@ function PodcastList({ isShowNav }) {
     }
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div
       className="w-full p-5 flex gap-12 flex-col relative"
@@ -36,29 +47,57 @@ function PodcastList({ isShowNav }) {
     >
       <div className="w-full h-[300px] bgSound rounded-lg">
         <Outlet />
-        
       </div>
 
       <audio src={music} ref={audioRef} />
 
       <div className="w-full flex justify-start items-center gap-5 flex-wrap pb-24">
         {podcastList.map((item, index) => (
-          <NavLink
-            to={`/podcasts/podcastdetail/${item.id}`}
-            key={index}
-            className="w-[32%] bg-[#1c1f2e] bg-opacity-60 p-[10px] rounded text-[#DCDCDF] flex justify-between items-center "
-          >
-            <img src={posterMusic} className="w-[76px] h-[68px] rounded-md" />
+          <div className="w-[32%] bg-[#1c1f2e] bg-opacity-60 p-[10px] rounded text-[#DCDCDF] flex justify-between items-center ">
+            <NavLink
+              to={`/podcasts/podcastdetail/${item.id}`}
+              key={index}
+              className="w-full flex justify-start items-center "
+            >
+              <img src={posterMusic} className="w-[76px] h-[68px] rounded-md" />
 
-            <div className="h-full flex flex-col gap-3 -mr-12">
-              <h3>{item.title}</h3>
-              <p className="text-[#75797C] text-xs">مدت زمان پخش : 14 دقیقه</p>
-            </div>
-
-            <button className="text-[#5F616C] text-2xl opacity-90 ">
+              <div className="h-full flex flex-col gap-3 mr-6">
+                <h3>{item.title}</h3>
+                <p className="text-[#75797C] text-xs">
+                  مدت زمان پخش : 14 دقیقه
+                </p>
+              </div>
+            </NavLink>
+            <button
+              className="text-[#5F616C] text-2xl opacity-90"
+              onClick={handleClick}
+            >
               <FiMoreVertical />
             </button>
-          </NavLink>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              style={{ transform: "translateX(20px) !important" }}
+            >
+              <MenuItem onClick={handleClose}>
+                <Button
+                  className="buttonFontIranMateraiUI"
+                  startIcon={<Edit color="warning" />}
+                >
+                  ویرایش
+                </Button>
+              </MenuItem>
+              <MenuItem className="fontIranMateraiUI" onClick={handleClose}>
+                <Button
+                  className="buttonFontIranMateraiUI"
+                  startIcon={<Delete color="warning" />}
+                >
+                  حذف
+                </Button>
+              </MenuItem>
+            </Menu>
+          </div>
         ))}
 
         {token && (
