@@ -5,6 +5,8 @@ import playIcon from "../.././assests/img/play-button.svg";
 import volumeIcon from "../.././assests/img/volumeIcon.svg";
 import { useEffect, useState } from "react";
 import { Slider } from "@mui/material";
+import { isInteger } from "formik";
+
 function TimeLine({ audioRef }) {
   const [isPlay, setIsPlay] = useState(false);
   const [currentTimeAudio, setCurrentTimeAudio] = useState({
@@ -13,39 +15,55 @@ function TimeLine({ audioRef }) {
   });
   const [durationAudio, setDurationAudio] = useState(0);
   const [isShowChangeSound, setIsShowChangeSound] = useState(false);
-  const [volumeAudui, setVolumeAudui] = useState(0);
+  const [intervalState, setIntervalState] = useState(null);
 
   useEffect(() => {
-    // get duration audio
+    getDurationAudio();
+  }, [audioRef.current && audioRef.current.duration, audioRef]);
+
+  const getDurationAudio = () => {
     if (audioRef.current) {
       var minutes = "0" + parseInt(audioRef.current.duration / 60, 10);
       var seconds = "0" + parseInt(audioRef.current.duration % 60);
       setDurationAudio(minutes + ":" + seconds.slice(-2));
     }
-  }, [audioRef.current && audioRef.current.duration]);
+  };
+
+  const playMusicWithKeyboard = () => {
+    document.addEventListener("keypress", function (event) {
+      if (event.keyCode === 32) {
+        setIsPlay(!isPlay);
+      }
+    });
+
+    if (isPlay) {
+      audioRef.current.play();
+      getCurrentTimeAudio();
+    } else if (!isPlay) {
+      audioRef.current.pause();
+      clearInterval(intervalState);
+    }
+  };
 
   const getCurrentTimeAudio = () => {
-    setInterval(() => {
-      setCurrentTimeAudio({
-        ...currentTimeAudio,
-        minute: Math.floor(audioRef.current.currentTime / 60),
-        second:
-          audioRef.current.currentTime <= 10
-            ? "0" +
-              Math.floor(
-                audioRef.current.currentTime - currentTimeAudio.minute * 60
-              )
-            : Math.floor(
-                audioRef.current.currentTime - currentTimeAudio.minute * 60
-              ),
-      });
-    }, 1000);
+    setIntervalState(
+      setInterval(() => {
+        setCurrentTimeAudio({
+          minute: Math.floor(audioRef.current.currentTime / 60),
+          second:
+            audioRef.current.currentTime <= 10
+              ? "0" + currentTimeAudio.second++
+              : parseInt(audioRef.current.currentTime % 60),
+        });
+      }, 1000)
+    );
   };
 
   return (
     <div
       className={`fixed bottom-0 left-0 right-0  z-10 w-[92vw] bufferAudio flex justify-between items-center flex-row-reverse py-4 px-4 rounded-tr-2xl rounded-tl-2xl`}
       id="buffer"
+      onLoad={playMusicWithKeyboard}
     >
       <div className="flex items-center gap-7">
         <button
@@ -65,7 +83,7 @@ function TimeLine({ audioRef }) {
 
       {audioRef.current && (
         <div className="w-[40%] text-center text-[#dcdcdf] text-sm flex items-center justify-center gap-3">
-          <p>{durationAudio}</p>
+          {durationAudio.length < 7 ? durationAudio : "00:00"}
 
           <Slider
             style={{
@@ -91,7 +109,7 @@ function TimeLine({ audioRef }) {
           className="bg-[#2e313e] p-[11px] rounded-full relative"
           onClick={() => setIsShowChangeSound(!isShowChangeSound)}
         >
-          <img src={volumeIcon} className="w-[20px]" />
+          <img src={volumeIcon} className="w-[20px]" alt="volumeIcon" />
         </button>
 
         {isShowChangeSound && (
@@ -121,7 +139,8 @@ function TimeLine({ audioRef }) {
           <button
             className="bg-[#2e313e] p-[11px] rounded-full"
             onClick={() => {
-              audioRef.current.pause();
+              // audioRef.current.pause();
+              // clearInterval(intervalState);
               setIsPlay(false);
             }}
           >
@@ -131,8 +150,8 @@ function TimeLine({ audioRef }) {
           <button
             className="bg-[#2e313e] p-[11px] rounded-full"
             onClick={() => {
-              audioRef.current.play();
-              getCurrentTimeAudio();
+              // audioRef.current.play();
+              // getCurrentTimeAudio();
               setIsPlay(true);
             }}
           >

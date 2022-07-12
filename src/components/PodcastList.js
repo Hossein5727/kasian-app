@@ -7,25 +7,27 @@ import posterMusic from "../assests/img/sound-details__image.jpg";
 import { FiMoreVertical } from "react-icons/fi";
 import TimeLine from "./common/TimeLine";
 import music from "../assests/music/Moein Z - Che Heif (320).mp3";
+import { useToken } from "../provider/EmailDataProvider";
 
 function PodcastList({ isShowNav }) {
   const [podcastList, setPodcastList] = useState([]);
 
   const audioRef = useRef();
+  const token = useToken();
 
-  // useEffect(() => {
-  //   getAllPodcastList();
-  // }, []);
+  useEffect(() => {
+    getAllPodcastList();
+  }, []);
 
-  // const getAllPodcastList = async () => {
-  //   try {
-  //     const { data } = await httpGetAllPodcastService();
-  //     console.log(data);
-  //     setPodcastList(data);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const getAllPodcastList = async () => {
+    try {
+      const { data } = await httpGetAllPodcastService();
+      console.log(data);
+      setPodcastList(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div
@@ -33,6 +35,7 @@ function PodcastList({ isShowNav }) {
       style={{ direction: "rtl" }}
     >
       <div className="w-full h-[300px] bgSound rounded-lg">
+        <Outlet />
         <div className="w-full h-full z-[3] relative flex  px-[50px] pt-5 justify-start items-center gap-5">
           <div className="w-[250px] h-[240px] relative">
             <img
@@ -58,29 +61,35 @@ function PodcastList({ isShowNav }) {
 
       <audio src={music} ref={audioRef} />
 
-      <div className="w-full flex justify-start items-center gap-5 flex-wrap">
-        {Array.apply(null, { length: 20 }).map((item, index) => (
-          <div
+      <div className="w-full flex justify-start items-center gap-5 flex-wrap pb-24">
+        {podcastList.map((item, index) => (
+          <NavLink
+            to={`/podcasts/podcastdetail/${item.id}`}
             key={index}
             className="w-[32%] bg-[#1c1f2e] bg-opacity-60 p-[10px] rounded text-[#DCDCDF] flex justify-between items-center "
           >
             <img src={posterMusic} className="w-[76px] h-[68px] rounded-md" />
 
             <div className="h-full flex flex-col gap-3 -mr-12">
-              <h3>عنوان ویدیو نوشته میشود ...</h3>
+              <h3>{item.title}</h3>
               <p className="text-[#75797C] text-xs">مدت زمان پخش : 14 دقیقه</p>
             </div>
 
             <button className="text-[#5F616C] text-2xl opacity-90 ">
               <FiMoreVertical />
             </button>
-          </div>
+          </NavLink>
         ))}
+
+        {token && (
+          <AddButtonProduct
+            toolTipTitle={"اضافه کردن پادکست"}
+            productAddress="addpodcast"
+          />
+        )}
       </div>
 
       <TimeLine audioRef={audioRef} />
-
-      <Outlet />
     </div>
   );
 }
