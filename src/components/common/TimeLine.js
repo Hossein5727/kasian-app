@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Slider } from "@mui/material";
 import { isInteger } from "formik";
 
-function TimeLine({ audioRef, isPlay, setIsPlay }) {
+function TimeLine({ audioRef, isPlay, setIsPlay, musicSrc }) {
   const [currentTimeAudio, setCurrentTimeAudio] = useState({
     second: 0,
     minute: 0,
@@ -18,7 +18,12 @@ function TimeLine({ audioRef, isPlay, setIsPlay }) {
 
   useEffect(() => {
     getDurationAudio();
-  }, [audioRef.current && audioRef.current.duration, audioRef]);
+  }, [
+    audioRef.current && audioRef.current.duration,
+    audioRef,
+    isPlay,
+    musicSrc,
+  ]);
 
   const getDurationAudio = () => {
     if (audioRef.current) {
@@ -138,8 +143,6 @@ function TimeLine({ audioRef, isPlay, setIsPlay }) {
           <button
             className="bg-[#2e313e] p-[11px] rounded-full"
             onClick={() => {
-              // audioRef.current.pause();
-              // clearInterval(intervalState);
               setIsPlay(false);
             }}
           >
@@ -149,8 +152,6 @@ function TimeLine({ audioRef, isPlay, setIsPlay }) {
           <button
             className="bg-[#2e313e] p-[11px] rounded-full"
             onClick={() => {
-              // audioRef.current.play();
-              // getCurrentTimeAudio();
               setIsPlay(true);
             }}
           >

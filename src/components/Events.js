@@ -9,7 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-function Events() {
+function Events({ categoryId }) {
   const [eventList, setEventList] = useState([]);
   const [isLoadedEvent, setIsLoadedEvent] = useState(true);
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Events() {
 
   useEffect(() => {
     getAllEvents();
-  }, []);
+  }, [categoryId]);
 
   useEffect(() => {
     const tokenData = JSON.parse(sessionStorage.getItem("formData"));
@@ -32,7 +32,7 @@ function Events() {
   const getAllEvents = async () => {
     setIsLoadedEvent(false);
     try {
-      const { data } = await httpGetAllEventsService();
+      const { data } = await httpGetAllEventsService(categoryId);
       setEventList(data.items);
       setIsLoadedEvent(true);
     } catch (error) {

@@ -247,3 +247,7 @@ input[type=range]::-moz-range-track {
   font-family:iranSans ,sans-serif !important;
   padding: 8px 10px !important;
 }
+
+.podcastFiles::-webkit-scrollbar{
+  display: none;
+}

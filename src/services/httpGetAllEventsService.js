@@ -1,5 +1,7 @@
 import { http } from "./httpServices";
 
-export function httpGetAllEventsService() {
-  return http.get("/Event/GetAllEvent");
+export function httpGetAllEventsService(categoryId = 89) {
+  return http.get(
+    `/Event/GetAllEvent${categoryId ? `?categoryId=${categoryId}` : ``}`
+  );
 }
