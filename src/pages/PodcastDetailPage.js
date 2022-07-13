@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { httpGetOneAudioService } from "../services/httpGetOneAudioService";
 import { Skeleton } from "@mui/material";
+import playIcon from "../assests/img/play-button.svg";
+import { TbArrowBigUpLines } from "react-icons/tb";
 
 function PodcastDetailPage() {
   const [audioData, setAudioData] = useState(null);
@@ -14,7 +16,7 @@ function PodcastDetailPage() {
   useEffect(() => {
     // console.log(paramsId);
     getOneAudio();
-  }, []);
+  }, [paramsId]);
 
   const getOneAudio = async () => {
     try {
@@ -30,7 +32,7 @@ function PodcastDetailPage() {
     if (audioData) {
       value = (
         <div className="w-full h-full z-[3] relative flex  px-[50px] pt-5 justify-start items-center gap-5">
-          <div className="w-[250px] h-[240px] relative">
+          <div className="w-[270px] h-[240px] relative">
             <img
               src={audioData.picture}
               className="w-full h-full rounded-[24px] z-[2] absolute top-0"
@@ -39,7 +41,7 @@ function PodcastDetailPage() {
             <div className="w-full h-full bg-white opacity-80 z-[1] -right-[2px] absolute top-[2px] rounded-[24px]"></div>
           </div>
 
-          <div className="flex flex-col gap-4 w-[50%] text-white">
+          <div className="flex flex-col gap-4 w-[30%] text-white">
             <h2 className="text-[26px]">{audioData.title}</h2>
 
             <p className="text-justify text-[13px] test-[#DCDCDF] leading-7 opacity-90">
@@ -50,14 +52,14 @@ function PodcastDetailPage() {
 
           <div
             style={{ background: "rgba(255, 255, 255, 0.01)" }}
-            className=" border border-[#2E313E] h-52 mt-10 flex flex-col justify-start items-center rounded-lg "
+            className="relative border border-[#2E313E] h-60 w-[410px] mr-24 mt-10 flex flex-col justify-start items-center rounded-lg   "
           >
             <h3 className="w-full px-12 whitespace-nowrap  text-center text-base py-2 bg-[#DCDCDF] text-[#2D3436] rounded-tr-lg rounded-tl-lg">
               قسمت های این پادکست
             </h3>
             <div
               style={{ background: "rgba(95, 97, 108, 0.08)" }}
-              className="w-[91%] flex flex-col gap-3 mt-4 mb-3 text-sm "
+              className="w-[91%] flex flex-col gap-3 mt-4 mb-3 text-sm overflow-y-scroll podcastFiles "
             >
               {audioData.contentFiles.map((item) => (
                 <button
@@ -65,7 +67,7 @@ function PodcastDetailPage() {
                   className="w-full py-1 flex  items-center gap-3 px-3 rounded-md border border-[#3B4151] text-white cursor-pointer transition-all duration-150 focus:border-l-2 focus:border-l-primary-color"
                   onClick={() => {
                     dataOutlet.changeSrc(item.path);
-                    dataOutlet.changeIsPlay(true);
+                    dataOutlet.isPlay == false && dataOutlet.changeIsPlay(true);
                   }}
                 >
                   <img
@@ -73,9 +75,16 @@ function PodcastDetailPage() {
                     alt={item.title}
                     className="w-10 h-10 rounded-lg object-cover"
                   />
-                  <p>{item.title}</p>
+                  <p className="w-full whitespace-nowrap">{item.title}</p>
+
+                  <button className="bg-primary-color p-[4px] rounded-full mr-6 ml-3 ">
+                    <img src={playIcon} className="w-[16px] " alt={playIcon} />
+                  </button>
                 </button>
               ))}
+            </div>
+            <div className="bg-[#191b28d2] rounded-full py-2 px-4 absolute bottom-2 animate-bounce">
+              <TbArrowBigUpLines className="rotate-180 text-[#dcdcdf] text-2xl" />
             </div>
           </div>
         </div>

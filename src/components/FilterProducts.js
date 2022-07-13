@@ -9,7 +9,6 @@ import AddButtonProduct from "./common/AddButtonProduct";
 
 function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
   const [categoryList, setCategoryList] = useState([]);
-  // const [categoryId, setCategoryId] = useState(null);
   const token = useToken();
   const { setNewToken } = useTokenActions();
 

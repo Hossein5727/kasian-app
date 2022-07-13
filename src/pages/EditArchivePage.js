@@ -186,9 +186,6 @@ function EditArchivePage() {
     Yup.object({
       title: Yup.string().required("لطفا عنوان رویداد را وارد کنید"),
       description: Yup.string().required("لطفا توضیحات رویداد را وارد کنید"),
-      // picture: Yup.string().required("لطفا یک عکس را وارد کنید"),
-      // thumbnail: Yup.string().required("لطفا یک ریز عکس را وارد کنید"),
-      // enEventFileType: Yup.string().required("یک گزینه را انتخاب کنید"),
     });
 
   const formik = useFormik({
