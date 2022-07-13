@@ -3,6 +3,7 @@ import { useParams, useOutletContext } from "react-router-dom";
 import { httpGetOneAudioService } from "../services/httpGetOneAudioService";
 import { Skeleton } from "@mui/material";
 import playIcon from "../assests/img/play-button.svg";
+import { TbArrowBigUpLines } from "react-icons/tb";
 
 function PodcastDetailPage() {
   const [audioData, setAudioData] = useState(null);
@@ -31,7 +32,7 @@ function PodcastDetailPage() {
     if (audioData) {
       value = (
         <div className="w-full h-full z-[3] relative flex  px-[50px] pt-5 justify-start items-center gap-5">
-          <div className="w-[250px] h-[240px] relative">
+          <div className="w-[270px] h-[240px] relative">
             <img
               src={audioData.picture}
               className="w-full h-full rounded-[24px] z-[2] absolute top-0"
@@ -51,7 +52,7 @@ function PodcastDetailPage() {
 
           <div
             style={{ background: "rgba(255, 255, 255, 0.01)" }}
-            className=" border border-[#2E313E] h-52 w-[410px] mr-24 mt-10 flex flex-col justify-start items-center rounded-lg   "
+            className="relative border border-[#2E313E] h-60 w-[410px] mr-24 mt-10 flex flex-col justify-start items-center rounded-lg   "
           >
             <h3 className="w-full px-12 whitespace-nowrap  text-center text-base py-2 bg-[#DCDCDF] text-[#2D3436] rounded-tr-lg rounded-tl-lg">
               قسمت های این پادکست
@@ -81,6 +82,9 @@ function PodcastDetailPage() {
                   </button>
                 </button>
               ))}
+            </div>
+            <div className="bg-[#191b28d2] rounded-full py-2 px-4 absolute bottom-2 animate-bounce">
+              <TbArrowBigUpLines className="rotate-180 text-[#dcdcdf] text-2xl" />
             </div>
           </div>
         </div>

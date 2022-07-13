@@ -90,7 +90,7 @@ function PodcastList({ isShowNav }) {
       className="w-full p-5 flex gap-12 flex-col relative"
       style={{ direction: "rtl" }}
     >
-      <div className="w-full h-[300px] bgSound rounded-lg">
+      <div className="w-full h-[360px] bgSound rounded-lg">
         <Outlet
           context={{
             src: musicSrc,
