@@ -41,8 +41,6 @@ const initialValuesContent = {
   picture: "",
   isLive: false,
   contentFiles: [],
-  //   listBox: "",
-  //   enEventFileType: "",
   shortdescription: "",
   thumbnail: "",
   isConfirmed: false,

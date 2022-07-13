@@ -63,8 +63,7 @@ function ArchiveDetailPage() {
       .then((res) => {
         navigate("/archives");
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   };
 
   return (

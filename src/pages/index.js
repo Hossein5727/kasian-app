@@ -16,4 +16,5 @@ export { default as EditEventPage } from "./EditEventPage";
 export { default as SettingCategoryPage } from "./SettingCategoryPage";
 export { default as EditEventFilePage } from "./EditEventFilePage";
 export { default as AddPodcastPage } from "./AddPodcastPage";
+export { default as EditPodcastPage } from "./EditPodcastPage";
 export { default as EditPodcastFilePage } from "./EditPodcastFilePage";
