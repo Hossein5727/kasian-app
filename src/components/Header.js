@@ -4,7 +4,7 @@ import { IoMdClose, IoMdLogIn } from "react-icons/io";
 import { BiSearch } from "react-icons/bi";
 import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
-import logo from "../assests/img/kasian_media_logo (1).png";
+import logo from "../assests/img/logo-kasian-media-3.png";
 import { useEffect, useState } from "react";
 import { useUserData } from "../provider/EmailDataProvider";
 import UserData from "./UserData";
@@ -72,7 +72,7 @@ function Header({ isShowNav, setIsShowNav }) {
 
       <div className="flex items-center gap-3">
         <Link className="w-[201px] h-[33px] " to="/">
-          <img src={logo} alt="logo" className=" -translate-y-11    " />
+          <img src={logo} alt="logo" className="" />
         </Link>
         {!isShowNav && (
           <IoMenu
