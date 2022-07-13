@@ -242,6 +242,8 @@ input[type=range]::-moz-range-track {
 }
 
 .buttonFontIranMateraiUI{
+  width:110px !important;
   color: #191B28 !important;
   font-family:iranSans ,sans-serif !important;
+  padding: 8px 10px !important;
 }

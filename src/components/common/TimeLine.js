@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import { Slider } from "@mui/material";
 import { isInteger } from "formik";
 
-function TimeLine({ audioRef }) {
-  const [isPlay, setIsPlay] = useState(false);
+function TimeLine({ audioRef, isPlay, setIsPlay }) {
   const [currentTimeAudio, setCurrentTimeAudio] = useState({
     second: 0,
     minute: 0,
@@ -52,7 +51,7 @@ function TimeLine({ audioRef }) {
           minute: Math.floor(audioRef.current.currentTime / 60),
           second:
             audioRef.current.currentTime <= 10
-              ? "0" + currentTimeAudio.second++
+              ? "0" + parseInt(audioRef.current.currentTime % 60)
               : parseInt(audioRef.current.currentTime % 60),
         });
       }, 1000)

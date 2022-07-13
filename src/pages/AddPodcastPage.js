@@ -63,6 +63,7 @@ function AddPodcastPage() {
 
   const MySwal = withReactContent(Swal);
   const token = useToken();
+  const { setNewToken } = useTokenActions();
 
   useEffect(() => {
     axios.get("/Category/GetAllContentVideoCategory").then((res) => {
@@ -94,8 +95,6 @@ function AddPodcastPage() {
     formik.values.playDateTime = playDataTimeData;
   };
   const formData = new FormData();
-
-  const { setNewToken } = useTokenActions();
 
   const submitHandler = (values) => {
     console.log(values);
