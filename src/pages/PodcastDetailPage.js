@@ -62,7 +62,7 @@ function PodcastDetailPage() {
               {audioData.contentFiles.map((item) => (
                 <button
                   key={item.id}
-                  className="w-full py-1 flex items-center gap-3 px-3 rounded-md border border-[#3B4151] text-white cursor-pointer transition-all duration-150 focus:border-l-2 focus:border-l-primary-color"
+                  className="w-full py-1 flex  items-center gap-3 px-3 rounded-md border border-[#3B4151] text-white cursor-pointer transition-all duration-150 focus:border-l-2 focus:border-l-primary-color"
                   onClick={() => {
                     dataOutlet.changeSrc(item.path);
                     dataOutlet.changeIsPlay(true);
