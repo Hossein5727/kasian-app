@@ -123,49 +123,18 @@ function PodcastList({ isShowNav }) {
               </div>
             </NavLink>
             {token && (
-              <>
+              <div className="flex flex-col gap-3 text-sm">
                 <button
-                  className="text-[#5F616C] text-2xl opacity-90"
-                  onClick={handleClick}
+                  onClick={() =>
+                    navigate("/editpodcast", {
+                      state: { audioId: item.id },
+                    })
+                  }
                 >
-                  <FiMoreVertical />
+                  ویرایش
                 </button>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  style={{ transform: "translateX(20px) !important" }}
-                >
-                  <MenuItem
-                    style={{ padding: "0" }}
-                    onClick={() => {
-                      navigate("/editpodcast", { state: { audioId: item.id } });
-                      handleClose();
-                    }}
-                  >
-                    <Button
-                      className="buttonFontIranMateraiUI"
-                      startIcon={<Edit color="warning" />}
-                    >
-                      ویرایش
-                    </Button>
-                  </MenuItem>
-                  <MenuItem
-                    style={{ padding: "0" }}
-                    onClick={() => {
-                      showModal(item.id);
-                      handleClose();
-                    }}
-                  >
-                    <Button
-                      className="buttonFontIranMateraiUI"
-                      startIcon={<Delete color="error" />}
-                    >
-                      حذف
-                    </Button>
-                  </MenuItem>
-                </Menu>
-              </>
+                <button onClick={() => showModal(item.id)}>حذف</button>
+              </div>
             )}
           </div>
         ))}

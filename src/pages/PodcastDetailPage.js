@@ -1,22 +1,42 @@
 import { useEffect, useState } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import { httpGetOneAudioService } from "../services/httpGetOneAudioService";
-import { Skeleton } from "@mui/material";
+import { Button, Menu, MenuItem, Skeleton } from "@mui/material";
 import playIcon from "../assests/img/play-button.svg";
 import { TbArrowBigUpLines } from "react-icons/tb";
+import { FiMoreVertical } from "react-icons/fi";
+import { useToken, useTokenActions } from "../provider/EmailDataProvider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { Edit, Delete } from "@mui/icons-material";
+import axios from "axios";
 
 function PodcastDetailPage() {
   const [audioData, setAudioData] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const params = useParams();
   const paramsId = params.id;
   const dataOutlet = useOutletContext();
-  console.log(dataOutlet);
+  const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
+  const token = useToken();
+  const { setNewToken } = useTokenActions();
+  const auth = `Bearer ${token}`;
+  // console.log(dataOutlet);
 
   useEffect(() => {
     // console.log(paramsId);
     getOneAudio();
   }, [paramsId]);
+
+  useEffect(() => {
+    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
+    if (tokenData) {
+      setNewToken(tokenData);
+    }
+  }, [token]);
 
   const getOneAudio = async () => {
     try {
@@ -24,6 +44,45 @@ function PodcastDetailPage() {
       console.log(data);
       setAudioData(data);
     } catch (error) {}
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const showModal = (id) => {
+    MySwal.fire({
+      title: <p>آیا از حذف اطمینان دارید؟ </p>,
+      color: "#F0932B",
+      icon: "question",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteContent(id);
+        Swal.fire("فایل با موفقیت حذف شد", "", "success").then(() => {
+          window.location.reload();
+          navigate("/podcasts");
+        });
+      }
+    });
+  };
+
+  const deleteContent = (id) => {
+    // console.log(id);
+    axios({
+      headers: {
+        Authorization: auth,
+      },
+      method: "DELETE",
+      url: `/ContentFile/Delete?id=${id}`,
+    })
+      .then((res) => {
+        navigate("/podcasts");
+      })
+      .catch((err) => {});
   };
 
   const renderUi = () => {
@@ -52,7 +111,7 @@ function PodcastDetailPage() {
 
           <div
             style={{ background: "rgba(255, 255, 255, 0.01)" }}
-            className="relative border border-[#2E313E] h-60 w-[410px] mr-24 mt-10 flex flex-col justify-start items-center rounded-lg   "
+            className="relative border border-[#2E313E] h-60 w-[460px] mr-24 mt-10 flex flex-col justify-start items-center rounded-lg   "
           >
             <h3 className="w-full px-12 whitespace-nowrap  text-center text-base py-2 bg-[#DCDCDF] text-[#2D3436] rounded-tr-lg rounded-tl-lg">
               قسمت های این پادکست
@@ -62,25 +121,41 @@ function PodcastDetailPage() {
               className="w-[91%] flex flex-col gap-3 mt-4 mb-3 text-sm overflow-y-scroll podcastFiles "
             >
               {audioData.contentFiles.map((item) => (
-                <button
+                <div
                   key={item.id}
                   className="w-full py-1 flex  items-center gap-3 px-3 rounded-md border border-[#3B4151] text-white cursor-pointer transition-all duration-150 focus:border-l-2 focus:border-l-primary-color"
-                  onClick={() => {
-                    dataOutlet.changeSrc(item.path);
-                    dataOutlet.isPlay == false && dataOutlet.changeIsPlay(true);
-                  }}
                 >
                   <img
                     src={item.picture}
                     alt={item.title}
                     className="w-10 h-10 rounded-lg object-cover"
+                    onClick={() => {
+                      dataOutlet.changeSrc(item.path);
+                      dataOutlet.isPlay == false &&
+                        dataOutlet.changeIsPlay(true);
+                    }}
                   />
                   <p className="w-full whitespace-nowrap">{item.title}</p>
 
                   <button className="bg-primary-color p-[4px] rounded-full mr-6 ml-3 ">
                     <img src={playIcon} className="w-[16px] " alt={playIcon} />
                   </button>
-                </button>
+
+                  {token && (
+                    <div className="flex flex-col gap-3">
+                      <button
+                        onClick={() =>
+                          navigate("/editpodcastfile", {
+                            state: { audioId: item.id },
+                          })
+                        }
+                      >
+                        ویرایش
+                      </button>
+                      <button onClick={() => showModal(item.id)}>حذف</button>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
             <div className="bg-[#191b28d2] rounded-full py-2 px-4 absolute bottom-2 animate-bounce">
