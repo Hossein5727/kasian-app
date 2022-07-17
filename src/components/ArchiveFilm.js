@@ -43,7 +43,7 @@ function ArchiveFilm(props) {
         categoryId={categoryId}
       />
       <div className="px-4 py-2 text-primary-color text-2xl my-1 mt-2 flex justify-center w-full bg-[#1c202f9a]">
-        <h3> فیلم و سریال</h3>
+        <h3>ویدیوها</h3>
       </div>
 
       <div className="flex justify-center items-center gap-5 px-4 py-2 overflow-x-hidden">
@@ -53,9 +53,6 @@ function ArchiveFilm(props) {
             contentList.length > 0 &&
             contentList.map((item) => (
               <SwiperSlide
-                className={
-                  props.selected ? "sliderArchiveActive" : "sliderArchive"
-                }
                 onClick={() => setIsOpenDialog(!isOpenDialog)}
                 key={item.id}
               >

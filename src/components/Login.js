@@ -15,6 +15,7 @@ import { httpPostUserLoginService } from "../services/httpPostUserLoginService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { PulseLoader } from "react-spinners";
 
 const initialValues = {
   userName: "",
@@ -23,6 +24,8 @@ const initialValues = {
 
 function Login() {
   const [userData, setUserData] = useState();
+  const [isSendingData, setIsSendingData] = useState(false);
+
   const { setNewToken } = useTokenActions();
   const { setNewData } = useUserActions();
   const MySwal = withReactContent(Swal);
@@ -37,12 +40,13 @@ function Login() {
 
   const submitHandler = (values) => {
     console.log(values);
-
+    setIsSendingData(true);
     axios
       .post("/Login/Login", values)
       .then((res) => {
         console.log(res);
         if (res.data.success) {
+          setIsSendingData(false);
           MySwal.fire({
             title: <p>ورود با موفقیت انجام شد</p>,
             color: "#F0932B",
@@ -54,6 +58,7 @@ function Login() {
           const tokenData = res.data.extra.token;
           setUserData(tokenData);
           sessionStorage.setItem("formData", JSON.stringify(tokenData));
+          sessionStorage.setItem("userData", JSON.stringify(values));
           setNewToken(tokenData);
         } else if (!res.data.success) {
           MySwal.fire({
@@ -68,6 +73,7 @@ function Login() {
         }
       })
       .catch((err) => {
+        setIsSendingData(false);
         console.log(err);
       });
   };
@@ -120,7 +126,11 @@ function Login() {
             "opacity-50 cursor-not-allowed hover:bg-primary-color hover:text-bg-home"
           } `}
         >
-          تایید
+          {isSendingData ? (
+            <PulseLoader color="#2B57F0" size={16} className="mt-[6px]" />
+          ) : (
+            <p>تایید</p>
+          )}
         </button>
       </form>
     </div>

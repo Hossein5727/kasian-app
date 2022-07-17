@@ -104,7 +104,7 @@ function Events({ categoryId }) {
               />
             </Link>
             <div className="w-full z-[4] bg-white absolute left-0 bottom-0 text-center py-3  bg-opacity-60 text-sm textShadow flex flex-col justify-center items-center">
-              <p className="z-[2]">{item.title}</p>
+              <p className="z-[2] line-clamp-1 px-2">{item.title}</p>
               {token && (
                 <div
                   className={`w-full h-[20px] mt-2  bottom-1 left-4 z-[4] rounded flex justify-center items-center  gap-4 transition-all duration-200`}

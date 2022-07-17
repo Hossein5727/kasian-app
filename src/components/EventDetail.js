@@ -6,6 +6,9 @@ import icon from "../assests/img/logo.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import axios from "axios";
 
 function EventDetail() {
   const [eventDetail, setEventDetail] = useState([]);
@@ -16,6 +19,8 @@ function EventDetail() {
   const navigate = useNavigate();
   const { setNewToken } = useTokenActions();
   const token = useToken();
+  const MySwal = withReactContent(Swal);
+  const auth = `Bearer ${token}`;
 
   const meta = {
     title: `${eventDetail.title}`,
@@ -50,6 +55,48 @@ function EventDetail() {
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const showModal = (id) => {
+    MySwal.fire({
+      title: <p>آیا از حذف اطمینان دارید؟ </p>,
+      color: "#F0932B",
+      icon: "question",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteSelectedContentFile(id);
+      }
+    });
+  };
+
+  const deleteSelectedContentFile = (id) => {
+    axios({
+      headers: {
+        Authorization: auth,
+      },
+      method: "DELETE",
+      url: `/EventFile/Delete?id=${id}`,
+    })
+      .then((res) => {
+        console.log(res);
+        MySwal.fire({
+          title: <p>فایل با موفقیت حذف شد </p>,
+          color: "#F0932B",
+          icon: "success",
+        }).then(() => {
+          window.location.reload();
+          // navigate(-1);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        MySwal.fire({
+          title: <p>خطا در فرایند حذف </p>,
+          color: "#F0932B",
+          icon: "error",
+        });
+      });
   };
 
   return (
@@ -95,17 +142,17 @@ function EventDetail() {
                       className="w-full h-full object-fill rounded"
                       alt={item.id}
                     />
-                    <div className="w-full z-[4] bg-white absolute left-0 bottom-0 text-center py-3  bg-opacity-60 text-sm textShadow flex flex-col justify-center items-center">
-                      {token && (
+                    {token && (
+                      <div className="w-full z-[4] bg-white absolute left-0 bottom-0 text-center py-3  bg-opacity-60 text-sm textShadow flex flex-col justify-center items-center">
                         <div
                           className={`w-full h-[20px] mt-2  bottom-1 left-4 z-[4] rounded flex justify-center items-center  gap-4 transition-all duration-200`}
                         >
-                          {/* <button
-                            // onClick={() => showModal(item.id)}
+                          <button
+                            onClick={() => showModal(item.id)}
                             className="flex items-center gap-3 rounded px-2 py-1 bg-primary-color text-white text-base transition-all duration-300 hover:from-primary-color hover:to-primary-color "
                           >
                             <AiFillDelete />
-                          </button> */}
+                          </button>
 
                           <button
                             onClick={() =>
@@ -120,8 +167,8 @@ function EventDetail() {
                             <AiFillEdit />
                           </button>
                         </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </SwiperSlide>
                 ))}
               </Swiper>

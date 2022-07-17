@@ -7,13 +7,15 @@ import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import VideoJS from "../components/common/VideoJS";
 import videojs from "video.js";
 import axios from "axios";
-import { PulseLoader } from "react-spinners";
+import { BeatLoader, PulseLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 function VideoPage() {
   const [currentVideo, setCurrentVideo] = useState("");
   const [videoList, setVideoList] = useState([]);
+  const [isLoadVideo, setIsLoadVideo] = useState(true);
+  const [titleVideo, setTitleVideo] = useState("");
 
   const token = useToken();
   const { setNewToken } = useTokenActions();
@@ -24,7 +26,7 @@ function VideoPage() {
   const MySwal = withReactContent(Swal);
 
   const meta = {
-    title: `${currentVideo && dataLocation.currentVideo.title}`,
+    title: `${titleVideo}`,
     description: "صفحه آرشیو ویدیو سایت کاسیان مدیا ",
     canonical: "http://kasianmedia.com/video/",
     meta: {
@@ -46,6 +48,7 @@ function VideoPage() {
   useEffect(() => {
     setVideoList(dataLocation.videoList);
     sendContentFilePath(dataLocation.currentVideo.id);
+    setTitleVideo(dataLocation.currentVideo.title);
   }, []);
 
   const showModal = (id) => {
@@ -79,11 +82,12 @@ function VideoPage() {
       });
   };
 
-  const sendContentFilePath = (id) => {
+  const sendContentFilePath = async (id) => {
     // console.log(id);
-    axios.get(`/ContentFile/FindById?id=${id}`).then((res) => {
+    await axios.get(`/ContentFile/FindById?id=${id}`).then((res) => {
       console.log(res.data);
       setCurrentVideo(res.data.path);
+      setTitleVideo(res.data.title);
     });
   };
 
@@ -105,12 +109,15 @@ function VideoPage() {
   return (
     <DocumentMeta {...meta}>
       <div className="w-full px-4 py-3 flex items-start gap-3">
-        <div className="w-[30%] flex flex-col gap-3">
+        <div className="w-[30%] flex flex-col gap-3 sticky top-[10px] overflow-y-scroll h-[94vh] archiveFileSuggestion">
           {videoList &&
             videoList.map((item) => (
               <div
                 className="w-full flex flex-col cursor-pointer relative"
-                onClick={() => sendContentFilePath(item.id)}
+                onClick={() => {
+                  sendContentFilePath(item.id);
+                  setIsLoadVideo(true);
+                }}
                 key={item.id}
               >
                 <div
@@ -160,7 +167,21 @@ function VideoPage() {
 
         {currentVideo && videoList && (
           <div className="w-[70%]">
-            <video src={currentVideo} controls className="rounded" />
+            {isLoadVideo && (
+              <div className="bg-gray-200 bg-opacity-20 px-6 py-60 rounded flex justify-center items-center h-full transition-all duration-200">
+                <BeatLoader
+                  color="#F0932B"
+                  size={"27px"}
+                  className="text-4xl"
+                />
+              </div>
+            )}
+            <video
+              src={currentVideo}
+              onLoadedData={() => setIsLoadVideo(false)}
+              controls
+              className={`rounded ${isLoadVideo ? "hidden" : "block"} `}
+            />
             {/* <VideoJS ref={playerRef} options={videoJsOptions} /> */}
           </div>
         )}
