@@ -49,7 +49,7 @@ body::-webkit-scrollbar{
     backdrop-filter: blur(12px);
 }
 
-.eventSuggestions::-webkit-scrollbar{
+.eventSuggestions::-webkit-scrollbar,.archiveFileSuggestion::-webkit-scrollbar{
 display: none;
 }
 
@@ -69,7 +69,7 @@ z-index: 2;
     linear-gradient(180deg,rgba(0, 0, 0, 0.096)0%,transparent 100%);
 }
 
-.bgArchiveDetail::before{
+/* .bgArchiveDetail::before{
   content: "";
   position: absolute;
   top: 0;
@@ -79,7 +79,7 @@ z-index: 2;
   z-index: 3;
   background: rgb(48,49,51);
   background: linear-gradient(264deg, rgba(48,49,51,0.7987570028011204) 8%, rgba(255,255,255,0) 100%);
-}
+} */
 
 .textOverFlow{
   white-space: normal !important; 
@@ -250,4 +250,38 @@ input[type=range]::-moz-range-track {
 
 .podcastFiles::-webkit-scrollbar{
   display: none;
+}
+
+.nextSlide{
+  color: white !important;
+  /* background-color: #f0942b;
+  padding: 4px 8px;
+  border-radius: 4px; */
+  font-size: 40px;
+  position: absolute;
+  right: 1px;
+  top: 70px;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.prevSlide{
+  color: #fff ;
+  font-size: 40px;
+  position: absolute;
+  left: 1px;
+  top: 70px;
+  z-index: 3;
+  cursor: pointer;
+}
+
+
+
+.swiper-button-prev,.swiper-button-next{
+  color: white !important;
+}
+
+.bullet{
+  margin-top: 30px  !important;
+  background-color: red !important;
 }

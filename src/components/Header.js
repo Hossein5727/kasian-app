@@ -12,10 +12,17 @@ import UserData from "./UserData";
 function Header({ isShowNav, setIsShowNav }) {
   const [searchValue, setSearchValue] = useState("");
   const [isOpenUserMenu, setIsOpenUserMenu] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const userDataContext = useUserData();
 
-  const userData = useUserData();
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("userData"));
+    if (user) {
+      setUserData(user);
+    }
+  }, [userDataContext]);
 
-  useEffect(() => {}, [userData]);
+  // console.log(userData);
 
   return (
     <div
@@ -26,7 +33,7 @@ function Header({ isShowNav, setIsShowNav }) {
       {isOpenUserMenu && <UserData setIsOpenUserMenu={setIsOpenUserMenu} />}
       <div className="flex items-center gap-3">
         <div className="flex justify-center items-center rounded-full px-3 py-3 bg-[#212432]">
-          {userData.username ? (
+          {userData && userData.userName ? (
             <button onClick={() => setIsOpenUserMenu(true)}>
               <FaUser className="text-2xl" />
             </button>
@@ -38,7 +45,7 @@ function Header({ isShowNav, setIsShowNav }) {
         </div>
         <div className="flex justify-center items-center rounded-full px-3 py-3 bg-transparent">
           <Badge
-            badgeContent={2}
+            badgeContent={1}
             color="warning"
             anchorOrigin={{
               vertical: "bottom",

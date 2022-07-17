@@ -1,12 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useToken } from "../provider/EmailDataProvider";
 import { httpGetOneContentService } from "../services/httpGetOneContentService";
+// import required modules
+import { Navigation, Pagination } from "swiper";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 function ArchiveDetailPage() {
   const [contentDetail, setContentDetail] = useState();
@@ -84,7 +89,21 @@ function ArchiveDetailPage() {
           </div>
 
           <div className="absolute left-4 top-4 w-[52%]  py-5 px-7 h-[220px] bg-transparent  flex items-center gap-3 z-[3]">
-            <Swiper slidesPerView={4} style={{ width: "100%" }}>
+            <Swiper
+              navigation={{
+                // nextEl: ".nextSlide",
+                // prevEl: ".prevSlide ",
+                enabled: true,
+              }}
+              pagination={{
+                enabled: true,
+                clickable: true,
+                // bulletClass: ".bullet",
+              }}
+              modules={[Navigation, Pagination]}
+              slidesPerView={4}
+              style={{ width: "100%", position: "relative" }}
+            >
               {contentDetail &&
                 contentDetail.contentFiles.map((item) => (
                   <SwiperSlide
@@ -100,7 +119,7 @@ function ArchiveDetailPage() {
                           },
                         })
                       }
-                      className="w-[120px] h-[160px] cursor-pointer rounded-md overflow-hidden   flex-col transition-all duration-300 hover:shadow-lg hover:shadow-slate-400 "
+                      className="w-[120px] h-[160px] cursor-pointer rounded-md overflow-hidden flex-col transition-all duration-30"
                     >
                       <img
                         src={item.picture}
@@ -110,6 +129,13 @@ function ArchiveDetailPage() {
                     </div>
                   </SwiperSlide>
                 ))}
+              {/* navigaiton BUTTONS */}
+              {/* <div className="nextSlide swiper-button-white">
+                <GrFormNext className="swiper-button-white" />
+              </div>
+              <div className="prevSlide swiper-button-white">
+                <GrFormPrevious />
+              </div> */}
             </Swiper>
           </div>
           {token && (

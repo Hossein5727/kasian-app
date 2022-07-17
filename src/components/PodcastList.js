@@ -5,7 +5,7 @@ import AddButtonProduct from "./common/AddButtonProduct";
 import { FiMoreVertical } from "react-icons/fi";
 import TimeLine from "./common/TimeLine";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Skeleton } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -16,6 +16,7 @@ function PodcastList({ isShowNav }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [musicSrc, setMusicSrc] = useState(null);
   const [isPlay, setIsPlay] = useState(false);
+  const [isLoadingPodcast, setIsLoadingPodcast] = useState(false);
   const open = Boolean(anchorEl);
 
   const MySwal = withReactContent(Swal);
@@ -37,20 +38,16 @@ function PodcastList({ isShowNav }) {
   }, [token]);
 
   const getAllPodcastList = async () => {
+    setIsLoadingPodcast(true);
     try {
       const { data } = await httpGetAllPodcastService();
-      console.log(data);
+      // console.log(data);
       setPodcastList(data);
+      setIsLoadingPodcast(false);
     } catch (error) {
       console.log(error.message);
+      setIsLoadingPodcast(false);
     }
-  };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   const showModal = (id) => {
@@ -104,40 +101,57 @@ function PodcastList({ isShowNav }) {
       <audio src={musicSrc} ref={audioRef} />
 
       <div className="w-full flex justify-start items-center gap-5 flex-wrap pb-24">
-        {podcastList.map((item) => (
-          <div className="w-[32%] bg-[#1c1f2e] bg-opacity-60 p-[10px] rounded text-[#DCDCDF] flex justify-between items-center ">
-            <NavLink
-              to={`/podcasts/podcastdetail/${item.id}`}
-              key={item.id}
-              className="w-full flex justify-start items-center "
-            >
-              <img
-                src={item.picture}
-                alt={item.title}
-                className="w-[76px] h-[68px] rounded-md"
-              />
+        {podcastList &&
+          !isLoadingPodcast &&
+          podcastList.map((item) => (
+            <div className="w-[32%] bg-[#1c1f2e] bg-opacity-60 p-[10px] rounded text-[#DCDCDF] flex justify-between items-center ">
+              <NavLink
+                to={`/podcasts/podcastdetail/${item.id}`}
+                key={item.id}
+                className="w-full flex justify-start items-center "
+              >
+                <img
+                  src={item.picture}
+                  alt={item.title}
+                  className="w-[76px] h-[68px] rounded-md"
+                />
 
-              <div className="h-full flex flex-col gap-3 mr-6">
-                <h3>{item.title}</h3>
-                <p className="text-[#75797C] text-xs">{item.description}</p>
-              </div>
-            </NavLink>
-            {token && (
-              <div className="flex flex-col gap-3 text-sm">
-                <button
-                  onClick={() =>
-                    navigate("/editpodcast", {
-                      state: { audioId: item.id },
-                    })
-                  }
-                >
-                  ویرایش
-                </button>
-                <button onClick={() => showModal(item.id)}>حذف</button>
-              </div>
-            )}
+                <div className="h-full flex flex-col gap-3 mr-6">
+                  <h3>{item.title}</h3>
+                  <p className="text-[#75797C] text-xs">{item.description}</p>
+                </div>
+              </NavLink>
+              {token && (
+                <div className="flex flex-col gap-3 text-sm">
+                  <button
+                    onClick={() =>
+                      navigate("/editpodcast", {
+                        state: { audioId: item.id },
+                      })
+                    }
+                  >
+                    ویرایش
+                  </button>
+                  <button onClick={() => showModal(item.id)}>حذف</button>
+                </div>
+              )}
+            </div>
+          ))}
+
+        {isLoadingPodcast && (
+          <div className="flex items-center gap-3 flex-wrap">
+            {Array.apply(null, { length: 3 }).map((item, index) => (
+              <Skeleton
+                variant="rectangular"
+                width={350}
+                height={100}
+                animation="wave"
+                sx={{ bgcolor: "#3f4252", borderRadius: "6px" }}
+                key={index}
+              />
+            ))}
           </div>
-        ))}
+        )}
 
         {token && (
           <AddButtonProduct
