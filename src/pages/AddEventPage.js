@@ -138,8 +138,7 @@ function AddEventPage() {
   const validationSchema = () =>
     Yup.object({
       title: Yup.string()
-        .required("لطفا عنوان رویداد را وارد کنید")
-        .max(25, "تعداد کاراکتر های عنوان بیشتر از 25 کاراکتر، نمیتواند باشد"),
+        .required("لطفا عنوان رویداد را وارد کنید"),
       description: Yup.string().required("لطفا توضیحات رویداد را وارد کنید"),
       // picture: Yup.mixed().required("لطفا یک عکس را وارد کنید"),
     });

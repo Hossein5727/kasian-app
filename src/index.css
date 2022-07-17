@@ -281,7 +281,7 @@ input[type=range]::-moz-range-track {
   color: white !important;
 }
 
-.bullet{
-  margin-top: 30px  !important;
-  background-color: red !important;
+.swiper-button-prev::after,.swiper-button-next::after{
+  font-size: 28px !important;
+  font-weight: 800 !important;
 }
