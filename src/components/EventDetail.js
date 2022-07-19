@@ -9,6 +9,7 @@ import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+import { width } from "@mui/system";
 
 function EventDetail() {
   const [eventDetail, setEventDetail] = useState([]);
@@ -123,58 +124,61 @@ function EventDetail() {
             {eventFiles && eventFiles.length > 0 && (
               <Swiper
                 slidesPerView={"auto"}
-                className="w-full"
-                style={{ direction: "rtl" }}
+                style={{ direction: "rtl", width: "100%" }}
                 spaceBetween={12}
               >
                 {eventFiles.map((item) => (
                   <SwiperSlide
                     key={item.id}
                     style={{
-                      width: "165px",
-                      height: "220px",
+                      width: "370px",
+                      height: "320px",
                       overflow: "hidden",
                       position: "relative",
                     }}
                   >
-                    <img
-                      src={item.path}
-                      className="w-full h-full object-fill rounded"
-                      alt={item.id}
-                    />
+                    {eventDetail.enEventFileType === 1 ? (
+                      <video src={item.path} className="rounded" controls />
+                    ) : (
+                      <img
+                        src={item.path}
+                        className="w-full h-full object-fill rounded"
+                        alt={item.id}
+                      />
+                    )}
                     {token && (
-                      <div className="w-full z-[4] bg-white absolute left-0 bottom-0 text-center py-3  bg-opacity-60 text-sm textShadow flex flex-col justify-center items-center">
-                        <div
-                          className={`w-full h-[20px] mt-2  bottom-1 left-4 z-[4] rounded flex justify-center items-center  gap-4 transition-all duration-200`}
+                      // <div className="w-full z-[4] bg-white absolute left-0 top-[351px] text-center py-3  bg-opacity-60 text-sm textShadow flex flex-col justify-center items-center">
+                      <div
+                        className={`w-full h-[30px] bg-cyan-600 bottom-1 left-4 z-[4] rounded-br rounded-bl flex justify-center items-center  gap-4 transition-all duration-200`}
+                      >
+                        <button
+                          onClick={() => showModal(item.id)}
+                          className="flex items-center gap-3 rounded px-2 py-1 bg-primary-color text-white text-base transition-all duration-300 hover:from-primary-color hover:to-primary-color "
                         >
-                          <button
-                            onClick={() => showModal(item.id)}
-                            className="flex items-center gap-3 rounded px-2 py-1 bg-primary-color text-white text-base transition-all duration-300 hover:from-primary-color hover:to-primary-color "
-                          >
-                            <AiFillDelete />
-                          </button>
+                          <AiFillDelete />
+                        </button>
 
-                          <button
-                            onClick={() =>
-                              navigate("/editeventfile", {
-                                state: {
-                                  id: item.id,
-                                },
-                              })
-                            }
-                            className="flex items-center gap-3 rounded px-2 py-1 bg-primary-color  text-white text-base transition-all duration-300 hover:from-primary-color hover:to-primary-color"
-                          >
-                            <AiFillEdit />
-                          </button>
-                        </div>
+                        <button
+                          onClick={() =>
+                            navigate("/editeventfile", {
+                              state: {
+                                id: item.id,
+                              },
+                            })
+                          }
+                          className="flex items-center gap-3 rounded px-2 py-1 bg-primary-color  text-white text-base transition-all duration-300 hover:from-primary-color hover:to-primary-color"
+                        >
+                          <AiFillEdit />
+                        </button>
                       </div>
                     )}
+                    {/* </div> */}
                   </SwiperSlide>
                 ))}
               </Swiper>
             )}
 
-            <div className="w-full px-3 py-4 flex flex-col justify-center items-end gap-4 rounded-md border border-border-color bg-[#1C1F2E]">
+            <div className="w-full -mt-24 px-3 py-4 flex flex-col justify-center items-end gap-4 rounded-md border border-border-color bg-[#1C1F2E]">
               <h2 className="text-base text-primary-color">
                 توضیحات این رویداد
               </h2>

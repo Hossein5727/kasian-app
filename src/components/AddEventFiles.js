@@ -17,7 +17,6 @@ const initialValues = { contentPath: "" };
 function AddEventFiles({ idExtra }) {
   const [eventFilesData, setEventFilesData] = useState({
     contentTitle: "",
-    contentPicture: "",
     contentFile: "",
     contentId: idExtra,
   });
@@ -26,21 +25,17 @@ function AddEventFiles({ idExtra }) {
   const [progressLoadingText, setProgressLoadingText] = useState(null);
 
   const navigate = useNavigate();
-
   const MySwal = withReactContent(Swal);
-
   const token = useToken();
-
   const formData = new FormData();
-
   const auth = `Bearer ${token}`;
 
   const submitHandler = (values) => {
-    formData.append("contentTitle", eventFilesData.contentTitle);
-    formData.append("contentId", idExtra);
+    formData.append("title", eventFilesData.contentTitle);
+    formData.append("eventId", idExtra);
     // formData.append("contentPicture", eventFilesData.contentPicture);
-    formData.append("contentFile", eventFilesData.contentFile);
-    formData.append("contentPath", eventFilesData.contentPath);
+    formData.append("file", eventFilesData.contentFile);
+    formData.append("filePath", values.contentPath);
 
     setIsLoadingSendingData(true);
 
@@ -110,10 +105,15 @@ function AddEventFiles({ idExtra }) {
         </div>
       </div>
 
-      <Input />
+      <Input
+        formik={formik}
+        icon={<AiFillFile />}
+        label={"فایل"}
+        name="contentPath"
+      />
 
       <FileUploaded
-        icon={<AiFillFile />}
+        icon={<AiOutlinePicture />}
         label="عکس"
         name={"contentFile"}
         type="file"
