@@ -9,7 +9,7 @@ function VideoList() {
     try {
       const { data } = await httpGetAllLivesService();
       setDataVideoLives(data.items);
-      // console.log(data.items);
+      console.log(data);
     } catch (error) {
       console.log(error.message);
     }

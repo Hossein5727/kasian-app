@@ -1,5 +1,5 @@
 import { http } from "./httpServices";
 
-export function httpGetAllPodcastService() {
-  return http.get("/Content/GetAllContentAudio");
+export function httpGetAllPodcastService(categoryId = null) {
+  return http.get(`/Content/GetAllContentAudio?categoryId=${categoryId}`);
 }

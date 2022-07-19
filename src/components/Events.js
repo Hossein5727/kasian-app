@@ -90,7 +90,7 @@ function Events({ categoryId }) {
     >
       {eventList &&
         isLoadedEvent &&
-        eventList.length &&
+        eventList.length > 0 &&
         eventList.map((item) => (
           <div
             key={item.id}

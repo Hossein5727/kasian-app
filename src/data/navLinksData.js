@@ -6,7 +6,7 @@ import { MdMonitor, MdEventAvailable } from "react-icons/md";
 export const navLinksData = [
   {
     id: 1,
-    text: "آرشیو ویدئو",
+    text: "ویدیوها",
     link: "/archives",
     img: <RiApps2Line />,
   },

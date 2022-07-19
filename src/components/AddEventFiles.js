@@ -10,10 +10,9 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useToken } from "../provider/EmailDataProvider";
 import FileUploaded from "./common/FileUploaded";
+import Input from "./common/Input";
 
-const initialValues={
-
-}
+const initialValues = { contentPath: "" };
 
 function AddEventFiles({ idExtra }) {
   const [eventFilesData, setEventFilesData] = useState({
@@ -39,8 +38,9 @@ function AddEventFiles({ idExtra }) {
   const submitHandler = (values) => {
     formData.append("contentTitle", eventFilesData.contentTitle);
     formData.append("contentId", idExtra);
-    formData.append("contentPicture", eventFilesData.contentPicture);
+    // formData.append("contentPicture", eventFilesData.contentPicture);
     formData.append("contentFile", eventFilesData.contentFile);
+    formData.append("contentPath", eventFilesData.contentPath);
 
     setIsLoadingSendingData(true);
 
@@ -74,7 +74,6 @@ function AddEventFiles({ idExtra }) {
         setIsLoadingSendingData(false);
       });
   };
-
 
   const formik = useFormik({
     initialValues,
@@ -111,9 +110,11 @@ function AddEventFiles({ idExtra }) {
         </div>
       </div>
 
+      <Input />
+
       <FileUploaded
         icon={<AiFillFile />}
-        label="فایل"
+        label="عکس"
         name={"contentFile"}
         type="file"
         handleChange={(e) =>
@@ -128,11 +129,6 @@ function AddEventFiles({ idExtra }) {
         <button
           type="submit"
           className="w-[70px] h-[48px] disabled:cursor-not-allowed disabled:opacity-50 mr-2 bg-primary-color text-center text-3xl px-4 py-2 rounded flex justify-center items-center"
-          disabled={
-            eventFilesData.contentTitle.length < 1 &&
-            eventFilesData.contentPicture.length < 1 &&
-            eventFilesData.contentFile.length < 1
-          }
         >
           {isLoadingSendingData ? (
             <div className="w-full flex justify-center items-center gap-4 flex-row-reverse">

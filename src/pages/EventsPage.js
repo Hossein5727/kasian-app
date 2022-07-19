@@ -27,6 +27,7 @@ function EventsPage() {
         <FilterProducts
           addressCategory={"/Category/GetAllEventCategory"}
           setCategoryId={setCategoryId}
+          categoryId={categoryId}
         />
         <Events categoryId={categoryId} />
       </div>

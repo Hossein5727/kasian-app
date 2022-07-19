@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { AiTwotoneSetting } from "react-icons/ai";
 import { BsLink45Deg } from "react-icons/bs";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import AddButtonProduct from "./common/AddButtonProduct";
@@ -12,6 +12,7 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
   const token = useToken();
   const { setNewToken } = useTokenActions();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     axios.get(addressCategory).then((res) => {
@@ -46,11 +47,19 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
         <SwiperSlide
           onClick={() => {
             setCategoryId(null);
-            navigate("archives");
+            navigate(
+              location.pathname.includes(`/archives/archivedetail/`) &&
+                "/archives"
+            );
           }}
           style={{ marginRight: "18px", marginLeft: "8px" }}
         >
-          <button className="flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold">
+          <button
+            className={`flex items-center z-[2] whitespace-nowrap gap-1 flex-row-reverse px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 ${
+              categoryId == null &&
+              "bg-primary-color text-bg-home font-semibold"
+            } `}
+          >
             همه مطالب
           </button>
         </SwiperSlide>
@@ -62,10 +71,18 @@ function FilterProducts({ addressCategory, setCategoryId, categoryId }) {
               key={item.id}
               onClick={() => {
                 setCategoryId(item.id);
-                navigate("/archives");
+                navigate(
+                  location.pathname.includes(`/archives/archivedetail/`) &&
+                    "/archives"
+                );
               }}
             >
-              <button className="flex items-center gap-1 flex-row-reverse whitespace-nowrap px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 hover:bg-[#212432] focus:bg-primary-color focus:text-bg-home focus:font-semibold ">
+              <button
+                className={`flex items-center gap-1 flex-row-reverse whitespace-nowrap px-8 py-2 rounded-md cursor-pointer text-sm transition-all duration-150 ${
+                  categoryId == item.id &&
+                  "bg-primary-color text-bg-home font-semibold"
+                }   `}
+              >
                 {item.title}
               </button>
             </SwiperSlide>

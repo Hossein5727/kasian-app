@@ -11,7 +11,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-function PodcastList({ isShowNav }) {
+function PodcastList({ isShowNav, categoryId }) {
   const [podcastList, setPodcastList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [musicSrc, setMusicSrc] = useState(null);
@@ -40,7 +40,7 @@ function PodcastList({ isShowNav }) {
   const getAllPodcastList = async () => {
     setIsLoadingPodcast(true);
     try {
-      const { data } = await httpGetAllPodcastService();
+      const { data } = await httpGetAllPodcastService(categoryId);
       // console.log(data);
       setPodcastList(data);
       setIsLoadingPodcast(false);

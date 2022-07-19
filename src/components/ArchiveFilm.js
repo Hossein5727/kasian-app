@@ -5,10 +5,11 @@ import { NavLink, Outlet } from "react-router-dom";
 import { scrollToBottom } from "../utils/scrollToBottom";
 import AddButtonProduct from "./common/AddButtonProduct";
 import { useToken } from "../provider/EmailDataProvider";
-import Pagination from "./common/Pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Skeleton } from "@mui/material";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import "swiper/css/pagination";
+import { Pagination } from "swiper";
 
 function ArchiveFilm(props) {
   const [contentList, setContentList] = useState([]);
@@ -26,9 +27,9 @@ function ArchiveFilm(props) {
     setIsLoadedThumnail(false);
     try {
       const { data } = await httpGetAllContentService(categoryId);
+      // console.log(data);
       setContentList(data);
       setIsLoadedThumnail(true);
-      // console.log(data.items);
     } catch (error) {
       setIsLoadedThumnail(true);
       console.log(error.message);
@@ -46,16 +47,23 @@ function ArchiveFilm(props) {
         <h3>ویدیوها</h3>
       </div>
 
-      <div className="flex justify-center items-center gap-5 px-4 py-2 overflow-x-hidden">
-        <Swiper slidesPerView={"auto"} spaceBetween={36}>
+      <div className="w-full flex justify-start items-center overflow-x-hidden px-6 py-3">
+        <Swiper
+          modules={[Pagination]}
+          pagination={{
+            dynamicBullets: true,
+          }}
+          slidesPerView={7}
+          spaceBetween={36}
+          style={{
+            width: "100%",
+          }}
+        >
           {contentList &&
             isLoadedThumnail &&
             contentList.length > 0 &&
             contentList.map((item) => (
-              <SwiperSlide
-                onClick={() => setIsOpenDialog(!isOpenDialog)}
-                key={item.id}
-              >
+              <SwiperSlide key={item.id} onClick={scrollToBottom}>
                 <NavLink
                   to={`/archives/archivedetail/${item.id}`}
                   key={item.id}
@@ -69,7 +77,7 @@ function ArchiveFilm(props) {
                         }
                   }
                 >
-                  <div className="w-full h-full " onClick={scrollToBottom}>
+                  <div className="w-full h-full ">
                     <img
                       src={item.thumbnail}
                       alt={item.title}
@@ -87,21 +95,21 @@ function ArchiveFilm(props) {
               />
             </SwiperSlide>
           )}
-          {!isLoadedThumnail && (
-            <div className="flex items-center gap-3">
-              {Array.apply(null, { length: 6 }).map((item, index) => (
-                <Skeleton
-                  variant="rectangular"
-                  width={165}
-                  height={220}
-                  animation="wave"
-                  sx={{ bgcolor: "#3f4252", borderRadius: "6px" }}
-                  key={index}
-                />
-              ))}
-            </div>
-          )}
         </Swiper>
+        {!isLoadedThumnail && (
+          <div className="w-full flex  justify-start gap-3 absolute right-[112px] top-[200px]">
+            {Array.apply(null, { length: 6 }).map((item, index) => (
+              <Skeleton
+                variant="rectangular"
+                width={165}
+                height={220}
+                animation="wave"
+                sx={{ bgcolor: "#3f4252", borderRadius: "6px" }}
+                key={index}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <Outlet />
     </div>
