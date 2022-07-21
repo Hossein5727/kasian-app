@@ -17,6 +17,7 @@ import Input from "../components/common/Input";
 import { http } from "../services/httpServices";
 import CheckBox from "../components/common/CheckBox";
 import { DateTimeInput } from "react-hichestan-datetimepicker";
+import { getToken } from "../utils/getToken";
 
 const initialValuesContentFiles = {
   title: "",
@@ -61,10 +62,7 @@ function EditPodcastPage() {
   }, []);
 
   useEffect(() => {
-    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
-    if (tokenData) {
-      setNewToken(tokenData);
-    }
+    getToken(setNewToken, token);
   }, [token]);
 
   useEffect(() => {

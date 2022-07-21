@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import AddContentFilesVideo from "../components/AddContentFilesVideo";
 import { PulseLoader } from "react-spinners";
+import { getToken } from "../utils/getToken";
 
 const initialValues = {
   title: "",
@@ -78,10 +79,7 @@ function AddArchivePage() {
   }, []);
 
   useEffect(() => {
-    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
-    if (tokenData) {
-      setNewToken(tokenData);
-    }
+    getToken(setNewToken, token);
   }, [token]);
 
   const handleChange = (event) => {

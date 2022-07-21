@@ -19,6 +19,7 @@ import AddContentFilesVideo from "../components/AddContentFilesVideo";
 import { PulseLoader } from "react-spinners";
 import { httpGetOneContentService } from "../services/httpGetOneContentService";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getToken } from "../utils/getToken";
 
 const initialValues = {
   title: "",
@@ -91,10 +92,7 @@ function EditArchivePage() {
   }, []);
 
   useEffect(() => {
-    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
-    if (tokenData) {
-      setNewToken(tokenData);
-    }
+    getToken(setNewToken, token);
   }, [token]);
 
   useEffect(() => {

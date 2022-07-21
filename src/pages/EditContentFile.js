@@ -15,6 +15,7 @@ import { TbFileDescription } from "react-icons/tb";
 import * as Yup from "yup";
 import Input from "../components/common/Input";
 import { http } from "../services/httpServices";
+import { getToken } from "../utils/getToken";
 
 const initialValues = {
   contentTitle: "",
@@ -54,10 +55,7 @@ function EditContentFile() {
   }, []);
 
   useEffect(() => {
-    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
-    if (tokenData) {
-      setNewToken(tokenData);
-    }
+    getToken(setNewToken, token);
   }, [token]);
 
   const getInformationForm = async () => {

@@ -10,6 +10,12 @@ import { Edit, Delete } from "@mui/icons-material";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import MostVisitedContent from "./MostVisitedContent";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { IoPlay } from "react-icons/io5";
+import { FaMicrophoneAlt } from "react-icons/fa";
+import { scrollToBottom } from "../utils/scrollToBottom";
+import { getToken } from "../utils/getToken";
 
 function PodcastList({ isShowNav, categoryId }) {
   const [podcastList, setPodcastList] = useState([]);
@@ -28,20 +34,17 @@ function PodcastList({ isShowNav, categoryId }) {
 
   useEffect(() => {
     getAllPodcastList();
-  }, []);
+  }, [categoryId]);
 
   useEffect(() => {
-    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
-    if (tokenData) {
-      setNewToken(tokenData);
-    }
+    getToken(setNewToken, token);
   }, [token]);
 
   const getAllPodcastList = async () => {
     setIsLoadingPodcast(true);
     try {
       const { data } = await httpGetAllPodcastService(categoryId);
-      // console.log(data);
+      console.log(data);
       setPodcastList(data);
       setIsLoadingPodcast(false);
     } catch (error) {
@@ -87,56 +90,60 @@ function PodcastList({ isShowNav, categoryId }) {
       className="w-full p-5 flex gap-12 flex-col relative"
       style={{ direction: "rtl" }}
     >
-      <div className="w-full h-[360px] bgSound rounded-lg">
-        <Outlet
+      <div className="w-full">
+        {/* <Outlet
           context={{
             src: musicSrc,
             changeSrc: setMusicSrc,
             changeIsPlay: setIsPlay,
             isPlay: isPlay,
           }}
+        /> */}
+        <MostVisitedContent
+          setMusicSrc={setMusicSrc}
+          changeIsPlay={setIsPlay}
         />
       </div>
 
       <audio src={musicSrc} ref={audioRef} />
 
       <div className="w-full flex justify-start items-center gap-5 flex-wrap pb-24">
-        {podcastList &&
-          !isLoadingPodcast &&
-          podcastList.map((item) => (
-            <div className="w-[32%] bg-[#1c1f2e] bg-opacity-60 p-[10px] rounded text-[#DCDCDF] flex justify-between items-center ">
-              <NavLink
-                to={`/podcasts/podcastdetail/${item.id}`}
-                key={item.id}
-                className="w-full flex justify-start items-center "
-              >
-                <img
-                  src={item.picture}
-                  alt={item.title}
-                  className="w-[76px] h-[68px] rounded-md"
-                />
+        <Swiper slidesPerView={"5"} style={{ width: "100%" }} spaceBetween={35}>
+          {podcastList &&
+            podcastList.length > 0 &&
+            podcastList.map((item) => (
+              <SwiperSlide key={item.id}>
+                <NavLink
+                  to={`/podcasts/podcastdetail/${item.id}`}
+                  className={({ isActive }) =>
+                    `slidePodcast transition-colors duration-100 ${
+                      isActive ? "activeSlidePodcast" : "bg-[#212432]"
+                    } `
+                  }
+                  onClick={scrollToBottom}
+                >
+                  <figure className="relative">
+                    <img
+                      src={item.picture}
+                      alt={item.title}
+                      className="rounded-lg h-[200px] object-fill"
+                    />
+                    <button className="absolute -bottom-4 z-[2] left-2 p-3 rounded-full flex justify-center items-center bg-[#212432] bg-opacity-70">
+                      <FaMicrophoneAlt className="text-[#dcdcdf] text-xl microphoneBtn" />
+                    </button>
+                  </figure>
 
-                <div className="h-full flex flex-col gap-3 mr-6">
-                  <h3>{item.title}</h3>
-                  <p className="text-[#75797C] text-xs">{item.description}</p>
-                </div>
-              </NavLink>
-              {token && (
-                <div className="flex flex-col gap-3 text-sm">
-                  <button
-                    onClick={() =>
-                      navigate("/editpodcast", {
-                        state: { audioId: item.id },
-                      })
-                    }
-                  >
-                    ویرایش
-                  </button>
-                  <button onClick={() => showModal(item.id)}>حذف</button>
-                </div>
-              )}
-            </div>
-          ))}
+                  <p className="text-[#DCDCDF] text-opacity-75 text-[13px] mt-2">
+                    {item.category.title}
+                  </p>
+
+                  <h3 className="text-white mb-1 line-clamp-2 max-w-[100%]">
+                    {item.title}
+                  </h3>
+                </NavLink>
+              </SwiperSlide>
+            ))}
+        </Swiper>
 
         {isLoadingPodcast && (
           <div className="flex items-center gap-3 flex-wrap">
@@ -161,6 +168,8 @@ function PodcastList({ isShowNav, categoryId }) {
         )}
       </div>
 
+      <Outlet />
+
       {musicSrc && (
         <TimeLine
           audioRef={audioRef}
@@ -174,3 +183,18 @@ function PodcastList({ isShowNav, categoryId }) {
 }
 
 export default PodcastList;
+
+// {token && (
+//   <div className="flex flex-col gap-3 text-sm">
+//     <button
+//       onClick={() =>
+//         navigate("/editpodcast", {
+//           state: { audioId: item.id },
+//         })
+//       }
+//     >
+//       ویرایش
+//     </button>
+//     <button onClick={() => showModal(item.id)}>حذف</button>
+//   </div>
+// )}

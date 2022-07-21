@@ -129,13 +129,6 @@ function ArchiveDetailPage() {
                     </div>
                   </SwiperSlide>
                 ))}
-              {/* navigaiton BUTTONS */}
-              {/* <div className="nextSlide swiper-button-white">
-                <GrFormNext className="swiper-button-white" />
-              </div>
-              <div className="prevSlide swiper-button-white">
-                <GrFormPrevious />
-              </div> */}
             </Swiper>
           </div>
           {token && (

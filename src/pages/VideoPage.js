@@ -10,6 +10,7 @@ import axios from "axios";
 import { BeatLoader, PulseLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { getToken } from "../utils/getToken";
 
 function VideoPage() {
   const [currentVideo, setCurrentVideo] = useState("");
@@ -39,10 +40,7 @@ function VideoPage() {
   };
 
   useEffect(() => {
-    const tokenData = JSON.parse(sessionStorage.getItem("formData"));
-    if (tokenData) {
-      setNewToken(tokenData);
-    }
+    getToken(setNewToken, token);
   }, [token]);
 
   useEffect(() => {

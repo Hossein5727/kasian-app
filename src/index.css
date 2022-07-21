@@ -185,13 +185,35 @@ box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
 } */
 
 .bgSound{
-  background:url(./assests/img/sound-details__bg.jpg) no-repeat;
+  background:url(./assests/img/bg-podcast.jpg) no-repeat;
   background-size: cover;
-  background-position: 0 -20px;
+  /* background-position: 0 -20px; */
   position: relative;
+  z-index: 1;
+}
+
+.bgSound::after,.bgSound::before{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.bgSound::after{
+  background: linear-gradient(270deg, #191B28 0%, rgba(28, 31, 46, 0) 97.54%);
+  opacity: 0.4;
+  z-index: -2;
 }
 
 .bgSound::before{
+  background: linear-gradient(270deg, #191B28 0%, rgba(28, 31, 46, 0) 97.54%);
+  opacity: 0.9;
+  z-index: -1;
+}
+
+/* .bgSound::before{
   position: absolute;
   content: "";
   bottom: 0;
@@ -212,7 +234,7 @@ box-shadow: 9px 8px 18px 7px rgba(25,27,40,0.56);
   width: 100%;
   z-index: 1;
   background: linear-gradient(0deg, #191B28 -2.57%, rgba(25, 27, 40, 0) 93.15%);
-}
+} */
 
 .bufferAudio{
   background: linear-gradient(180deg, #25293D -1.43%, rgba(18, 20, 31, 0.43) 101.43%);
@@ -284,4 +306,55 @@ input[type=range]::-moz-range-track {
 .swiper-button-prev::after,.swiper-button-next::after{
   font-size: 28px !important;
   font-weight: 800 !important;
+}
+
+
+.line-sparator{
+  background: linear-gradient(270deg, #D9D9D9 0%, rgba(217, 217, 217, 0) 92.12%);
+  opacity: 0.68;
+  border-radius: 4px;
+  z-index: 3;
+}
+
+.playBtn{
+  box-shadow: inset 2px 3px 10px #B46710;
+}
+
+.slidePodcast{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 10px;
+  padding:14px;
+  gap: 12px;
+}
+
+.activeSlidePodcast {
+  border: 2px solid #f0932b5c;
+  background-color: #2E313E;
+}
+
+.activeSlidePodcast .microphoneBtn{
+  color: #F0932B;
+}
+
+.podcastDetailBg::after{
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: "";
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #191b28be 0%, rgba(25, 27, 40, 0) 100%);
+}
+.podcastDetailBg::before{
+  position: absolute;
+  right: 0;
+  top: 0;
+  content: "";
+  z-index: 1;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(261.39deg, #191B28 -0.34%, rgba(25, 27, 40, 0) 94.43%);
 }

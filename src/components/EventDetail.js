@@ -9,11 +9,12 @@ import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
-import { width } from "@mui/system";
+import { BeatLoader } from "react-spinners";
 
 function EventDetail() {
-  const [eventDetail, setEventDetail] = useState([]);
+  const [eventDetail, setEventDetail] = useState();
   const [eventFiles, setEventFiles] = useState([]);
+  const [isLoadVideo, setIsLoadVideo] = useState(true);
 
   const params = useParams();
   const paramsId = params.id;
@@ -24,13 +25,13 @@ function EventDetail() {
   const auth = `Bearer ${token}`;
 
   const meta = {
-    title: `${eventDetail.title}`,
+    title: `${eventDetail && eventDetail.title}`,
     description: "صفحه رویداد سایت کاسیان مدیا ",
     canonical: "http://kasianmedia.com/events/eventdetail/:id",
     meta: {
       charset: "utf-8",
       name: {
-        keywords: `${eventDetail.title}`,
+        keywords: `${eventDetail && eventDetail.title}`,
       },
     },
   };
@@ -50,6 +51,7 @@ function EventDetail() {
   const getEventDetail = async () => {
     try {
       const { data } = await httpGetOneEventService(paramsId);
+      setIsLoadVideo(true);
       setEventDetail(data);
       setEventFiles(data.eventFiles);
       console.log(data);
@@ -138,7 +140,25 @@ function EventDetail() {
                     }}
                   >
                     {eventDetail.enEventFileType === 1 ? (
-                      <video src={item.path} className="rounded" controls />
+                      <div>
+                        {isLoadVideo && (
+                          <div className="w-full h-[210px] bg-gray-200 bg-opacity-40  flex justify-center items-center rounded">
+                            <BeatLoader
+                              color="#F0932B"
+                              size={"27px"}
+                              className="text-4xl"
+                            />
+                          </div>
+                        )}
+                        <video
+                          src={item.path}
+                          className={`rounded ${
+                            isLoadVideo ? "hidden" : "block"
+                          }`}
+                          controls
+                          onLoadedData={() => setIsLoadVideo(false)}
+                        />
+                      </div>
                     ) : (
                       <img
                         src={item.path}
@@ -147,7 +167,6 @@ function EventDetail() {
                       />
                     )}
                     {token && (
-                      // <div className="w-full z-[4] bg-white absolute left-0 top-[351px] text-center py-3  bg-opacity-60 text-sm textShadow flex flex-col justify-center items-center">
                       <div
                         className={`w-full h-[30px] bg-cyan-600 bottom-1 left-4 z-[4] rounded-br rounded-bl flex justify-center items-center  gap-4 transition-all duration-200`}
                       >
