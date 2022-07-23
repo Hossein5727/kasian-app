@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import MusicSrcProvider from "./MusicSrcProvider";
 
 const userData = createContext();
 const userDataDispatcher = createContext();
@@ -15,7 +16,9 @@ function EmailDataProvider({ children }) {
       <userDataDispatcher.Provider value={setData}>
         <token.Provider value={tokenData}>
           <tokenDispatcher.Provider value={setTokenData}>
+            {/* <MusicSrcProvider> */}
             {children}
+            {/* </MusicSrcProvider> */}
           </tokenDispatcher.Provider>
         </token.Provider>
       </userDataDispatcher.Provider>

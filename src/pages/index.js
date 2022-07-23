@@ -18,3 +18,4 @@ export { default as EditEventFilePage } from "./EditEventFilePage";
 export { default as AddPodcastPage } from "./AddPodcastPage";
 export { default as EditPodcastPage } from "./EditPodcastPage";
 export { default as EditPodcastFilePage } from "./EditPodcastFilePage";
+export { default as PodcastListPage } from "./PodcastListPage";

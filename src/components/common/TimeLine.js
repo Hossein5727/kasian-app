@@ -6,28 +6,38 @@ import volumeIcon from "../.././assests/img/volumeIcon.svg";
 import { useEffect, useState } from "react";
 import { Slider } from "@mui/material";
 import { isInteger } from "formik";
+import { useMusicSrc } from "../../provider/MusicSrcProvider";
 
 function TimeLine({ audioRef, isPlay, setIsPlay, musicSrc }) {
   const [currentTimeAudio, setCurrentTimeAudio] = useState({
     second: 0,
     minute: 0,
   });
-  const [durationAudio, setDurationAudio] = useState(0);
+  const [durationAudio, setDurationAudio] = useState("00:00");
   const [isShowChangeSound, setIsShowChangeSound] = useState(false);
   const [intervalState, setIntervalState] = useState(null);
 
   useEffect(() => {
     getDurationAudio();
+    playMusicWithKeyboard();
   }, [
     audioRef.current && audioRef.current.duration,
-    audioRef,
+    audioRef.current.src,
     isPlay,
     musicSrc,
   ]);
 
+  // useEffect(() => {
+  //   setDurationAudio("00:00");
+  // }, [musicSrc]);
+
   const getDurationAudio = () => {
-    if (audioRef.current) {
-      var minutes = "0" + parseInt(audioRef.current.duration / 60, 10);
+    setDurationAudio("00:00");
+    if (audioRef.current.duration) {
+      var minutes =
+        parseInt(audioRef.current.duration / 60) < 10
+          ? "0" + parseInt(audioRef.current.duration / 60)
+          : parseInt(audioRef.current.duration / 60);
       var seconds = "0" + parseInt(audioRef.current.duration % 60);
       setDurationAudio(minutes + ":" + seconds.slice(-2));
     }
@@ -87,7 +97,7 @@ function TimeLine({ audioRef, isPlay, setIsPlay, musicSrc }) {
 
       {audioRef.current && (
         <div className="w-[40%] text-center text-[#dcdcdf] text-sm flex items-center justify-center gap-3">
-          {durationAudio.length < 7 ? durationAudio : "00:00"}
+          {durationAudio && durationAudio.length < 7 ? durationAudio : "00:00"}
 
           <Slider
             style={{

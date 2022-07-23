@@ -16,8 +16,9 @@ import { IoPlay } from "react-icons/io5";
 import { FaMicrophoneAlt } from "react-icons/fa";
 import { scrollToBottom } from "../utils/scrollToBottom";
 import { getToken } from "../utils/getToken";
+import { useMusicSrc, useMusicSrcActions } from "../provider/MusicSrcProvider";
 
-function PodcastList({ isShowNav, categoryId }) {
+function Podcasts({ isShowNav, categoryId }) {
   const [podcastList, setPodcastList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [musicSrc, setMusicSrc] = useState(null);
@@ -31,6 +32,8 @@ function PodcastList({ isShowNav, categoryId }) {
   const token = useToken();
   const { setNewToken } = useTokenActions();
   const auth = `Bearer ${token}`;
+  // const musicSrc = useMusicSrc();
+  // const { changeSrcMusic } = useMusicSrcActions();
 
   useEffect(() => {
     getAllPodcastList();
@@ -40,11 +43,13 @@ function PodcastList({ isShowNav, categoryId }) {
     getToken(setNewToken, token);
   }, [token]);
 
+  useEffect(() => {}, [musicSrc]);
+
   const getAllPodcastList = async () => {
     setIsLoadingPodcast(true);
     try {
       const { data } = await httpGetAllPodcastService(categoryId);
-      console.log(data);
+      // console.log(data);
       setPodcastList(data);
       setIsLoadingPodcast(false);
     } catch (error) {
@@ -182,7 +187,7 @@ function PodcastList({ isShowNav, categoryId }) {
   );
 }
 
-export default PodcastList;
+export default Podcasts;
 
 // {token && (
 //   <div className="flex flex-col gap-3 text-sm">

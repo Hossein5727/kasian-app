@@ -270,6 +270,7 @@ input[type=range]::-moz-range-track {
   padding: 8px 10px !important;
 }
 
+
 .podcastFiles::-webkit-scrollbar{
   display: none;
 }
@@ -357,4 +358,16 @@ input[type=range]::-moz-range-track {
   width: 70%;
   height: 100%;
   background: linear-gradient(261.39deg, #191B28 -0.34%, rgba(25, 27, 40, 0) 94.43%);
+}
+
+.bordertHead{
+  background: radial-gradient(50% 50% at 50% 50%, #838383 0%, rgba(72, 72, 72, 0.03) 100%);
+  opacity: 0.5;
+  /* background-color: red; */
+}
+
+.podcastDetail{
+  background: rgba(255, 255, 255, 0.418);
+  box-shadow: -1px 2px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(19px);
 }

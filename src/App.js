@@ -22,6 +22,7 @@ import {
   ProfilePage,
   SettingCategoryPage,
   VideoPage,
+  PodcastListPage,
 } from "./pages";
 import EmailDataProvider from "./provider/EmailDataProvider";
 import { SWRConfig } from "swr";
@@ -55,6 +56,7 @@ function App() {
             <Route path="/addcategory" element={<AddCategoryPage />} />
             <Route path="/addpodcast" element={<AddPodcastPage />} />
             <Route path="/settingcategory" element={<SettingCategoryPage />} />
+            <Route path="/podcastlist" element={<PodcastListPage />} />
             <Route path="/podcasts/*" element={<PodcastsPage />}>
               <Route path="podcastdetail/:id" element={<PodcastDetailPage />} />
             </Route>

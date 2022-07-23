@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DocumentMeta from "react-document-meta";
 import FilterProducts from "../components/FilterProducts";
-import PodcastList from "../components/PodcastList";
+import PodcastList from "../components/Podcasts";
 
 const meta = {
   title: "پادکست ها",

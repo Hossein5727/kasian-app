@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { useToken, useTokenActions } from "../provider/EmailDataProvider";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { Edit, Delete } from "@mui/icons-material";
+import { Edit, Delete, ArrowLeft } from "@mui/icons-material";
 import axios from "axios";
 import useSWR from "swr";
 import { getToken } from "../utils/getToken";
@@ -20,8 +20,6 @@ function PodcastDetailPage() {
   const { setNewToken } = useTokenActions();
   const auth = `Bearer ${token}`;
   const { data } = useSWR(`/Content/FindById?id=${paramsId}`);
-
-  // console.log(data && data);
 
   useEffect(() => {
     getToken(setNewToken, token);
@@ -63,7 +61,7 @@ function PodcastDetailPage() {
 
     if (data) {
       value = (
-        <div className="w-full h-[380px] bg-rose-600 overflow-hidden -mt-28 animate__animated animate__fadeIn z-[3] relative flex  px-[50px] pt-1 justify-start items-center gap-5 podcastDetailBg">
+        <div className="w-full h-[380px] overflow-hidden -mt-28 animate__animated animate__fadeIn z-[3] relative flex  px-[50px] pt-1 justify-start items-center gap-5 podcastDetailBg">
           <img
             src={data.picture}
             alt={data.title}
@@ -80,9 +78,26 @@ function PodcastDetailPage() {
           </div>
 
           <div className="absolute left-4 top-4 w-[52%]  py-5 px-7 h-[250px] bg-transparent  flex flex-col items-start justify-center gap-3 z-[3]">
-            <h3 className="text-[#F6BE80] text-[17px] leading-8">
-              اپیزودهای این پادکست:
-            </h3>
+            <div className="w-full px-2 flex justify-between items-center">
+              <h3 className="text-[#F6BE80] text-[17px] leading-8">
+                اپیزودهای این پادکست:
+              </h3>
+
+              <button
+                onClick={() =>
+                  navigate("/podcastlist", {
+                    state: {
+                      currentAudio: null,
+                      audioList: data.contentFiles,
+                      podcastDetail: data,
+                    },
+                  })
+                }
+                className="text-[#75797C]"
+              >
+                مشاهده همه <ArrowLeft />{" "}
+              </button>
+            </div>
             <Swiper
               navigation={{
                 enabled: true,
@@ -103,14 +118,15 @@ function PodcastDetailPage() {
                   >
                     <div
                       onClick={() =>
-                        navigate("/video", {
+                        navigate("/podcastlist", {
                           state: {
-                            currentVideo: item,
-                            videoList: data.contentFiles,
+                            currentAudio: item,
+                            audioList: data.contentFiles,
+                            podcastDetail: data,
                           },
                         })
                       }
-                      className="w-[120px] h-[160px] cursor-pointer rounded-md overflow-hidden flex-col transition-all duration-30"
+                      className="w-[110px] h-[140px] cursor-pointer rounded-md overflow-hidden flex-col transition-all duration-30"
                     >
                       <img
                         src={item.picture}
